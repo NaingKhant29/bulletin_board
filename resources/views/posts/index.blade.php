@@ -1,15 +1,21 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
- <meta charset="utf-8">
- <title>Post List</title>
-</head>
-<body>
- <h1>Post List</h1>
- <ul>
+@extends("layouts.app")
+@section("content")
+ <div class="container">
  @foreach($posts as $post)
- <li>{{ $post['title'] }}</li>
+ <div class="card mb-2">
+ <div class="card-body">
+ <h5 class="card-title">{{ $post->title }}</h5>
+ <div class="card-subtitle mb-2 text-muted small">
+ {{ $post->created_at->diffForHumans() }}
+ </div>
+ <p class="card-text">{{ $post->body }}</p>
+ <a class="card-link"
+ href="{{ url("/posts/detail/$post->id") }}">
+ View Detail &raquo;
+ </a>
+ </div>
+ </div>
  @endforeach
- </ul>
-</body>
-</html>
+ </div>
+@endsection
+
