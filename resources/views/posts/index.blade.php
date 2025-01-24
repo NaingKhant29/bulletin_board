@@ -1,6 +1,7 @@
 @extends("layouts.app")
 @section("content")
  <div class="container">
+    {{ $posts->links() }}
  @foreach($posts as $post)
  <div class="card mb-2">
  <div class="card-body">
