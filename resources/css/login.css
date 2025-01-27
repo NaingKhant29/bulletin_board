@@ -1,0 +1,12 @@
+.card-header{
+    background-color: #198754 !important;
+    color: #fff !important;
+}
+.btn-primary{
+    width: 75%;
+    background-color: #198754 !important;
+    padding: 6px;
+}
+.btn-link{
+    text-decoration: none;
+}

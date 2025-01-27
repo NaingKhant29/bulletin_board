@@ -1,0 +1,72 @@
+.user{
+    border: 1px solid #7f7f7f;
+    border-radius: 5px;
+}
+.user-header{
+    background-color: #198754;
+    color:#fff;
+    padding: 10px;
+}
+th{
+    background-color:#5f9ea0 !important;
+    color: #fff !important;
+}
+
+.label{
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center ;
+    padding: 8px;
+}
+/* Container Styling */
+.container-form {
+    max-width: 1300px;
+    margin: 0px auto;
+}
+.search-btn {
+    align-self: center;
+}
+.row {
+    justify-content: flex-end;
+}
+.keyword, .blank {
+    margin-right: 4%;
+}
+.upload-download{
+    width: 30%;
+}
+
+.create-post {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+.create-post > .form-control {
+    width: 100%;
+}
+.container-form-post{
+    max-width: 900px;
+    margin: 0px auto;
+}
+.form-label{
+    width: 35%;
+}
+.form-control{
+    width: 65%;
+}
+.btn-create-clear {
+    display: flex;
+    justify-content: center;
+}
+.btn-create-clear > button{
+    margin-left: 2%;
+    margin-right: 0px;
+    padding: 5px 10px;
+    margin-bottom: 36px;
+}
+.btn-create-clear > a {
+    margin-left: 2%;
+    margin-right: 0px;
+    padding: 5px 10px;
+    margin-bottom: 36px;
+}

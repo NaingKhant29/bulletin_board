@@ -2,47 +2,44 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable; // Add this line
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Authenticatable // Keep this extending Authenticatable for authentication
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    // Define the table name if it doesn't follow Laravel's convention
+    protected $table = 'users';
+
+    // The attributes that are mass assignable
     protected $fillable = [
         'name',
         'email',
         'password',
+        'profile',
+        'status',
+        'phone',
+        'address',
+        'dob',
+        'created_user_id',
+        'update_user_id',
+        'delete_user_id',
+        'remember_token',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+    // The attributes that should be hidden for serialization
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    // The attributes that should be cast
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'dob' => 'date', // Assuming dob is a date field
+    ];
+
+    // You can define relationships, accessors, mutators, etc. here if needed
 }
