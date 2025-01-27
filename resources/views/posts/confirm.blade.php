@@ -23,7 +23,7 @@
                 <input type="hidden" name="description" value="{{ $description }}">
 
                 <div class="btn-create-clear">
-                    <button type="submit" class="btn btn-success container-form-post">Confirm</button>
+                    <button type="submit" class="btn btn-success container-form-post">Confirm<git/button>
                     <a href="{{ route('posts.create') }}" class="btn btn-secondary container-form-post">Cancel</a>
                 </div>
             </form>
