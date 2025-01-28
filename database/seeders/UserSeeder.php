@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
                 'email' => 'admin@example.com',
                 'password' => Hash::make('password123'),
                 'profile' => 'admin_profile',
-                'status' => 0, // Admin type (0 for admin)
+                'type' => 0, // Admin type (0 for admin)
                 'phone' => null,
                 'address' => null,
                 'dob' => null,

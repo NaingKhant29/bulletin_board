@@ -19,11 +19,17 @@ Route::get('/posts/more', function() {
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 Route::get('/posts/confirm', [PostController::class, 'confirm'])->name('posts.confirm');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-Route::get('/posts/delete/{id}', [
-PostController::class,
-'delete'
-]);
-   
+
+// Route for showing the edit form
+Route::get('/posts/edit/{id}', [PostController::class, 'edit'])->name('posts.edit');
+
+// Route for confirming the edit (this just shows the confirm page)
+Route::post('/posts/confirmedit/{id}', [PostController::class, 'confirmedit'])->name('posts.confirmedit');
+
+Route::put('/posts/update/{id}', [PostController::class, 'update'])->name('posts.update');
+Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+
 
 Auth::routes();
 

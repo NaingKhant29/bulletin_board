@@ -24,17 +24,17 @@
         @endif
 
         <!-- Change form method to GET and pass data to the confirm page -->
-        <form action="{{ route('posts.confirm') }}" method="GET">
+        <form action="{{ route('posts.confirm') }}" method="GET" class=" create-post-title">
             @csrf
             <div class="mb-3 create-post container-form-post">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}" required>
             </div>
             <div class="mb-3 create-post container-form-post">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
+                <label for="description" class="form-label  des">Description</label>
+                <textarea name="description" id="description" class="form-control  des">{{ old('description') }}</textarea>
             </div>
-            <div class="btn-create-clear">
+            <div class="btn-create-clear container-form-post">
                 <!-- Submit button to move to confirm page -->
                 <button type="submit" class="btn btn-success container-form-post">Create</button>
                 <button type="button" class="btn btn-info container-form-post" style="color: white" onclick="clearForm()">Clear</button>

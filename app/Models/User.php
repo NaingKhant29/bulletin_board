@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable; // Add this line
-use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable // Keep this extending Authenticatable for authentication
 {
     use HasFactory;
+    
 
     // Define the table name if it doesn't follow Laravel's convention
     protected $table = 'users';
@@ -19,7 +19,7 @@ class User extends Authenticatable // Keep this extending Authenticatable for au
         'email',
         'password',
         'profile',
-        'status',
+        'type',
         'phone',
         'address',
         'dob',

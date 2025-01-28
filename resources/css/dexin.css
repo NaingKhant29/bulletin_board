@@ -28,6 +28,8 @@ th{
 }
 .row {
     justify-content: flex-end;
+    margin-left: 0;
+    margin-right: 0;
 }
 .keyword, .blank {
     margin-right: 4%;
@@ -39,24 +41,37 @@ th{
 .create-post {
     display: flex !important;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    text-align: right;
 }
-.create-post > .form-control {
-    width: 100%;
+.create-post-title {
+    margin-top: 50px;
 }
+.des{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .container-form-post{
     max-width: 900px;
     margin: 0px auto;
 }
+.adjust-width {
+    width: 50%;
+}
 .form-label{
-    width: 35%;
+    width: 30%;
 }
 .form-control{
     width: 65%;
 }
+.form-switch{
+    width: 100%;
+}
 .btn-create-clear {
     display: flex;
     justify-content: center;
+    margin-left: 128px;
 }
 .btn-create-clear > button{
     margin-left: 2%;
@@ -69,4 +84,8 @@ th{
     margin-right: 0px;
     padding: 5px 10px;
     margin-bottom: 36px;
+}
+.text-decoration-none {
+    text-decoration: none;
+    color : black;
 }
