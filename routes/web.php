@@ -34,8 +34,8 @@ Route::get('/posts/upload', function () {
 })->name('posts.upload');
 Route::post('/posts/upload', [PostController::class, 'upload'])->name('posts.upload');
 Route::get('posts/download', [PostController::class, 'download'])->name('posts.download');
+Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
 
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

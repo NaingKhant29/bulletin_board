@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
-    <h2>Upload Posts CSV</h2>
+    <div class="user">
+    <h4 class="user-header">Upload CSV file</h4>
 
     <!-- Display Success or Error Messages -->
     @if(session('success'))
@@ -16,27 +18,20 @@
     @endif
 
     <!-- Upload Form -->
-    <form action="{{ route('posts.upload') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('posts.upload') }}" method="POST" class="container-form-post" enctype="multipart/form-data">
         @csrf
-        <div class="form-group">
-            <label for="file">Choose CSV File</label>
+        <div class="form-group container-form-post">
+            <label for="file" class="">CSV file</label> 
             <input type="file" name="file" id="file" class="form-control" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Upload</button>
+        <button type="submit" class="btn btn-primary up-btn">Upload</button>
         <!-- Clear Button -->
-        <button type="button" class="btn btn-secondary" onclick="clearFileInput()">Clear</button>
+        <button type="button" class="btn btn-secondary up-btn" onclick="clearFileInput()">Clear</button>
     </form>
 
-    <hr>
-
-    <p><strong>Instructions:</strong></p>
-    <ul>
-        <li>The CSV file must have 3 columns: title, description, status.</li>
-        <li>Each row in the CSV must represent a post to be uploaded.</li>
-    </ul>
 </div>
-
+</div>
 <script>
     function clearFileInput() {
         document.getElementById('file').value = '';

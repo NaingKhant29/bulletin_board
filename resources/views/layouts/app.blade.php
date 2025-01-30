@@ -18,6 +18,8 @@
     @vite(['resources/css/app.css'])
     @vite(['resources/css/login.css'])
     @vite(['resources/css/dexin.css'])
+    @vite(['resources/css/confirm.css'])
+    @vite(['resources/css/upload.css'])
 </head>
 <body>
     <div id="app">
@@ -31,38 +33,38 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                 <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link text-success" href="{{ route('users.dexin') }}">
-                            Users
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link text-success"
-                    href="{{ url('/posts') }}">
-                    Posts
-                    </a>
-                    </li>
-                </ul>
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="{{ route('users.dexin') }}">
+                                Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="{{ url('/posts') }}">
+                                Posts
+                            </a>
+                        </li>
+                       
+                    </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+                         <li class="nav-item">
+                            <!-- Create User link will always be visible -->
+                            <a class="nav-link text-success" href="{{ route('register') }}">
+                                Create User
+                            </a>
+                        </li>
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Create User') }}</a>
-                                </li>
-                            @endif
                             @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif   
-                        @else
+                            @else
                             <li class="nav-item dropdown">
-                                
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
@@ -91,6 +93,7 @@
         <main class="py-4">
             @yield('content')
         </main>
+
         <footer class="footer container">
             <section class="footer-session-one">
                 <a class="btn btn-link" href="https://seattleconsultingmm.com">

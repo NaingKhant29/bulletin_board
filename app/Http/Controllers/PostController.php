@@ -63,6 +63,7 @@ class PostController extends Controller
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'create_user_id' => Auth::id(),
+            'updated_user_id' => Auth::id(), // Add this line to set updated_user_id
         ]);
 
         // Redirect back to the post list with a success message
@@ -200,8 +201,8 @@ class PostController extends Controller
                 $post->status,
                 $post->create_user_id,
                 $post->updated_user_id,
-                $post->deleted_user_id ?? 'N/A', // Show 'N/A' if null
-                $post->deleted_at ?? 'Active',   // Show 'Active' if not deleted
+                $post->deleted_user_id ?? '', // Show 'N/A' if null
+                $post->deleted_at ?? '',   // Show 'Active' if not deleted
                 $post->created_at,
                 $post->updated_at,
             ];

@@ -92,16 +92,17 @@ th{
     margin-left: 128px;
 }
 .btn-create-clear > button{
-    margin-left: 2%;
+    margin-left: 1%;
     margin-right: 0px;
     padding: 5px 10px;
     margin-bottom: 36px;
 }
 .btn-create-clear > a {
-    margin-left: 2%;
+    margin-left: 1%;
     margin-right: 0px;
     padding: 5px 10px;
     margin-bottom: 36px;
+    color: white;
 }
 .text-decoration-none {
     text-decoration: none;

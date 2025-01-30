@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -39,6 +40,14 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
+    public function showRegistrationForm()
+{
+    if (Auth::check()) {
+        return redirect()->route('home'); // Redirect to home or wherever you want
+    }
+    return view('auth.register');
+}
+
 
     /**
      * Get a validator for an incoming registration request.
@@ -69,4 +78,5 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
 }
