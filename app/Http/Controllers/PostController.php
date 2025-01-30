@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Response;
 
 class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Post::query(); // Start with a base query for posts
+        $query = Post::query()->whereNull("deleted_at"); // Start with a base query for posts
 
         // Apply search filter if a keyword is provided
         if ($search = $request->input('search')) {
@@ -114,15 +115,119 @@ class PostController extends Controller
     }
 
     public function destroy($id)
-    {
-        // Find the post by ID
-        $post = Post::findOrFail($id);
+{
+    $post = Post::findOrFail($id);
 
-        // Soft delete the post
-        $post->delete();
-
-        // Redirect back with a success message
-        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+    // Ensure only the post owner or admin can delete
+    if (Auth::user()->id !== $post->create_user_id && Auth::user()->type !== 0) {
+        return redirect()->route('posts.index')->with('error', 'You are not authorized to delete this post.');
     }
 
+    // Set the deleted user ID before soft deleting
+    $post->deleted_user_id = Auth::user()->id;
+    $post->save(); // Save before deleting
+
+    // Soft delete the post
+    $post->delete();
+
+    return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+}
+
+    
+    public function upload(Request $request)
+    {
+        // Step 1: Validate the File
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|mimes:csv,txt|max:2048', // Only allow CSV or TXT files under 2MB
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        // Step 2: Read the File
+        $file = $request->file('file');
+        $path = $file->getRealPath();
+        $data = array_map('str_getcsv', file($path)); // Read and convert CSV data into an array
+    
+        // Step 3: Validate the CSV Header
+        $header = $data[0]; // First row of the CSV is the header
+        if (count($header) !== 3) {
+            return redirect()->back()->with('error', 'The CSV file must have 3 columns: title, description, and status.');
+        }
+    
+        // Remove the header row
+        unset($data[0]);
+    
+        // Step 4: Insert or Update Data
+        foreach ($data as $row) {
+            if (count($row) !== 3) {
+                return redirect()->back()->with('error', 'Each row in the CSV must have exactly 3 columns.');
+            }
+    
+            // Prepare the data for insertion
+            $insertData[] = [
+                'title' => $row[0],                     // Hero title from the CSV
+                'description' => $row[1],               // Hero voice line from the CSV
+                'status' => (int) $row[2],              // Status (1 for active, etc.)
+                'create_user_id' => Auth::id(),         // Automatically set the current authenticated user's ID
+                'updated_user_id' => Auth::id(),        // Set the same user for updates
+                'created_at' => now(),                  // Automatically set the current timestamp
+                'updated_at' => now(),                  // Automatically set the current timestamp
+            ];
+        }
+    
+        // Step 5: Insert Data into the Database
+        if (!empty($insertData)) {
+            Post::insert($insertData); // Bulk insert into the database
+        }
+    
+        // Step 6: Redirect with Success Message
+        return redirect()->back()->with('success', 'Posts uploaded successfully!');
+    }
+    public function download()
+    {
+        $posts = Post::withTrashed()->get(); // Fetches deleted posts too
+    
+        $csvHeader = ['ID', 'Title', 'Description', 'Status', 'Created User ID', 'Updated User ID', 'Deleted User ID', 'Deleted At', 'Created At', 'Updated At'];
+        $csvData = [];
+    
+        foreach ($posts as $post) {
+            $csvData[] = [
+                $post->id,
+                $post->title,
+                $post->description,
+                $post->status,
+                $post->create_user_id,
+                $post->updated_user_id,
+                $post->deleted_user_id ?? 'N/A', // Show 'N/A' if null
+                $post->deleted_at ?? 'Active',   // Show 'Active' if not deleted
+                $post->created_at,
+                $post->updated_at,
+            ];
+        }
+    
+        $filename = "posts_" . date('Y-m-d') . ".csv";
+        
+        // Generate and return CSV file
+        $handle = fopen('php://output', 'w');
+        ob_start();
+        
+        // Add CSV headers
+        fputcsv($handle, $csvHeader);
+        
+        // Add data
+        foreach ($csvData as $row) {
+            fputcsv($handle, $row);
+        }
+        
+        fclose($handle);
+        
+        $csvOutput = ob_get_clean();
+        
+        return response($csvOutput)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'attachment; filename="'.$filename.'"');
+    }
+    
 }

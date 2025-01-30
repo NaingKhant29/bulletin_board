@@ -29,6 +29,11 @@ Route::post('/posts/confirmedit/{id}', [PostController::class, 'confirmedit'])->
 Route::put('/posts/update/{id}', [PostController::class, 'update'])->name('posts.update');
 Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
 
+Route::get('/posts/upload', function () {
+    return view('posts.upload');
+})->name('posts.upload');
+Route::post('/posts/upload', [PostController::class, 'upload'])->name('posts.upload');
+Route::get('posts/download', [PostController::class, 'download'])->name('posts.download');
 
 
 Auth::routes();

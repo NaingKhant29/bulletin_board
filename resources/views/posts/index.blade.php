@@ -18,13 +18,13 @@
          <div class="row">
             <div class="col-md-4 label">
                <label class="keyword">Keyword: </label>
-               <input type="text" name="search" class="form-control blank" placeholder="Search by keyword" value="{{ request('search') }}">
+               <input type="text" name="search" class="search blank" placeholder="Search by keyword" value="{{ request('search') }}">
                <button type="submit" class="btn btn-primary">Search</button>
             </div>
             <div class="col-md-4 label">
                <a href="{{ route('posts.create') }}" class="btn btn-success upload-download">Create</a>
-               <a href="#" class="btn btn-success upload-download">Upload</a>
-               <a href="#" class="btn btn-success upload-download">Download</a>
+               <a href="{{ route('posts.upload') }}" class="btn btn-success upload-download">Upload</a>
+               <a href="{{ route('posts.download') }}" class="btn btn-success upload-download">Download</a>
             </div>
          </div>
       </form>
