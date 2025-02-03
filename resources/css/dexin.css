@@ -59,6 +59,9 @@ th{
 .adjust-width {
     width: 50%;
 }
+.warning {
+    color: red;
+}
 .form-label{
     width: 30%;
 }

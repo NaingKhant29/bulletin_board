@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -116,23 +117,21 @@ class PostController extends Controller
     }
 
     public function destroy($id)
-{
-    $post = Post::findOrFail($id);
-
-    // Ensure only the post owner or admin can delete
-    if (Auth::user()->id !== $post->create_user_id && Auth::user()->type !== 0) {
-        return redirect()->route('posts.index')->with('error', 'You are not authorized to delete this post.');
+    {
+        $post = Post::findOrFail($id);
+    
+        // Ensure only the post owner or admin can delete
+        if (optional(Auth::user())->id !== $post->create_user_id && optional(Auth::user())->type !== 0) {
+            return redirect()->route('posts.index')->with('error', 'You are not authorized to delete this post.');
+        }
+    
+        DB::transaction(function () use ($post) {
+            $post->update(['deleted_user_id' => Auth::id()]);
+            $post->delete();
+        });
+    
+        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
-
-    // Set the deleted user ID before soft deleting
-    $post->deleted_user_id = Auth::user()->id;
-    $post->save(); // Save before deleting
-
-    // Soft delete the post
-    $post->delete();
-
-    return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
-}
 
     
     public function upload(Request $request)

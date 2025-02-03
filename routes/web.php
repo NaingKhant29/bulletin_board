@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('/', [PostController::class, 'index']);
 Route::get('/users', [UserController::class, 'dexin'])->name('users.dexin');
@@ -28,13 +29,16 @@ Route::post('/posts/confirmedit/{id}', [PostController::class, 'confirmedit'])->
 
 Route::put('/posts/update/{id}', [PostController::class, 'update'])->name('posts.update');
 Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
-
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+// Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
 Route::get('/posts/upload', function () {
     return view('posts.upload');
 })->name('posts.upload');
 Route::post('/posts/upload', [PostController::class, 'upload'])->name('posts.upload');
 Route::get('posts/download', [PostController::class, 'download'])->name('posts.download');
-Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+
+Route::get('register/show', [RegisterController::class, 'showRegistrationForm'])->name('register.show');
+Route::post('register/create', [RegisterController::class, 'create'])->name('register.create');
 
 
 Auth::routes();

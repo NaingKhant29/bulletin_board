@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register.create') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row mb-3">
@@ -54,12 +54,52 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Password Confirmation') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+
+                        <div class="row mb-3">
+                            <label for="type" class="col-md-4 col-form-label text-md-end">{{ __('Type') }}</label>
+                        
+                            <div class="col-md-6">
+                                <select id="type" class="form-control" name="type" required>
+                                    <option value="0" {{ old('type') == 0 ? 'selected' : '' }}>Admin</option>
+                                    <option value="1" {{ old('type') == 1 ? 'selected' : '' }}>User</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="phone" class="col-md-4 col-form-label text-md-end">{{ __('Phone') }}</label>
+                            <div class="col-md-6">
+                                <input id="phone" type="text" class="form-control" name="phone" value="{{ old('phone') }}">
+                            </div>
+                        </div>
+                        
+                        <!-- Date of Birth Field (Optional) -->
+                        <div class="row mb-3">
+                            <label for="dob" class="col-md-4 col-form-label text-md-end">{{ __('Date of Birth') }}</label>
+                            <div class="col-md-6">
+                                <input id="dob" type="date" class="form-control" name="dob" value="{{ old('dob') }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="dob" class="col-md-4 col-form-label text-md-end">{{ __('Address') }}</label>
+                            <div class="col-md-6">
+                                <input id="address" type="text" class="form-control" name="address" value="{{ old('address') }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="profile" class="col-md-4 col-form-label text-md-end">{{ __('Profile') }}</label>
+                            <div class="col-md-6">
+                                <input id="profile" type="file" class="form-control" name="profile" accept="image/*">
+                            </div>
+                        </div>
+                        
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
