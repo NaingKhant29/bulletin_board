@@ -87,7 +87,7 @@ th{
     width: 65%;
 }
 .form-switch{
-    width: 100%;
+    width: 65%;
 }
 .btn-create-clear {
     display: flex;
@@ -110,4 +110,7 @@ th{
 .text-decoration-none {
     text-decoration: none;
     color : black;
+}
+.post-search {
+    width: 75% !important;
 }

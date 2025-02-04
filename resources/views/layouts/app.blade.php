@@ -12,6 +12,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -50,12 +51,14 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                         <li class="nav-item">
-                            <!-- Create User link will always be visible -->
-                            <a class="nav-link text-success" href="{{ route('register') }}">
-                                Create User
-                            </a>
-                        </li>
+                        @if(Auth::check() && Auth::user()->type == 0) 
+                            <li class="nav-item">
+                                <a class="nav-link text-success" href="{{ route('users.show') }}">
+                                    Create User
+                                </a>
+                            </li>
+                        @endif
+
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -91,7 +94,9 @@
         </nav>
 
         <main class="py-4">
+            <div class="wrapper">
             @yield('content')
+            </div>
         </main>
 
         <footer class="footer container">
@@ -105,5 +110,11 @@
             </section>
         </footer>
     </div>
+    <script>
+        $(document).ready(function() {
+            // Smooth fade-in effect when the page loads
+            $("body").hide().fadeToggle(600);
+        });
+    </script>
 </body>
 </html>

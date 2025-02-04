@@ -73,9 +73,15 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
+    
+        // Check if the user is authorized (creator of the post or admin)
+        if (optional(Auth::user())->id !== $post->create_user_id && optional(Auth::user())->type !== 0) {
+            return redirect()->route('posts.index')->with('error', 'You are not authorized to edit this post.');
+        }
+    
         return view('posts.edit', compact('post'));
     }
-
+    
     public function confirmEdit(Request $request, $id)
     {
         // Retrieve the post from the database
@@ -187,7 +193,7 @@ class PostController extends Controller
     }
     public function download()
     {
-        $posts = Post::withTrashed()->get(); // Fetches deleted posts too
+        $posts = Post::get(); // Fetches deleted posts too
     
         $csvHeader = ['ID', 'Title', 'Description', 'Status', 'Created User ID', 'Updated User ID', 'Deleted User ID', 'Deleted At', 'Created At', 'Updated At'];
         $csvData = [];

@@ -10,3 +10,9 @@
     text-decoration: none;
     color: #40a3a7;
 }
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 80vh;
+}

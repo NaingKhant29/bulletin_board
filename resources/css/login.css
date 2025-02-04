@@ -10,3 +10,8 @@
 .btn-link{
     text-decoration: none;
 }
+.btn-loginn {
+    margin-left: 28%;
+    padding: 8px;
+    width: 15vw !important;
+}

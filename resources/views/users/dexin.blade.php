@@ -57,7 +57,9 @@
                         <th>Address</th>
                         <th>Created_date</th>
                         <th>Updated_date</th>
+                        @if(Auth::check() && Auth::user()->type == 0) 
                         <th>Operation</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -73,6 +75,7 @@
                             <td>{{ $user->address }}</td>
                             <td>{{$user->created_at}}</td>
                             <td>{{$user->updated_at}}</td>
+                            @if(Auth::check() && Auth::user()->type == 0) 
                             <td>
                                 <a href="#" 
                                    class="btn btn-danger" 
@@ -81,6 +84,7 @@
                                    Delete
                                 </a>
                             </td>
+                        @endif
                         </tr>
 
                         <!-- Delete Confirmation Modal -->

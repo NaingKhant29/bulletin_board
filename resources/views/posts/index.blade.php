@@ -12,6 +12,14 @@
           {{ session('success') }}
       </div>
       @endif
+      <!-- Error Message (Bootstrap Alert) -->
+      @if(session('error'))
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+         {{ session('error') }}
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      @endif
+
 
       <!-- Search Form -->
       <form method="GET" action="{{ route('posts.index') }}" class="mb-4">
@@ -19,7 +27,7 @@
             <div class="col-md-4 label">
                <label class="keyword">Keyword: </label>
                <input type="text" name="search" class="search blank" placeholder="Search by keyword" value="{{ request('search') }}">
-               <button type="submit" class="btn btn-primary">Search</button>
+               <button type="submit" class="btn btn-primary post-search">Search</button>
             </div>
             <div class="col-md-4 label">
                <a href="{{ route('posts.create') }}" class="btn btn-success upload-download">Create</a>
@@ -37,7 +45,7 @@
                <th>Post Description</th>
                <th>Posted User</th>
                <th>Posted Date</th>
-               <th>Operation</th>
+               @if(Auth::check())<th>  Operation</th>  @endif
             </tr>
          </thead>
          <tbody>
@@ -54,16 +62,21 @@
                   <td>{{ $post->description }}</td>
                   <td>{{ $post->user->name ?? 'Unknown' }}</td>
                   <td>{{ $post->created_at->format('Y-m-d') }}</td>
+                  @if(Auth::check())
                   <td>
-                     <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">Edit</a>
-                     <!-- Delete Button -->
-                     <a href="#" 
-                        class="btn btn-danger" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#deleteModal{{ $post->id }}">
-                        Delete
-                     </a>
-                  </td>
+                    
+                         <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">Edit</a>
+                         <!-- Delete Button -->
+                         <a href="#" 
+                            class="btn btn-danger" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#deleteModal{{ $post->id }}">
+                            Delete
+                         </a>  
+                  
+                 </td>
+                 @endif
+                 
                </tr>
              
                <!-- Post Detail Modal -->
@@ -119,7 +132,7 @@
                </div>
             @empty
                <tr>
-                  <td colspan="5">No posts found.</td>
+                  <td colspan="5" style="text-align: center">No data available in table.</td>
                </tr>
             @endforelse
          </tbody>

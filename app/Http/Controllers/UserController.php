@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
+
 class UserController extends Controller
 {
     public function dexin(Request $request)
     {
-        info(auth()->user());
         // Get search values from request
         $name = $request->input('name');
         $email = $request->input('email');
@@ -68,68 +70,75 @@ class UserController extends Controller
     //     $this->middleware('guest');
     // }
 
-    // public function showRegistrationForm()
-    // {
-    //     if (Auth::check()) {
-    //         return redirect()->route('home'); // Redirect to home or wherever you want
-    //     }
-    //     return view('auth.register');
-    // }
 
-    // /**
-    //  * Get a validator for an incoming registration request.
-    //  *
-    //  * @param  array  $data
-    //  * @return \Illuminate\Contracts\Validation\Validator
-    //  */
-    // // protected function validator(array $data)
-    // // {
-    // //     return Validator::make($data, [
-    // //         'name' => ['required', 'string', 'max:255'],
-    // //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-    // //         'password' => ['required', 'string', 'min:8', 'confirmed'],
-    // //         'type' => ['required', 'integer', 'in:0,1'], // Admin (0) or User (1)
-    // //         'phone' => ['nullable', 'string', 'max:15'], // Optional phone, max 15 characters
-    // //         'dob' => ['nullable', 'date'], // Optional, must be a valid date
-    // //         'address' => ['nullable', 'string', 'max:255'], // Optional address
-    // //         'profile' => ['required', 'file', 'mimes:jpeg,png,jpg,gif', 'max:8048'], // Optional profile, max 2MB, jpg/jpeg/png/gif only
-    // //     ]);
-    // // }
-
-
-    // // protected function create(Request $request)
-    // // {
-    // //     if ($request->hasFile('profile') && $request->file('profile')->isValid()) {
-    // //         $profilePath = $request->file('profile')->store('profiles', 'public');
-    // //         info('Profile file successfully uploaded. Path: ' . $profilePath);
-    // //     } else {
-    // //         info('No valid profile file uploaded.');
-    // //         $profilePath = 'profiles/default-profile.jpg'; // Use a default profile image
-    // //     }
+    public function showRegistrationForm()
+    {
+        if (Auth::check()) {
+            if (Auth::user()->type == 0) { // Admin user
+                return view('auth.register'); // Allow access to the registration form
+            } else { // Regular user
+                return redirect()->route('home')->with('error', 'You are not authorized to create users.');
+            }
+        }
         
-    // //     // Get the authenticated user's ID or a fallback value if not authenticated
-    // //     if (Auth::check()) {
-    // //         // If authenticated, use the logged-in user's ID for created_user_id and updated_user_id
-    // //         $userId = Auth::id();
-    // //     } else {
-    // //         // If not authenticated, set a fallback ID (e.g., 1 for admin)
-    // //         $userId = 1; // Ensure this ID exists in the database, typically the admin user ID
-    // //     }
+        return redirect()->route('users')->with('error', 'Please log in first.');
+    }
     
-    // //     // Create the user with the profile image path and user IDs
-    // //     return User::create([
-    // //         'name' => $request['name'],
-    // //         'email' => $request['email'],
-    // //         'password' => Hash::make($request['password']),
-    // //         'type' => $request['type'],
-    // //         'phone' => $request['phone'],
-    // //         'date_of_birth' => $request['dob'],
-    // //         'address' => $request['address'],
-    // //         'profile' => $profilePath,
-    // //         'create_user_id' => $userId, // Set the create_user_id to the current user's ID or fallback value
-    // //         'updated_user_id' => $userId, // Set the updated_user_id to the same value
-    // //     ]);
-    // //     return redirect()->route('users.dexin')->with('success', 'User register successfully.');
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'type' => ['required', 'integer', 'in:0,1'], // Admin (0) or User (1)
+            'phone' => ['nullable', 'string', 'max:15'], // Optional phone, max 15 characters
+            'dob' => ['nullable', 'date'], // Optional, must be a valid date
+            'address' => ['nullable', 'string', 'max:255'], // Optional address
+            'profile' => ['required', 'file', 'mimes:jpeg,png,jpg,gif', 'max:8048'], // Optional profile, max 2MB, jpg/jpeg/png/gif only
+        ]);
+    }
+
+
+    protected function create(Request $request)
+    {
+        info('Submitted Registration Data:', $request->all());
+
+        $validatedData = $this->validator($request->all())->validate();
     
-    // }
+        // Handle the profile image upload
+        if ($request->hasFile('profile') && $request->file('profile')->isValid()) {
+            $profilePath = $request->file('profile')->store('profiles', 'public');
+            info('Profile file successfully uploaded. Path: ' . $profilePath);
+        } else {
+            info('No valid profile file uploaded.');
+            $profilePath = 'profiles/default-profile.jpg'; // Default profile image
+        }
+    
+        // Get the authenticated user's ID or a fallback value if not authenticated
+        $userId = Auth::check() ? Auth::id() : 1; // Default to 1 if not authenticated (ensure admin exists with ID 1)
+    
+        // Create the user with the profile image path and user IDs
+        $user = User::create([
+            'name' => $validatedData['name'], // Ensure this is passed properly from the form
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'type' => $validatedData['type'],
+            'phone' => $validatedData['phone'],
+            'dob' => $validatedData['dob'],
+            'address' => $validatedData['address'],
+            'profile' => $profilePath,
+            'create_user_id' => $userId,
+            'updated_user_id' => $userId,
+        ]);
+    
+        // Redirect after successful registration
+        return redirect()->route('users.dexin')->with('success', 'User registered successfully.');
+    }
+    
 }

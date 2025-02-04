@@ -4,3 +4,7 @@
 .top{
     margin-top: 50px;
 }
+.text-align-lft {
+    text-align: left !important;
+    width: 65% !important;
+}

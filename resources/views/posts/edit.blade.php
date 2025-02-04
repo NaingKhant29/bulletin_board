@@ -28,7 +28,7 @@
                 @csrf
 <!-- This ensures the form uses the PUT method -->
                 
-                <div class="mb-3 create-post container-form-post">
+                <div class="mb-3 create-post container-form-post top">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" name="title" id="title" class="form-control" value="{{ old('title', $post->title) }}" required>
                 </div>
@@ -46,7 +46,7 @@
                             {{ old('status', $post->status) == 1 ? 'checked' : 0 }}>
                     </div>
                 </div>
-                <div class="btn-create-clear">
+                <div class="btn-create-clear container-form-post">
                 <button type="submit" class="btn btn-success">Update</button>
                 <button type="button" class="btn btn-info container-form-post" onclick="clearForm()">Clear</button>
                 </div>
@@ -55,8 +55,7 @@
     </div>
     <script>
         function clearForm() {
-            document.getElementById('title').value = '';
-            document.getElementById('description').value = '';
+            $('#title, #description').val('');
         }
     </script>
 @endsection

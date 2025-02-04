@@ -34,7 +34,7 @@
 </div>
 <script>
     function clearFileInput() {
-        document.getElementById('file').value = '';
+        $('#file').val('');
     }
 </script>
 @endsection

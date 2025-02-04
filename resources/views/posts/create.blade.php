@@ -43,11 +43,13 @@
     </div>
 </div>
 
+
 <script>
     function clearForm() {
-        document.getElementById('title').value = '';
-        document.getElementById('description').value = '';
+        $('#title').val('');
+        $('#description').val('');
     }
 </script>
+
 
 @endsection
