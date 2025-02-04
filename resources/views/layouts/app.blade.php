@@ -73,7 +73,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item">
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">
                                         {{ __('Profile') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -98,6 +98,68 @@
             @yield('content')
             </div>
         </main>
+        <!-- Profile Modal -->
+       <!-- Profile Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded-3">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="profileModalLabel">
+                    <i class="bi bi-person-circle"></i> Profile Information
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <!-- Profile Image -->
+                <div class="mb-3">
+                    <img src="{{ Auth::user()->profile ? asset('storage/' . Auth::user()->profile) : asset('images/default-profile.png') }}" 
+                         alt="Profile Picture" class="rounded-circle border border-3 border-primary" 
+                         width="120" height="120">
+                </div>
+
+                <!-- Profile Details -->
+                <div class="card shadow-sm p-3">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="bi bi-person-badge me-2"></i> 
+                            <strong>Name:</strong> {{ Auth::user()->name }}
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-person-check me-2"></i> 
+                            <strong>Type:</strong> {{ Auth::user()->type == 0 ? 'Admin' : 'User' }}
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-envelope me-2"></i> 
+                            <strong>Email:</strong> {{ Auth::user()->email }}
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-telephone me-2"></i> 
+                            <strong>Phone:</strong> {{ Auth::user()->phone ?? 'N/A' }}
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-calendar-event me-2"></i> 
+                            <strong>Date of Birth:</strong> {{ Auth::user()->dob ?? 'N/A' }}
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-house-door me-2"></i> 
+                            <strong>Address:</strong> {{ Auth::user()->address ?? 'N/A' }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer d-flex justify-content-between">
+                <a href="#" class="btn btn-primary">
+                    <i class="bi bi-pencil-square"></i> Edit Profile
+                </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
         <footer class="footer container">
             <section class="footer-session-one">
