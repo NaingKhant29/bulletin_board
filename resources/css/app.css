@@ -16,3 +16,29 @@
     flex-direction: column;
     min-height: 80vh;
 }
+.modal-header {
+    border-bottom: 2px solid #d1e7dd;
+}
+
+.modal-body ul {
+    padding-left: 0;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    border: none;
+    padding: 10px 0;
+}
+
+.modal-footer .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.modal-footer .btn:hover {
+    transform: scale(1.05);
+}

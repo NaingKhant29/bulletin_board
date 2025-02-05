@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable; // Add this line
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable // Keep this extending Authenticatable for authentication
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     
 
     // Define the table name if it doesn't follow Laravel's convention
@@ -40,6 +41,18 @@ class User extends Authenticatable // Keep this extending Authenticatable for au
         'email_verified_at' => 'datetime',
         'dob' => 'date', // Assuming dob is a date field
     ];
+
+    // User.php
+
+public function createUser()
+{
+    return $this->belongsTo(User::class, 'created_user_id');
+}
+
+public function updatedUser()
+{
+    return $this->belongsTo(User::class, 'updated_user_id');
+}
 
     // You can define relationships, accessors, mutators, etc. here if needed
 }

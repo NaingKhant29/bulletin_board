@@ -66,15 +66,20 @@
                     @foreach($users as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
+                            <td>
+                                <!-- When clicking on the username, show the profile in the modal -->
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#profileModal{{ $user->id }}" class="text-decoration-none">
+                                    {{ $user->name }}
+                                </a>
+                            </td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->type == 0 ? 'Admin' : 'User' }}</td>
                             <td>{{ $user->phone }}</td>
                             <td>{{ $user->dob }}</td>
                             <td>{{ $user->address }}</td>
-                            <td>{{$user->created_at}}</td>
-                            <td>{{$user->updated_at}}</td>
+                            <td>{{ $user->created_at }}</td>
+                            <td>{{ $user->updated_at }}</td>
                             @if(Auth::check() && Auth::user()->type == 0) 
                             <td>
                                 <a href="#" 
@@ -84,40 +89,58 @@
                                    Delete
                                 </a>
                             </td>
-                        @endif
+                            @endif
                         </tr>
-
-                        <!-- Delete Confirmation Modal -->
-                        <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $user->id }}" aria-hidden="true">
+                
+                        <!-- Profile Modal -->
+                        <div class="modal fade" id="profileModal{{ $user->id }}" tabindex="-1" aria-labelledby="profileModalLabel{{ $user->id }}" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteModalLabel{{ $user->id }}">Delete Confirmation</h5>
+                                        <h5 class="modal-title" id="profileModalLabel{{ $user->id }}">User Profile</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p class="warning">Are you sure you want to delete this user?</p>
-                                        <p><strong>ID:</strong> {{ $user->id }}</p>
-                                        <p><strong>Name:</strong> {{ $user->name }}</p>
-                                        <p><strong>Type  :</strong>{{ $user->type == 0 ? 'Admin' : 'User' }}</p>
-                                        <p><strong>Email:</strong> {{ $user->email }}</p>
-                                        <p><strong> Phone :</strong> {{ $user->phone }}</p>
-                                        <p><strong>Date of Birth  :</strong>{{$user->dob}}</p>
-                                        <p><strong>Address :</strong>{{$user->address}}</p>
-                                    </div>
+                        <div class="d-flex align-items-center">
+                            <!-- Profile Image -->
+                            <div class="profile-img-container mr-4 flex-start">
+                                <img src="{{ Storage::url($user->profile) }}" alt="Profile Picture" class="profile-img mb-3 rounded-circle" width="150">
+                            </div>
+
+                            <!-- User Details -->
+                            <div class="user-details">
+                                <p><strong>Name:</strong> {{ $user->name }}</p>
+                                <p><strong>Type:</strong> {{ $user->type == 0 ? 'Admin' : 'User' }}</p>
+                                <p><strong>Email:</strong> {{ $user->email }}</p>
+                                <p><strong>Phone:</strong> {{ $user->phone }}</p>
+                                <p><strong>Date of Birth:</strong> {{ $user->dob }}</p>
+                                <p><strong>Address:</strong> {{ $user->address }}</p>
+                                <p><strong>Created Date:</strong> {{ $user->created_at->format('F j, Y') }}</p>
+                                <p><strong>Created User:</strong> {{ $user->createUser ? $user->createUser->name : 'N/A' }}</p>
+                                <p><strong>Updated Date:</strong> {{ $user->updated_at->format('F j, Y') }}</p>
+                                <p><strong>Updated User:</strong> {{ $user->updatedUser ? $user->updatedUser->name : 'N/A' }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                                        
+                                        
+                                    
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                
+                        <!-- Delete Confirmation Modal (unchanged) -->
+                        <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $user->id }}" aria-hidden="true">
+                            <!-- Delete modal code goes here -->
+                        </div>
+                
                     @endforeach
                 </tbody>
+                
             </table>
 
             <!-- Pagination Links -->

@@ -41,6 +41,10 @@ Route::get('/posts/upload', function () {
 })->name('posts.upload');
 Route::post('/posts/upload', [PostController::class, 'upload'])->name('posts.upload');
 Route::get('posts/download', [PostController::class, 'download'])->name('posts.download');
+Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+Route::put('/profile/update/{id}', [UserController::class, 'updateProfile'])->name('profile.update');
+
+
 
 // Route::get('register/show', [RegisterController::class, 'showRegistrationForm'])->name('register.show');
 // Route::post('register/create', [RegisterController::class, 'create'])->name('register.create');

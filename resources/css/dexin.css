@@ -65,6 +65,10 @@ th{
 .form-label{
     width: 30%;
 }
+.wd{
+    width: 65%;
+    text-align: left !important;
+}
 .search{
     width: 100%;
     display: block;
@@ -88,6 +92,9 @@ th{
 }
 .form-switch{
     width: 65%;
+}
+.colorfff{
+    color: white;
 }
 .btn-create-clear {
     display: flex;
@@ -113,4 +120,74 @@ th{
 }
 .post-search {
     width: 75% !important;
+}
+.modal-body {
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.d-flex {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start; /* Aligns items to the top */
+    justify-content: start;
+}
+
+.profile-img-container {
+    margin-right: 20px;
+}
+
+.profile-img {
+    border: 4px solid #f3f3f3;
+    padding: 5px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-details {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.user-details p {
+    margin-bottom: 10px;
+}
+
+.user-details strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.user-details p {
+    color: #555;
+    font-weight: 400;
+}
+
+.user-details p:nth-child(even) {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.user-details p:nth-child(odd) {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.modal-body .btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: #777;
+}
+
+.modal-body .btn-close:hover {
+    color: #333;
+}
+.flex-start {
+    align-self: flex-start;
 }
