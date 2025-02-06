@@ -133,9 +133,34 @@
                             </div>
                         </div>
                 
-                        <!-- Delete Confirmation Modal (unchanged) -->
-                        <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $user->id }}" aria-hidden="true">
-                            <!-- Delete modal code goes here -->
+                          <!-- Delete Confirmation Modal -->
+                          <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $user->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel{{ $user->id }}">Delete Confirmation</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="warning">Are you sure you want to delete this user?</p>
+                                        <p><strong>ID:</strong> {{ $user->id }}</p>
+                                        <p><strong>Name:</strong> {{ $user->name }}</p>
+                                        <p><strong>Type  :</strong>{{ $user->type == 0 ? 'Admin' : 'User' }}</p>
+                                        <p><strong>Email:</strong> {{ $user->email }}</p>
+                                        <p><strong> Phone :</strong> {{ $user->phone }}</p>
+                                        <p><strong>Date of Birth  :</strong>{{$user->dob}}</p>
+                                        <p><strong>Address :</strong>{{$user->address}}</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                 
                     @endforeach
