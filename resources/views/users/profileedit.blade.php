@@ -109,7 +109,8 @@
                             <i class="bi bi-pencil-square"></i> Edit
                         </button>
                         <button type="button" class="btn btn-info colorfff" id="clearFormBtn">Clear</button>
-                        <a href="/profile/change-password" class="btn btn-link">Change Password</a>
+                        <a href="{{ route('users.pwchange') }}" class="btn btn-link">Change Password</a>
+
                     </div>
                 </div>
             </form>

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -267,4 +267,31 @@ class UserController extends Controller
         // You can also redirect or return a response after saving
         return redirect()->route('users.dexin')->with('success', 'User registered successfully!');
     }   
+    public function showChangePasswordForm()
+{
+    info("ah shit! Here we go");
+    return view('auth.change-password');
+}
+
+public function changePassword(Request $request)
+{
+    // Validate the password inputs
+    info($request->all());
+    $validated = $request->validate([
+        'current_password' => ['required'],
+        'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+    ]);
+
+    // Check if the current password matches the stored password
+    if (!Hash::check($request->current_password, Auth::user()->password)) {
+        return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+    }
+
+    // Update the password using bcrypt (Hash::make)
+    Auth::user()->update([
+        'password' => Hash::make($request->new_password),
+    ]);
+
+    return redirect()->route('users.dexin')->with('success', 'Password changed successfully.');
+}
 }    

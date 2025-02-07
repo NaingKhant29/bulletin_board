@@ -49,7 +49,9 @@ Route::post('/users/confirm', [UserController::class, 'confirm'])->name('users.c
 
 Route::post('/users', [UserController::class, 'new'])->name('users.new');
 
-
+// Show Change Password Form
+Route::get('/change-password', [UserController::class, 'showChangePasswordForm'])->name('users.pwchange');
+Route::post('/update-password', [UserController::class, 'changePassword'])->name('users.pwupdate');
 
 
 
