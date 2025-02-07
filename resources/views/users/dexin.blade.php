@@ -68,7 +68,7 @@
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->name }}</td>
+                            <td>{{ optional(\App\Models\User::find($user->created_user_id))->name ?? 'N/A' }}</td>
                             <td>{{ $user->type == 0 ? 'Admin' : 'User' }}</td>
                             <td>{{ $user->phone }}</td>
                             <td>{{ $user->dob }}</td>

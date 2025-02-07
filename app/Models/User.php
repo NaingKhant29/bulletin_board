@@ -40,6 +40,10 @@ class User extends Authenticatable // Keep this extending Authenticatable for au
         'email_verified_at' => 'datetime',
         'dob' => 'date', // Assuming dob is a date field
     ];
+    public function createdUser()
+    {
+        return $this->belongsTo(User::class, 'create_user_id');
+    }
 
     // You can define relationships, accessors, mutators, etc. here if needed
 }

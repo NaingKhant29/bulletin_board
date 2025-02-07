@@ -133,8 +133,8 @@ class UserController extends Controller
             'dob' => $validatedData['dob'],
             'address' => $validatedData['address'],
             'profile' => $profilePath,
-            'create_user_id' => $userId,
-            'updated_user_id' => $userId,
+            'created_user_id' => Auth::id(),
+            'updated_user_id' => Auth::id(),
         ]);
     
         // Redirect after successful registration
