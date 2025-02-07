@@ -36,12 +36,14 @@ class PostController extends Controller
     // Show confirmation page before creating a post
     public function create()
     {
+      
         return view('posts.create'); // This view will show a form for creating a post
     }
 
     // Show confirmation screen before post creation
     public function confirm(Request $request)
     {
+        info($request->all()); 
         // Pass the input values to the confirm view
         return view('posts.confirm', [
             'title' => $request->input('title'),

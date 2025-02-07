@@ -31,10 +31,10 @@ Route::put('/posts/update/{id}', [PostController::class, 'update'])->name('posts
 Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
-Route::get('/users/show', [UserController::class, 'showRegistrationForm'])->name('users.show');
+
 
 // Handle user registration
-Route::post('/users/create', [UserController::class, 'create'])->name('users.create');
+
 
 Route::get('/posts/upload', function () {
     return view('posts.upload');
@@ -44,10 +44,14 @@ Route::get('posts/download', [PostController::class, 'download'])->name('posts.d
 Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
 Route::put('/profile/update/{id}', [UserController::class, 'updateProfile'])->name('profile.update');
 
+Route::get('/users/show', [UserController::class, 'showRegistrationForm'])->name('users.show');
+Route::post('/users/confirm', [UserController::class, 'confirm'])->name('users.confirm');
+
+Route::post('/users', [UserController::class, 'new'])->name('users.new');
 
 
-// Route::get('register/show', [RegisterController::class, 'showRegistrationForm'])->name('register.show');
-// Route::post('register/create', [RegisterController::class, 'create'])->name('register.create');
+
+
 
 
 Auth::routes();

@@ -115,9 +115,9 @@
                                 <p><strong>Phone:</strong> {{ $user->phone }}</p>
                                 <p><strong>Date of Birth:</strong> {{ $user->dob }}</p>
                                 <p><strong>Address:</strong> {{ $user->address }}</p>
-                                <p><strong>Created Date:</strong> {{ $user->created_at->format('F j, Y') }}</p>
-                                <p><strong>Created User:</strong> {{ $user->createUser ? $user->createUser->name : 'N/A' }}</p>
-                                <p><strong>Updated Date:</strong> {{ $user->updated_at->format('F j, Y') }}</p>
+                                <p><strong>Created Date:</strong> {{ $user->created_at->format('Y-m-d') }}</p>
+                                <p><strong>Created User:</strong> {{ $user->createUser ? $user->createUser->created_user_id : 'N/A' }}</p>
+                                <p><strong>Updated Date:</strong> {{ $user->updated_at->format('Y-m-d') }}</p>
                                 <p><strong>Updated User:</strong> {{ $user->updatedUser ? $user->updatedUser->name : 'N/A' }}</p>
                             </div>
                         </div>

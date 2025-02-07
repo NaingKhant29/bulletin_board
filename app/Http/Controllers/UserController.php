@@ -84,15 +84,10 @@ class UserController extends Controller
         
         return redirect()->route('users')->with('error', 'Please log in first.');
     }
-    
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
    protected function validator(array $data)
 {
+    info('********');
+    info($data);
     return Validator::make($data, [
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -101,7 +96,7 @@ class UserController extends Controller
         'phone' => ['nullable', 'string', 'max:15'], // Optional phone, max 15 characters
         'dob' => ['nullable', 'date'], // Optional, must be a valid date
         'address' => ['nullable', 'string', 'max:255'], // Optional address
-        'profile' => ['required', 'file', 'mimes:jpeg,png,jpg,gif', 'max:8048'], // Optional profile, max 2MB, jpg/jpeg/png/gif only
+        'image' => ['required', 'file', 'mimes:jpeg,png,jpg,gif', 'max:8048'],
     ], [
         // Custom messages
         'name.required' => 'Please provide your full name.',
@@ -126,50 +121,16 @@ class UserController extends Controller
         
         'address.max' => 'The address cannot be longer than 255 characters.',
         
-        'profile.required' => 'Please upload a profile picture.',
-        'profile.file' => 'The profile picture must be a file.',
-        'profile.mimes' => 'The profile picture must be a JPEG, PNG, JPG, or GIF image.',
-        'profile.max' => 'The profile picture cannot be larger than 8MB.',
+        'image.required' => 'Please upload a profile picture.',
+        'image.file' => 'The profile picture must be a file.',
+        'image.mimes' => 'The profile picture must be a JPEG, PNG, JPG, or GIF image.',
+        'image.max' => 'The profile picture cannot be larger than 8MB.',
     ]);
 }
 
 
 
-    protected function create(Request $request)
-    {
-        info('Submitted Registration Data:', $request->all());
-
-        $validatedData = $this->validator($request->all())->validate();
-    
-        // Handle the profile image upload
-        if ($request->hasFile('profile') && $request->file('profile')->isValid()) {
-            $profilePath = $request->file('profile')->store('profiles', 'public');
-            info('Profile file successfully uploaded. Path: ' . $profilePath);
-        } else {
-            info('No valid profile file uploaded.');
-            $profilePath = 'profiles/default-profile.jpg'; // Default profile image
-        }
-    
-        // Get the authenticated user's ID or a fallback value if not authenticated
-        $userId = Auth::check() ? Auth::id() : 1; // Default to 1 if not authenticated (ensure admin exists with ID 1)
-    
-        // Create the user with the profile image path and user IDs
-        $user = User::create([
-            'name' => $validatedData['name'], // Ensure this is passed properly from the form
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-            'type' => $validatedData['type'],
-            'phone' => $validatedData['phone'],
-            'dob' => $validatedData['dob'],
-            'address' => $validatedData['address'],
-            'profile' => $profilePath,
-            'create_user_id' => $userId,
-            'updated_user_id' => $userId,
-        ]);
-    
-        // Redirect after successful registration
-        return redirect()->route('users.dexin')->with('success', 'User registered successfully.');
-    }
+  
     public function edit()
     {
         $user = Auth::user(); // Get the currently authenticated user
@@ -185,7 +146,7 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:15',
             'dob' => 'nullable|date',
             'address' => 'nullable|string|max:255',
-            'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8048',
         ]);
 
         // Find user
@@ -211,8 +172,8 @@ class UserController extends Controller
             }
 
             // Store new profile
-            $profilePath = $request->file('profile')->store('profiles', 'public');
-            $user->profile = $profilePath;
+            $image = $request->file('profile')->store('profiles', 'public');
+            $user->profile = $image;
         }
 
         // Save user
@@ -222,6 +183,88 @@ class UserController extends Controller
         return redirect()->route('users.dexin')->with('success', 'Profile updated successfully!');
 
     }
-        
+
+    public function confirm(Request $request)
+    {
+        info($request->all());
     
-}
+        // Validate using the existing validator method
+        $validator = $this->validator($request->all());
+    
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        // Retrieve validated data
+        $validated = $validator->validated();
+    
+        // Handle Profile Image Upload
+        $profilePath = null;
+        if ($request->hasFile('image')) {
+            $profilePath = $request->file('image')->store('profiles', 'public');
+        }
+    
+        // Store data in session
+        session([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+            'password_confirm' => $request->input('password_confirmation'),
+            'type' => $validated['type'],
+            'phone' => $validated['phone'] ?? null,
+            'dob' => $validated['dob'] ?? null,
+            'address' => $validated['address'] ?? null,
+            'image' => $profilePath,
+        ]);
+    
+        // Return the view with the data, allowing the user to confirm
+        return view('auth.confirm', [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+            'password_confirm' => $request->input('password_confirmation'),
+            'type' => $validated['type'],
+            'phone' => $validated['phone'] ?? null,
+            'dob' => $validated['dob'] ?? null,
+            'address' => $validated['address'] ?? null,
+            'image' => $profilePath,
+        ]);
+    }
+    public function new()
+    {
+
+    
+        // Retrieve data from session
+        $data = session()->all();
+    
+        // Now you can use this data as needed, for example:
+        $name = $data['name'];
+        $email = $data['email'];
+        $password = $data['password'];
+        $password_confirm = $data['password_confirm'];
+        $type = $data['type'];
+        $phone = $data['phone'];
+        $dob = $data['dob'];
+        $address = $data['address'];
+        $image = $data['image'];
+    
+        // Create the new user
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => bcrypt($password), // Always hash the password
+            'type' => $type,
+            'phone' => $phone,
+            'dob' => $dob,
+            'address' => $address,
+            'profile' => $image ? $image : null, 
+            'created_user_id' => Auth::id(),
+            'updated_user_id' => Auth::id(),
+
+        ]);
+    
+        // You can also redirect or return a response after saving
+        return redirect()->route('users.dexin')->with('success', 'User registered successfully!');
+    }   
+}    
