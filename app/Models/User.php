@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable // Keep this extending Authenticatable for authentication
 {
     use HasFactory, SoftDeletes;
+    use Notifiable;
     
 
     // Define the table name if it doesn't follow Laravel's convention
@@ -53,6 +56,17 @@ public function updatedUser()
 {
     return $this->belongsTo(User::class, 'updated_user_id');
 }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
 
     // You can define relationships, accessors, mutators, etc. here if needed
 }

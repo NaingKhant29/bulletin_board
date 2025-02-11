@@ -5,6 +5,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use Illuminate\Support\Str;
 
 Route::get('/', [PostController::class, 'index']);
 Route::get('/users', [UserController::class, 'dexin'])->name('users.dexin');
@@ -53,8 +61,22 @@ Route::post('/users', [UserController::class, 'new'])->name('users.new');
 Route::get('/change-password', [UserController::class, 'showChangePasswordForm'])->name('users.pwchange');
 Route::post('/update-password', [UserController::class, 'changePassword'])->name('users.pwupdate');
 
+Route::get('/forgot-password', function () {
+    return view('auth.passwords.email'); // Adjusted to return the 'email' view
+})->middleware('guest')->name('password.request');
 
 
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendPasswordResetLink'])
+    ->middleware('guest')
+    ->name('password.email');
 
-Auth::routes();
+// Password Reset Form Route
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset.form');
+
+// Password Reset Submit Route
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
+
+
+    Auth::routes(['reset' => false]);
+
 
