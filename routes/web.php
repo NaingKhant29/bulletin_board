@@ -70,13 +70,9 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendPasswordR
     ->middleware('guest')
     ->name('password.email');
 
-// Password Reset Form Route
-Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset.form');
+    Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::patch('password/reset', [ResetPasswordController::class, 'reset'])->name('password.updat');
 
-// Password Reset Submit Route
-Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
-
-
-    Auth::routes(['reset' => false]);
+Auth::routes(['reset' => false]);
 
 

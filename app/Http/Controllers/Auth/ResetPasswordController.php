@@ -9,68 +9,53 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\PasswordReset;
 use Illuminate\Support\Facades\Log;
+use carbon\carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Password; 
 
 class ResetPasswordController extends Controller
 {
-    // Show the reset password form
     public function showResetForm($token)
     {
-        return view('auth.reset_password', compact('token'));
+        return view('auth.reset_password', ['token' => $token]);
     }
+    
 
     
-   
     public function reset(Request $request)
     {
-        // Validate the request
-        $request->validate([
-            'password' => 'required|confirmed|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*?&]/',
-            'token' => 'required',
+        // info(request()->all());
+        
+        $validatedData = $request->validate([
+            'password' => 'required|string|min:8|confirmed',  // Password validation rules
+            'token' => 'required',  // Validate token
         ]);
-    
-        // Find the reset record by the token
-        $passwordReset = PasswordReset::where('token', $request->token)->first();
-    
-        // Check if the token exists and is valid (including expiration)
-        if (!$passwordReset) {
-            return redirect()->route('password.request')->withErrors(['email' => 'The reset link has expired or is invalid. Please try again.']);
+        
+        // Step 2: Find the user by the token
+        $isUserExist = DB::table('password_resets')->where('email', $request->email)->first();
+        // info([$user]);
+
+        if (!$isUserExist) {
+            return redirect()->back()->withErrors(['token' => 'This password reset token is invalid.']);
         }
-    
-        // Log the created_at time and the current time for debugging
-        Log::info("Token created at: " . $passwordReset->created_at);
-        Log::info("Current time: " . now());
-    
-        // Check if the token has expired (e.g., 60 minutes expiration)
-        if ($passwordReset->created_at->isBefore(now()->subMinutes(60))) {
-            // Token expired, delete it
-            $passwordReset->delete();
-            return redirect()->route('password.request')->withErrors(['email' => 'This password reset token has expired.']);
-        }
-    
-        // Find the user associated with the reset request
-        $user = User::where('email', $passwordReset->email)->first();
-    
+
+        // Step 3: Find the user by their email
+        $user = User::where('email', $request->email)->first();
+
         if (!$user) {
-            return redirect()->route('password.request')->withErrors(['email' => 'No user found with this email address.']);
+            return redirect()->back()->withErrors(['email' => 'No user found with this email.']);
         }
-    
-        // Reset the user's password
-        try {
-            $user->password = Hash::make($request->password); // Hash the password
-            $user->save();
-    
-            // Log the new password hash (for debugging purposes)
-            Log::info("New password hash saved: " . $user->password);
-        } catch (\Exception $e) {
-            Log::error("Error saving password: " . $e->getMessage());
-            return redirect()->route('password.request')->withErrors(['email' => 'An error occurred while resetting your password. Please try again later.']);
+
+        if ($user && Hash::check($request->token, $isUserExist->token)) {
+            info("I'm here");
+            $user->password = Hash::make($request->password); // Hash the password before saving
+
+        $user->save();
         }
-    
-        // Delete the password reset record (so it can't be reused)
-        $passwordReset->delete();
-    
-        // Redirect the user to their dashboard or intended page
-        return redirect()->intended(route('dashboard'))->with('status', 'Your password has been reset successfully.');
-    }   
-    
+        // Step 6: Optionally, delete the reset token to prevent reuse
+        DB::table('password_resets')->where('email', $user->email)->delete();
+
+        // Step 7: Redirect or return a response after successful reset
+        return redirect()->route('login')->with('status', 'Your password has been successfully reset.');
+    }
 }

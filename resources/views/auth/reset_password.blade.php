@@ -8,16 +8,18 @@
                 <div class="card-header">{{ __('Reset Password') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('password.reset') }}">
+                    <form method="POST" action="{{ route('password.updat') }}">
                         @csrf
+                        @method('PATCH')  <!-- Use PATCH to indicate it's an update -->
                         <input type="hidden" name="token" value="{{ $token }}">
-
+                        <input type="hidden" name="email" value="{{ request()->query('email') }}">
+                    
                         <!-- Password -->
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
-                                
+                    
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -25,7 +27,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                    
                         <!-- Confirm Password -->
                         <div class="row mb-3">
                             <label for="password_confirmation" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
@@ -33,7 +35,7 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
-
+                    
                         <!-- Submit Button -->
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
