@@ -45,10 +45,10 @@ class CustomResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Reset Your Password')
-                    ->line('You are receiving this email because we received a password reset request for your account.')
-                    ->action('Reset Password', url(route('password.reset', ['email' => $notifiable->getEmailForPasswordReset(), 'token' => $this->token], false)))
-                    ->line('If you did not request a password reset, no further action is required.');
+            ->subject('Reset Your Password')
+            ->line('You are receiving this email because we received a password reset request for your account.')
+            ->action('Reset Password', url(route('password.reset', ['email' => $notifiable->getEmailForPasswordReset(), 'token' => $this->token], false)))
+            ->line('If you did not request a password reset, no further action is required.');
     }
 
     /**

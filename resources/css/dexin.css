@@ -18,7 +18,7 @@ th{
     align-items: center ;
     padding: 8px;
 }
-/* Container Styling */
+
 .container-form {
     max-width: 1300px;
     margin: 0px auto;
@@ -129,7 +129,7 @@ th{
 .d-flex {
     display: flex;
     flex-direction: row;
-    align-items: flex-start; /* Aligns items to the top */
+    align-items: flex-start;
     justify-content: start;
 }
 

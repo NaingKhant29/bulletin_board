@@ -26,13 +26,12 @@ return new class extends Migration
             $table->unsignedBigInteger('deleted_user_id')->nullable();
             $table->foreign('created_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('updated_user_id')->references('id')->on('users')->onDelete('cascade');
-            
-            $table->rememberToken(); 
-            $table->timestamps(); // created_at and updated_at
+
+            $table->rememberToken();
+            $table->timestamps(); 
             $table->softDeletes()->nullable();
-           
         });
-    
+
 
 
         Schema::create('password_resets', function (Blueprint $table) {

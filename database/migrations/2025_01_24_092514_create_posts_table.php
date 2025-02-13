@@ -21,14 +21,14 @@ return new class extends Migration
             $table->unsignedBigInteger('deleted_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes()->nullable(); // Adds `deleted_at` column
-    
+
             // Foreign keys
             $table->foreign('create_user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('deleted_user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
-    
+
     /**
      * Reverse the migrations.
      */

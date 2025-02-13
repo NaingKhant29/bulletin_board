@@ -10,7 +10,7 @@
                 <label for="title" class="form-label">Title</label>
                 <p class="form-control txt-lft">{{ $title }}</p>
             </div>
-            
+
             <div class="mb-3 create-post container-form-post">
                 <label for="description" class="form-label des">Description</label>
                 <p class="form-control txt-lft">{{ $description }}</p>

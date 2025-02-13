@@ -32,7 +32,4 @@ class Post extends Model
         $this->status = $this->status === 1 ? 0 : 1;
         $this->save();
     }
-
-
 }
-

@@ -12,7 +12,7 @@ class User extends Authenticatable // Keep this extending Authenticatable for au
 {
     use HasFactory, SoftDeletes;
     use Notifiable;
-    
+
 
     // Define the table name if it doesn't follow Laravel's convention
     protected $table = 'users';
@@ -47,15 +47,15 @@ class User extends Authenticatable // Keep this extending Authenticatable for au
 
     // User.php
 
-public function createUser()
-{
-    return $this->belongsTo(User::class, 'created_user_id');
-}
+    public function createUser()
+    {
+        return $this->belongsTo(User::class, 'created_user_id');
+    }
 
-public function updatedUser()
-{
-    return $this->belongsTo(User::class, 'updated_user_id');
-}
+    public function updatedUser()
+    {
+        return $this->belongsTo(User::class, 'updated_user_id');
+    }
 
     /**
      * Send the password reset notification.

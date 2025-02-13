@@ -1,11 +1,12 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Post;
 use Database\Seeders\UserSeeder;
 
-class DatabaseSeeder extends Seeder     
+class DatabaseSeeder extends Seeder
 {
 
     /**
@@ -13,10 +14,10 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-public function run()
-{
-    $this->call([
-        UserSeeder::class,
-    ]);
-}
+    public function run()
+    {
+        $this->call([
+            UserSeeder::class,
+        ]);
+    }
 }
