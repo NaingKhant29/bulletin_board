@@ -29,82 +29,64 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
+        <div class="bg-header">
+            <header class="container-nav header">
+
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Bulletin_board') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-success" href="{{ route('users.dexin') }}">
-                                Users
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-success" href="{{ url('/posts') }}">
-                                Posts
-                            </a>
-                        </li>
-
-                    </ul>
-
-                    <!-- Updated Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+                <nav>
+                    <div class="hamburger">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
+                    <div class="nav-link ">
+                        <a href="{{ route('users.dexin') }}">
+                            Users
+                        </a>
+                        <a href="{{ url('/posts') }}">
+                            Posts
+                        </a>
                         @if (Auth::check() && Auth::user()->type == 0)
-                            <li class="nav-item">
-                                <a class="nav-link text-success" href="{{ route('users.show') }}">
-                                    <i class="bi bi-plus-circle"></i> Create User
-                                </a>
-                            </li>
+                            <a href="{{ route('users.show') }}">
+                                <i class="bi bi-plus-circle"></i> Create User
+                            </a>
                         @endif
-
-                        <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
+                                <a href="{{ route('login') }}">{{ __('Login') }}</a>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center"
-                                    href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
-                                    <i class="bi bi-gear ms-2"></i>
+                            <a id="navbarDropdown"
+                                class="co dropdown-toggle d-flex align-items-center justify-content-center"
+                                href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
+                                <i class="bi bi-gear ms-2"></i>
+                            </a>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#profileModal">
+                                    <i class="bi bi-person"></i> {{ __('Profile') }}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                    <i class="bi bi-box-arrow-right"></i> {{ __('Logout') }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                        data-bs-target="#profileModal">
-                                        <i class="bi bi-person"></i> {{ __('Profile') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
-                                        <i class="bi bi-box-arrow-right"></i> {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
                         @endguest
-                    </ul>
-
-                </div>
-            </div>
-        </nav>
-
+                    </div>
+                </nav>
+                <div class="layer-window"></div>
+            </header>
+        </div>
         <main class="py-4">
             <div class="wrapper">
                 @yield('content')
@@ -163,8 +145,7 @@
                                 <i class="bi bi-pencil-square"></i> Edit Profile
                             </a>
 
-                            <button type="button" class="btn btn-secondary rounded-pill shadow-sm"
-                                data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-secondary rounded-pill shadow-sm" data-bs-dismiss="modal">
                                 <i class="bi bi-x-circle"></i> Close
                             </button>
                         </div>
@@ -188,6 +169,26 @@
     <script>
         $(document).ready(function() {
             $("body").hide().fadeToggle(600);
+            const hamburger = $(".hamburger");
+            const navlink = $(".nav-link");
+            const layerWindow = $(".layer-window");
+
+            hamburger.on("click", function() {
+                hamburger.toggleClass("active");
+                if (hamburger.hasClass("active")) {
+                    layerWindow.css("display", "block");
+                    navlink.css("height", "450px");
+                } else {
+                    layerWindow.css("display", "none");
+                    navlink.css("height", "0px");
+                }
+            });
+
+            layerWindow.on("click", function() {
+                hamburger.removeClass("active");
+                layerWindow.css("display", "none");
+                navlink.css("height", "0px");
+            });
 
         });
     </script>
