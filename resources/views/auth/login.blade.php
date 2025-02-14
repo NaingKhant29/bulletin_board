@@ -67,14 +67,7 @@
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary btn-loginn">
                                     {{ __('Login') }}
-                                </button>  <br> 
-                                @if(Auth::check() && Auth::user()->type == 0) 
-                                @if (Route::has('register'))
-                                    <a class="btn btn-link" href="{{ route('register') }}">
-                                        {{ __('Create Account?') }}
-                                    </a>
-                                @endif
-                            @endif
+                                </button>  <br>                    
                             </div>
                         </div>
                     </form>

@@ -129,8 +129,8 @@ class PostController extends Controller
         $post->update([
             'title' => $request->title,
             'description' => $request->description,
-            'status' => $request->status ? 1 : 0, 
-            'updated_user_id' => $isEdited ? auth()->id() : null, 
+            'status' => $request->status ? 1 : 0,
+            'updated_user_id' => $isEdited ? auth()->id() : null,
             'updated_at' => $isEdited ? now() : $post->updated_at,
         ]);
 
@@ -173,7 +173,7 @@ class PostController extends Controller
         $path = $file->getRealPath();
         $data = array_map('str_getcsv', file($path));
 
-        $header = $data[0]; 
+        $header = $data[0];
         if (count($header) !== 3) {
             return redirect()->back()->with('error', 'The CSV file must have 3 columns: title, description, and status.');
         }
@@ -185,17 +185,17 @@ class PostController extends Controller
             }
 
             $insertData[] = [
-                'title' => $row[0],                 
-                'description' => $row[1],           
-                'status' => (int) $row[2],              
-                'create_user_id' => Auth::id(),         
-                'updated_user_id' => Auth::id(),        
-                'created_at' => now(),                 
-                'updated_at' => now(),                 
+                'title' => $row[0],
+                'description' => $row[1],
+                'status' => (int) $row[2],
+                'create_user_id' => Auth::id(),
+                'updated_user_id' => Auth::id(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
         }
 
- 
+
         if (!empty($insertData)) {
             Post::insert($insertData);
         }
