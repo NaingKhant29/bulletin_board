@@ -67,6 +67,9 @@ class User extends Authenticatable // Keep this extending Authenticatable for au
     {
         $this->notify(new ResetPasswordNotification($token));
     }
-
-    // You can define relationships, accessors, mutators, etc. here if needed
+    public function reactions() {
+        return $this->hasMany(Reaction::class);
+    }
+    
+   
 }

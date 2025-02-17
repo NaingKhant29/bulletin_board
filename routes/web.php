@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\ReactionController;
 
 
 Route::get('/', [PostController::class, 'index']);
@@ -21,6 +22,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile/update/{id}', [UserController::class, 'updateProfile'])->name('profile.update');
     Route::get('/change-password', [UserController::class, 'showChangePasswordForm'])->name('users.pwchange');
     Route::post('/update-password', [UserController::class, 'changePassword'])->name('users.pwupdate');
+    Route::post('/reactions', [ReactionController::class, 'store'])->name('reactions.store');
+    Route::get('/reactions/{post_id}', [ReactionController::class, 'index'])->name('reactions.index');
 });
 
 // Admin-only routes
@@ -32,7 +35,6 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/users/confirm', [UserController::class, 'confirm'])->name('users.confirm');
 
     Route::post('/users', [UserController::class, 'new'])->name('users.new');
-    
 });
 
 
@@ -74,5 +76,6 @@ Route::middleware(['guest'])->group(function () {
     Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::patch('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 });
+
 
 Auth::routes(['reset' => false]);

@@ -32,4 +32,8 @@ class Post extends Model
         $this->status = $this->status === 1 ? 0 : 1;
         $this->save();
     }
+    public function reactions() {
+        return $this->hasMany(Reaction::class);
+    }
+    
 }
