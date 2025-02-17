@@ -17,19 +17,33 @@ class PostController extends Controller
      */
     public function index(Request $request): View
     {
+        // Initialize the query to exclude soft-deleted posts
         $query = Post::query()->whereNull("deleted_at");
-
+    
+        // Apply search filter
         if ($search = $request->input('search')) {
-            $query->where('title', 'LIKE', '%' . $search . '%')
-                ->orWhere('description', 'LIKE', '%' . $search . '%');
+            $query->where(function($query) use ($search) {
+                $query->where('title', 'LIKE', '%' . $search . '%')
+                      ->orWhere('description', 'LIKE', '%' . $search . '%');
+            });
         }
+        if ($createdAt = $request->input('created_at')) {
+            $query->whereDate('created_at', '=', $createdAt);
+        }
+    
+        // Apply additional conditions based on user type
         if (Auth::user() && Auth::user()->type == 0) {
-            $posts = $query->paginate(10);
+            // Admins can view all posts
+            $posts = $query->orderBy('created_at', 'desc')->paginate(10);
         } else {
-            $posts = $query->where('status', 1)->paginate(10);
+            // Regular users can only view active posts
+            $posts = $query->where('status', 1)->orderBy('created_at', 'desc')->paginate(10);
         }
+    
+        // Return the view with paginated posts
         return view('posts.index', compact('posts'));
     }
+    
     /**
      * 
      * @return View
@@ -248,4 +262,44 @@ class PostController extends Controller
             ->header('Content-Type', 'text/csv')
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
+    public function downloadSingle($id)
+{
+    $post = Post::findOrFail($id); // Find the post by its ID
+
+    // Define the CSV header
+    $csvHeader = ['ID', 'Title', 'Description', 'Status', 'Created User ID', 'Updated User ID', 'Deleted User ID', 'Deleted At', 'Created At', 'Updated At'];
+
+    // Add the post data to an array for the CSV
+    $csvData = [
+        $post->id,
+        $post->title,
+        $post->description,
+        $post->status,
+        $post->create_user_id,
+        $post->updated_user_id,
+        $post->deleted_user_id ?? '',
+        $post->deleted_at ?? '',
+        $post->created_at,
+        $post->updated_at,
+    ];
+
+    $filename = "post_{$post->id}_" . date('Y-m-d') . ".csv";
+
+    // Open output stream
+    $handle = fopen('php://output', 'w');
+    ob_start();
+
+    // Add the CSV header and the post data
+    fputcsv($handle, $csvHeader);
+    fputcsv($handle, $csvData);
+
+    fclose($handle);
+
+    $csvOutput = ob_get_clean();
+
+    return response($csvOutput)
+        ->header('Content-Type', 'text/csv')
+        ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+}
+
 }

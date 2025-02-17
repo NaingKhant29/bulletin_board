@@ -61,6 +61,8 @@ Route::get('/posts/upload', function () {
 })->name('posts.upload');
 
 Route::get('posts/download', [PostController::class, 'download'])->name('posts.download');
+Route::get('/posts/{id}/download', [PostController::class, 'downloadSingle'])->name('posts.downloadSingle');
+
 Route::middleware(['guest'])->group(function () {
     Route::get('/forgot-password', function () {
         return view('auth.passwords.email');
