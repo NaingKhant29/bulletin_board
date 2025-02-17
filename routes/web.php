@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ReactionController;
+use App\Http\Controllers\CommentController;
 
 
 Route::get('/', [PostController::class, 'index']);
@@ -24,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-password', [UserController::class, 'changePassword'])->name('users.pwupdate');
     Route::post('/reactions', [ReactionController::class, 'store'])->name('reactions.store');
     Route::get('/reactions/{post_id}', [ReactionController::class, 'index'])->name('reactions.index');
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::get('/comments/{post_id}', [CommentController::class, 'showComments'])->name('comments.show');
 });
 
 // Admin-only routes

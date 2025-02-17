@@ -4,6 +4,10 @@
 .card {
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
+.justify-content-space-between {
+    display: flex !important;
+    justify-content: space-between !important;
+}
 
 .card:hover {
     transform: scale(1.05);
