@@ -2,33 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Post;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CommentController extends Controller
-{
-    public function store(Request $request)
-    {
+class CommentController extends Controller {
+    public function store(Request $request, $postId) {
         $request->validate([
-            'post_id' => 'required|exists:posts,id',
-            'content' => 'required|string|max:255',
+            'content' => 'required|string|max:500',
         ]);
 
-        $comment = Comment::create([
-            'post_id' => $request->post_id,
-            'user_id' => Auth::id(),
+        Comment::create([
             'content' => $request->content,
+            'post_id' => $postId,
+            'user_id' => Auth::id(),
         ]);
 
-        return response()->json(['success' => true, 'comment' => $comment]);
+        return redirect()->back()->with('success', 'Comment added successfully!');
     }
 
-    public function showComments($post_id)
-    {
-        $post = Post::with('comments.user')->findOrFail($post_id);
-        return response()->json($post->comments);
+    public function destroy($id) {
+        $comment = Comment::findOrFail($id);
+
+        if (Auth::id() !== $comment->user_id) {
+            return redirect()->back()->with('error', 'Unauthorized action.');
+        }
+
+        $comment->delete();
+        return redirect()->back()->with('success', 'Comment deleted successfully!');
     }
 }
-

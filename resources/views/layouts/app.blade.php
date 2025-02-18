@@ -43,47 +43,49 @@
                         <span class="bar"></span>
                         <span class="bar"></span>
                     </div>
-                    <div class="nav-link ">
-                        <a href="{{ route('users.dexin') }}"><i class="bi bi-people"></i>
-                            Users
+                    <div class="nav-link">
+                        <a href="{{ route('users.dexin') }}">
+                            <i class="bi bi-people"></i> Users
                         </a>
-                        <a href="{{ url('/posts') }}"><i class="bi bi-card-list"></i>
-                            Posts
+                        <a href="{{ url('/posts') }}">
+                            <i class="bi bi-card-list"></i> Posts
                         </a>
+                        
                         @if (Auth::check() && Auth::user()->type == 0)
                             <a href="{{ route('users.show') }}">
                                 <i class="bi bi-plus-circle"></i> Create User
                             </a>
                         @endif
+                    
                         @guest
                             @if (Route::has('login'))
-                                <a href="{{ route('login') }}"><i class="bi bi-person-circle"> </i>{{ __('Login') }}</a>
+                                <a href="{{ route('login') }}">
+                                    <i class="bi bi-person-circle"></i> {{ __('Login') }}
+                                </a>
                             @endif
                         @else
-                            <a id="navbarDropdown"
-                                class="co dropdown-toggle d-flex align-items-center justify-content-center" href="#"
-                                role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a id="navbarDropdown" class="dropdown-toggle d-flex align-items-center justify-content-center" href="#"
+                               role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
                                 <i class="bi bi-gear ms-2"></i>
                             </a>
-
+                    
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                    data-bs-target="#profileModal">
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">
                                     <i class="bi bi-person"></i> {{ __('Profile') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i class="bi bi-box-arrow-right"></i> {{ __('Logout') }}
                                 </a>
-
+                    
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
                             </div>
                         @endguest
                     </div>
+                    
                 </nav>
                 <div class="layer-window"></div>
             </header>

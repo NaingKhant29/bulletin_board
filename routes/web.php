@@ -25,8 +25,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-password', [UserController::class, 'changePassword'])->name('users.pwupdate');
     Route::post('/reactions', [ReactionController::class, 'store'])->name('reactions.store');
     Route::get('/reactions/{post_id}', [ReactionController::class, 'index'])->name('reactions.index');
-    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::get('/comments/{post_id}', [CommentController::class, 'showComments'])->name('comments.show');
+
+    Route::post('/posts/{post}/comment', [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
 // Admin-only routes

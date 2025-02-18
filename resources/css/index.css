@@ -32,14 +32,7 @@
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
+
 
 .modal.fade .modal-dialog {
     animation: fadeIn 0.5s ease-out;
@@ -95,10 +88,9 @@ form {
 
 /* Custom styles for the search form */
 .search-form {
-    background-color: cyan; /* White background for contrast */
+    background-color:#f8f9fa; /* White background for contrast */
     padding: 15px 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: -20px;
     z-index: 10;
 }
@@ -191,3 +183,6 @@ form {
     }
 }
 
+#content {
+    background-color:#f7f6f2;
+}
