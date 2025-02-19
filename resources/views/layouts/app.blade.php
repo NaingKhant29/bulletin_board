@@ -23,7 +23,6 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @vite(['resources/css/app.css'])
-    @vite(['resources/css/login.css'])
     @vite(['resources/css/dexin.css'])
     @vite(['resources/css/confirm.css'])
     @vite(['resources/css/upload.css'])

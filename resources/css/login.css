@@ -1,10 +1,8 @@
 .card-header{
-    background-color: #198754 !important;
-    color: #fff !important;
+    color: #252222 !important;
 }
 .btn-primary{
     width: 75%;
-    background-color: #198754 !important;
     padding: 6px;
 }
 .btn-link{
@@ -14,4 +12,25 @@
     margin-left: 28%;
     padding: 8px;
     width: 15vw !important;
+}
+.card {
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+}
+.card {
+    width: 500px; /* Adjust width as needed */
+    height: 500px; /* Greater than width */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.col-12 {
+    width: 0;
+}
+
+.py-4 {
+    background-color: #ff7575;
 }

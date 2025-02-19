@@ -51,12 +51,12 @@ Route::get('/posts/more', function () {
 });
 
 
-Route::get('/posts/confirm', [PostController::class, 'confirm'])->name('posts.confirm');
+Route::post('/posts/confirm', [PostController::class, 'confirm'])->name('posts.confirm');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 
 
 
-Route::post('/posts/confirmedit/{id}', [PostController::class, 'confirmedit'])->name('posts.confirmedit');
+Route::get('/posts/confirmedit/{id}', [PostController::class, 'confirmedit'])->name('posts.confirmedit');
 
 Route::put('/posts/update/{id}', [PostController::class, 'update'])->name('posts.update');
 

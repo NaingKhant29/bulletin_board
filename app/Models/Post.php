@@ -14,6 +14,7 @@ class Post extends Model
         'title',
         'description',
         'status',
+        'category_id',
         'create_user_id',
         'updated_user_id',
         'deleted_user_id',
@@ -39,5 +40,10 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
     
-    
+    // In Post.php model
+public function category()
+{
+    return $this->belongsTo(Category::class);
+}
+
 }

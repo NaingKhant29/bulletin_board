@@ -15,18 +15,25 @@
                 <label for="description" class="form-label des">Description</label>
                 <p class="form-control txt-lft">{{ $description }}</p>
             </div>
+            <div class="mb-3 create-post container-form-post">
+                <label for="category" class="form-label">Category</label>
+                <p class="form-control txt-lft">{{ $category->name }}</p>
+            </div>
+
 
             <!-- Form to confirm the creation of the post -->
             <form action="{{ route('posts.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="title" value="{{ $title }}">
-                <input type="hidden" name="description" value="{{ $description }}" class="des">
+                <input type="hidden" name="description" value="{{ $description }}">
+                <input type="hidden" name="category_id" value="{{ $category_id }}">
 
                 <div class="btn-create-clear container-form-post">
                     <button type="submit" class="btn btn-success container-form-post">Confirm</button>
                     <a href="{{ route('posts.create') }}" class="btn btn-info container-form-post">Cancel</a>
                 </div>
             </form>
+
         </div>
     </div>
 @endsection

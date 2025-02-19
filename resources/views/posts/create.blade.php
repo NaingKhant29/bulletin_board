@@ -23,17 +23,31 @@
                 </div>
             @endif
 
-            <!-- Change form method to GET and pass data to the confirm page -->
-            <form action="{{ route('posts.confirm') }}" method="GET" class=" create-post-title">
+            <!-- Change form method to POST and pass data to the confirm page -->
+            <form action="{{ route('posts.confirm') }}" method="POST" class="create-post-title">
                 @csrf
                 <div class="mb-3 create-post container-form-post">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}">
                 </div>
+                
                 <div class="mb-3 create-post container-form-post">
-                    <label for="description" class="form-label  des">Description</label>
-                    <textarea name="description" id="description" class="form-control  des">{{ old('description') }}</textarea>
+                    <label for="description" class="form-label des">Description</label>
+                    <textarea name="description" id="description" class="form-control des">{{ old('description') }}</textarea>
                 </div>
+
+                <div class="mb-3 create-post container-form-post">
+                    <label for="category_id" class="form-label des">Category</label>
+                    <select name="category_id" id="category_id" class="form-control des" required>
+                        <option value="" disabled selected>Select a Category</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="btn-create-clear container-form-post">
                     <!-- Submit button to move to confirm page -->
                     <button type="submit" class="btn btn-success container-form-post">Create</button>
@@ -44,13 +58,11 @@
         </div>
     </div>
 
-
     <script>
         function clearForm() {
-            $('#title').val('');
-            $('#description').val('');
+            document.getElementById('title').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('category_id').selectedIndex = 0; // Reset category dropdown
         }
     </script>
-
-
 @endsection
