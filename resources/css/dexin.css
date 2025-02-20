@@ -1,15 +1,16 @@
-.user{
-    border: 1px solid #7f7f7f;
-    border-radius: 5px;
-}
-.user-header{
-    background-color: #198754;
-    color:#fff;
-    padding: 10px;
+.user-card {
+ 
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
 }
 th{
-    background-color:#5f9ea0 !important;
-    color: #fff !important;
+    background-color:#f0f1f2 !important;
+    color: #323653  !important;
 }
 
 .label{

@@ -166,7 +166,6 @@ class UserController extends Controller
             $user->address !== $request->input('address') ||
             $request->hasFile('profile');  // Check for profile image change
 
-        // Update user fields
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');

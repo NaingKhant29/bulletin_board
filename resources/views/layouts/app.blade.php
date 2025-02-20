@@ -115,7 +115,7 @@
                             </div>
 
                             <!-- Profile Details -->
-                            <div class="card shadow-sm p-4">
+                            <div class="card-one shadow-sm p-4">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
                                         <strong>Name:</strong> {{ Auth::user()->name }}

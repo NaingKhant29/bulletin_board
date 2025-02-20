@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container">
-        <div class="user">
-            <h3 class="user-header">User List</h3>
+        <div class="user-card">
+
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -13,16 +13,20 @@
             <!-- Search Form -->
             <form method="GET" action="{{ route('users.dexin') }}" class="mb-3">
                 <div class="row container-form">
+                    <select name="type">
+                        <option value="all">All Types</option>
+                        <option value="0">Admin</option>
+                        <option value="1">User</option>
+                        <!-- other types -->
+                    </select>
                     <!-- Name Search -->
                     <div class="col-md-3  label">
-                        <label for="name">Name:</label>
-                        <input type="text" class="form-control" name="name" value="{{ request('name') }}">
+                        <input type="text" class="form-control" name="name" placeholder="Search by name" value="{{ request('name') }}">
                     </div>
 
                     <!-- Email Search -->
-                    <div class="col-md-3 label">
-                        <label for="email">Email:</label>
-                        <input type="text" class="form-control" name="email" value="{{ request('email') }}">
+                    <div class="col-md-3 label"> 
+                        <input type="text" class="form-control" name="email" placeholder="Search by email" value="{{ request('email') }}">
                     </div>
 
                     <!-- DOB From -->

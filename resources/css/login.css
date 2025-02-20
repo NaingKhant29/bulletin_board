@@ -1,36 +1,100 @@
+@font-face {
+    font-family: 'Righteous';
+    src: url('/fonts/Righteous-Regular.ttf') format('truetype');
+}
+body {
+    font-family: 'Righteous', sans-serif;
+    background-color: #ffffffa6;
+}
+.margin-lft {
+    margin-left: 46%;
+    margin-bottom: 5%;
+}
+.btn-link:hover {
+    background-color: none;
+}
+.fgt-pass {
+    text-decoration: none;
+}
+.fgt-pass:hover {
+    color: #d70909;
+}
+
 .card-header{
     color: #252222 !important;
+    background-color: #bde3ff;
+    border-bottom: none;
+    width: 100%;
+    padding: 20px;
+    border-bottom: 1px solid #670edc6f; /* Border bottom */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
 }
 .btn-primary{
     width: 75%;
-    padding: 6px;
+
 }
 .btn-link{
     text-decoration: none;
 }
 .btn-loginn {
-    margin-left: 28%;
-    padding: 8px;
-    width: 15vw !important;
+    width: 10vw !important;
 }
-.card {
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+.btn-loginn:hover {
+    background-color: #99d7099e;
 }
+
+hr {
+    width: 80%;
+}
+
 .card {
-    width: 500px; /* Adjust width as needed */
-    height: 500px; /* Greater than width */
-    padding: 20px;
+    width: 500px; 
+    height: 400px; 
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-right: 20px;
+}
+.login-image {
+    width: 50%; /* Adjust size as needed */
+    height: auto;
+    margin-top: 5%;
 }
 .col-12 {
     width: 0;
 }
 
-.py-4 {
-    background-color: #ff7575;
+
+.col-md-4 {
+    width: 30%;
+}
+.col-md-6 {
+    width: 60%;
+}
+#email, #password {
+    width: 100%;;
+}
+
+.bg-login {
+    position: relative;
+}
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.col-md-8 {
+    margin-top: 15%;
+    width: 33%;
+}
+.form {
+    margin-top: 20px;
+}
+.offset-md-4 {
+    margin-top: 0px !important;
+    width: 58% !important;
 }

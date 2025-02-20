@@ -28,6 +28,7 @@ html {
     position: relative;
     
   }
+
   .nav-link > a::after {
     content: '';
     position: absolute;
@@ -42,7 +43,7 @@ html {
   .nav-link > a:hover::after {
     width: 100%;                                
   }                                                                                                                                                   
-  a:hover:not(.navbar-brand){
+  .nav-link > a:hover:not(.navbar-brand){
     background-color: lightblue;
     border-radius: 8px;
     font-weight: bold;

@@ -46,12 +46,12 @@
                                 @endforeach
                             </select>
                         </div>
-                    
-                    <!-- Search Input -->
-<input type="text" name="search" class="form-control border border-secondary rounded-0"
-placeholder="Search by keyword" value="{{ request('search') }}" style="width: 30vw;">
 
-                    
+                        <!-- Search Input -->
+                        <input type="text" name="search" class="form-control border border-secondary rounded-0"
+                            placeholder="Search by keyword" value="{{ request('search') }}" style="width: 30vw;">
+
+
                         <!-- Search Button -->
                         <button type="submit" class="btn btn-secondary border border-secondary rounded-0">
                             <i class="bi bi-search"></i>
@@ -120,7 +120,8 @@ placeholder="Search by keyword" value="{{ request('search') }}" style="width: 30
                             <p class="text-dark">{{ $post->description }}</p>
                         </div>
 
-                        <div class="card-footer bg-transparent border-success p-3" style="background-color:#f0f1f2!important; ">
+                        <div class="card-footer bg-transparent border-success p-3"
+                            style="background-color:#f0f1f2!important; ">
                             <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
                                 <div class="d-flex justify-content-between mt-2" style="width: 100%; align-items: center;">
                                     <div class="m-0 text-light"
