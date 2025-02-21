@@ -25,7 +25,7 @@
             @endif
 
             <!-- Change form method to POST and pass data to the confirm page -->
-            <form action="{{ route('posts.confirm') }}" method="POST" class="create-post-title">
+            <form action="{{ route('posts.confirm') }}" method="POST" style="padding: 40px;">
                 @csrf
                 <div class="row mb-3">
                     <label for="title" class="col-md-4 col-form-label text-md-end">{{ __('Title') }}</label>

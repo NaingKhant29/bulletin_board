@@ -10,19 +10,21 @@
             <h4 class="card-header">Confirm Edit</h4>
 
             <!-- Display current and edited data -->
-            <div class="mb-3  create-post container-form-post top">
-                <label for="title" class="form-label">Title</label>
+            <div class="row mb-3">
+                <label for="title" class="col-md-4 col-form-label text-md-end">Title</label>
+                <div class="col-md-6">
                 <p class="text-align-lft">{{ $title }}</p> <!-- Display the title passed from the controller -->
+                </div>
             </div>
 
-            <div class="mb-3  create-post container-form-post">
-                <label for="description" class="form-label">Description</label>
+            <div class="row mb-3">
+                <label for="description" class="col-md-4 col-form-label text-md-end">Description</label>
                 <p class="text-align-lft">{{ $description }}</p>
                 <!-- Display the description passed from the controller -->
             </div>
 
-            <div class="mb-3  create-post container-form-post">
-                <label for="description" class="form-label">Category</label>
+            <div class="row mb-3">
+                <label for="description" class="col-md-4 col-form-label text-md-end">Category</label>
                 <p class="text-align-lft">{{ $category }}</p>
                 <!-- Display the description passed from the controller -->
             </div>
@@ -45,8 +47,8 @@
                     <!-- Hidden input for category_id -->
                     <input type="hidden" name="category_id" value="{{ $category_id }}">
                 
-                    <div class="mb-3 create-post container-form-post">
-                        <label for="status" class="form-label">Status</label>
+                    <div class="row mb-3">
+                        <label for="status" class="col-md-4 col-form-label text-md-end">Status</label>
                         <div class="form-check text-align-lft">
                             <input type="checkbox" class="form-check-input" id="status"
                                 {{ $status == 1 ? 'checked' : '' }} disabled>
@@ -58,7 +60,7 @@
                     </div>
                 
                     <div class="btn-create-clear container-form-post">
-                        <button type="submit" class="btn btn-success">Confirm</button>
+                        <button type="submit" class="btn btn-success ">Confirm</button>
                         <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-secondary">Cancel</a>
                     </div>
                 </form>

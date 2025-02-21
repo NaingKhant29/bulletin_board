@@ -24,7 +24,7 @@
             @endif
 
             <!-- Form to edit the post -->
-            <form action="{{ route('posts.confirmedit', $post->id) }}" method="GET">
+            <form action="{{ route('posts.confirmedit', $post->id) }}" method="GET" style="padding: 40px">
                 @csrf
                 <div class="row mb-3">
                     <label for="title" class="col-md-4 col-form-label text-md-end">Title</label>
