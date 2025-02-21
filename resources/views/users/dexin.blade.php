@@ -11,42 +11,41 @@
             @endif
 
             <!-- Search Form -->
-            <form method="GET" action="{{ route('users.dexin') }}" class="mb-3">
-                <div class="row container-form">
-                    <select name="type">
-                        <option value="all">All Types</option>
-                        <option value="0">Admin</option>
-                        <option value="1">User</option>
-                        <!-- other types -->
-                    </select>
-                    <!-- Name Search -->
-                    <div class="col-md-3  label">
-                        <input type="text" class="form-control" name="name" placeholder="Search by name" value="{{ request('name') }}">
-                    </div>
+         <form method="GET" action="{{ route('users.dexin') }}" class="mb-3">
+    <div class="row container-form">
+        <!-- DOB From -->
+        <div class="col-md-2 label wd">
+            <label for="dob_from">From:</label>
+            <input type="date" class="form-control" name="dob_from" value="{{ request('dob_from') }}">
+        </div>
+        <!-- DOB To -->
+        <div class="col-md-2 label wd">
+            <label for="dob_to">To: </label>
+            <input type="date" class="form-control" name="dob_to" value="{{ request('dob_to') }}">
+        </div>
+        <div class="d-flex col-md-2 label wk p-2">
+            <!-- Dropdown Filter -->
+            <select name="type" class="form-select border" style="width: 43%; border-radius: 8px;" id="type" onchange="this.form.submit()">
+                <option value="all" {{ $type == 'all' ? 'selected' : '' }}>All</option>
+                <option value="0" {{ $type == '0' ? 'selected' : '' }}>Admin</option>
+                <option value="1" {{ $type == '1' ? 'selected' : '' }}>User</option>
+            </select>
 
-                    <!-- Email Search -->
-                    <div class="col-md-3 label"> 
-                        <input type="text" class="form-control" name="email" placeholder="Search by email" value="{{ request('email') }}">
-                    </div>
+            <!-- Search Input -->
+            <input type="text" class="form-control border" name="name" placeholder="Search" value="{{ request('name') }}" style="width: 100%; border-radius: 8px;">
+        </div>
 
-                    <!-- DOB From -->
-                    <div class="col-md-2 label">
-                        <label for="dob_from">From:</label>
-                        <input type="date" class="form-control" name="dob_from" value="{{ request('dob_from') }}">
-                    </div>
+        <!-- Email Search -->
+        <div class="col-md-2 label wd">
+            <input type="text" class="form-control" name="email" placeholder="Search by email" value="{{ request('email') }}">
+        </div>
+        <!-- Submit Button -->
+        <div class="col-md-2 d-flex align-items-end ws">
+            <button type="submit" class="btn btn-primary search-btn">Search</button>
+        </div>
+    </div>
+</form>
 
-                    <!-- DOB To -->
-                    <div class="col-md-2 label">
-                        <label for="dob_to">To: </label>
-                        <input type="date" class="form-control" name="dob_to" value="{{ request('dob_to') }}">
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary search-btn">Search</button>
-                    </div>
-                </div>
-            </form>
 
             <table class="table">
                 <thead>
@@ -187,4 +186,8 @@
             </div>
         </div>
     </div>
+    <script>
+     
+
+    </script>
 @endsection

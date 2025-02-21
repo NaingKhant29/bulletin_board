@@ -6,8 +6,8 @@
 
 @section('content')
     <div class="container">
-        <div class="user">
-            <h4 class="user-header">Confirm Edit</h4>
+        <div class="card">
+            <h4 class="card-header">Confirm Edit</h4>
 
             <!-- Display current and edited data -->
             <div class="mb-3  create-post container-form-post top">

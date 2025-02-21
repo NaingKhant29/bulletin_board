@@ -1,5 +1,7 @@
+td {
+    color:#323653dd !important;
+}
 .user-card {
- 
     border-radius: 10px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
     display: flex;
@@ -7,6 +9,18 @@
     justify-content: center;
     align-items: center;
     margin-right: 20px;
+}
+.wd {
+    width: 20% !important;
+}
+.wk {
+    width: 31% !important;
+}
+.ws {
+    width: 8%;
+}
+.form-control {
+    width: 100% !important;
 }
 th{
     background-color:#f0f1f2 !important;
@@ -28,7 +42,7 @@ th{
     align-self: center;
 }
 .row {
-    justify-content: flex-end;
+    justify-content: flex-center;
     margin-left: 0;
     margin-right: 0;
 }
@@ -117,7 +131,10 @@ th{
 }
 .text-decoration-none {
     text-decoration: none;
-    color : black;
+    color:#323653dd !important;
+}
+.text-decoration-none:hover {
+    color : rgba(255, 119, 0, 0.888) !important;
 }
 .post-search {
     width: 75% !important;

@@ -13,17 +13,24 @@ class ReactionController extends Controller {
             'post_id' => 'required|exists:posts,id',
             'type' => 'required|string',
         ]);
-
+    
+        // Create or update the reaction
         $reaction = Reaction::updateOrCreate(
             ['user_id' => Auth::id(), 'post_id' => $request->post_id],
             ['type' => $request->type]
         );
-
-        return response()->json(['success' => true, 'reaction' => $reaction]);
+    
+        // Fetch the updated reaction counts for the post
+        $likeCount = Reaction::where('post_id', $request->post_id)->where('type', 'like')->count();
+        $loveCount = Reaction::where('post_id', $request->post_id)->where('type', 'love')->count();
+        $hahaCount = Reaction::where('post_id', $request->post_id)->where('type', 'haha')->count();
+    
+        return response()->json([
+            'success' => true,
+            'likeCount' => $likeCount,
+            'loveCount' => $loveCount,
+            'hahaCount' => $hahaCount
+        ]);
     }
-
-    public function index($post_id) {
-        $post = Post::with('reactions.user')->findOrFail($post_id);
-        return response()->json($post->reactions);
-    }
+    
 }

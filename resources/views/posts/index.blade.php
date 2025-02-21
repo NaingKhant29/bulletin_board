@@ -36,7 +36,7 @@
                     <div class="d-flex align-items-center" style="width: 50%">
                         <!-- Category Dropdown -->
                         <div class="flex-shrink-0" style="width: 20%;">
-                            <select name="category_id" class="form-select border border-secondary rounded-0">
+                            <select name="category_id" id="myselect" class="form-select border border-secondary rounded-0">
                                 <option value="">All</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
@@ -46,6 +46,7 @@
                                 @endforeach
                             </select>
                         </div>
+
 
                         <!-- Search Input -->
                         <input type="text" name="search" class="form-control border border-secondary rounded-0"
@@ -74,253 +75,258 @@
                 </div>
             </form>
 
+            <div class="posts-container">
+                <div class="row justify-content-start">
+                    @forelse ($posts as $index => $post)
+                        @if ($index % 3 == 0 && $index != 0)
+                </div> <!-- Close previous row after 3 cards -->
+                <div class="row justify-content-start"> <!-- Start a new row -->
+                    @endif
 
-            <div class="row justify-content-start">
-                @forelse ($posts as $index => $post)
-                    @if ($index % 3 == 0 && $index != 0)
-            </div> <!-- Close previous row after 3 cards -->
-            <div class="row justify-content-start"> <!-- Start a new row -->
-                @endif
-
-                <!-- Card -->
-                <div class="col-md-4 mb-3">
-                    <div class="card text-white bg-light mb-3">
-                        <div class="card-header d-flex justify-content-between align-items-center "
-                            style="background-color:#f0f1f2!important; ">
-                            <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal"
-                                data-bs-target="#postDetailModal{{ $post->id }}" style="width: 50%;">
-                                {{ $post->title }}
-                            </a>
-                            <p class="m-0 text-light" style="font-size: 0.7rem; width: 35%; text-align: right;">
-                                <i class="bi bi-calendar"></i> {{ $post->created_at->diffForHumans() }}
-                            </p>
-                            @if (Auth::check())
-                                <div class="dropdown">
-                                    <button class="btn btn-link btn-sm" type="button"
-                                        id="dropdownMenuButton{{ $post->id }}" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class="bi bi-three-dots-vertical fs-4 three-dots"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end pos-dd"
-                                        aria-labelledby="dropdownMenuButton{{ $post->id }}">
-                                        <li><a class="dropdown-item" href="{{ route('posts.edit', $post->id) }}"> <i
-                                                    class="bi bi-pencil me-2"></i> Edit</a></li>
-                                        <li><a class="dropdown-item"
-                                                href="{{ route('posts.downloadSingle', $post->id) }}"><i
-                                                    class="bi bi-download"></i> Download</a></li>
-                                        <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal{{ $post->id }}"><i
-                                                    class="bi bi-trash"></i> Delete</a></li>
-                                    </ul>
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="card-body" style="background-color: none !important;">
-                            <p class="text-dark">{{ $post->description }}</p>
-                        </div>
-
-                        <div class="card-footer bg-transparent border-success p-3"
-                            style="background-color:#f0f1f2!important; ">
-                            <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
-                                <div class="d-flex justify-content-between mt-2" style="width: 100%; align-items: center;">
-                                    <div class="m-0 text-light"
-                                        style="font-size: 0.8rem; display: flex; align-items: center; width: 100%;">
-                                        <img src="{{ optional($post->user)->profile ? asset('storage/' . $post->user->profile) : 'https://via.placeholder.com/40' }}"
-                                            alt="Profile" class="rounded-circle me-2" width="25" height="25"
-                                            style="object-fit: cover;">
-                                        <span class="username"
-                                            style="white-space: nowrap; color: #323653; overflow: hidden; text-overflow: ellipsis;">
-                                            {{ optional($post->user)->name ?? 'Unknown' }}
-                                        </span>
-                                    </div>
-
-                                    <div class="d-flex reaction-container">
-                                        <!-- Reaction Buttons -->
-                                        <button class="btn btn-outline-primary reaction-btn me-2"
-                                            style="font-size: 1rem; padding: 0.3rem 0.6rem;"
-                                            data-post-id="{{ $post->id }}" data-type="like">
-                                            👍
-                                            <span class="reaction-count" id="like-count-{{ $post->id }}">
-                                                {{ $post->reactions->where('type', 'like')->count() }}
-                                            </span>
-                                        </button>
-                                        <button class="btn btn-outline-danger reaction-btn me-2"
-                                            style="font-size: 1rem; padding: 0.3rem 0.6rem;"
-                                            data-post-id="{{ $post->id }}" data-type="love">
-                                            ❤️
-                                            <span class="reaction-count" id="love-count-{{ $post->id }}">
-                                                {{ $post->reactions->where('type', 'love')->count() }}
-                                            </span>
-                                        </button>
-                                        <button class="btn btn-outline-warning reaction-btn me-2"
-                                            style="font-size: 1rem; padding: 0.3rem 0.6rem;"
-                                            data-post-id="{{ $post->id }}" data-type="haha">
-                                            😂
-                                            <span class="reaction-count" id="haha-count-{{ $post->id }}">
-                                                {{ $post->reactions->where('type', 'haha')->count() }}
-                                            </span>
-                                        </button>
-                                        <button class="btn btn-outline-info reaction-btn me-2"
-                                            style="font-size: 1rem; padding: 0.3rem 0.6rem;" data-bs-toggle="modal"
-                                            data-bs-target="#commentModal{{ $post->id }}"
-                                            data-post-id="{{ $post->id }}">
-                                            💬
-                                            <span class="reaction-count" id="comment-count-{{ $post->id }}">
-                                                {{ $post->comments->count() }}
-                                            </span>
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="modal fade" id="commentModal{{ $post->id }}" tabindex="-1"
-                    aria-labelledby="commentModalLabel{{ $post->id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="commentModalLabel{{ $post->id }}">Comments</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-
-                                <!-- Comments List (Now at the Top) -->
-                                <div class="comments-section mb-3">
-                                    <h6 class="mb-3">Previous Comments</h6>
-                                    <ul class="list-group" id="commentList{{ $post->id }}"
-                                        style="max-height: 300px; overflow-y: auto;">
-                                        @if ($post->comments->count() > 0)
-                                            @foreach ($post->comments as $comment)
-                                                <li class="list-group-item d-flex align-items-center">
-                                                    <!-- Profile Image -->
-                                                    <img src="{{ $comment->user->profile ? asset('storage/' . $comment->user->profile) : 'https://via.placeholder.com/40' }}"
-                                                        alt="Profile" class="rounded-circle me-2" width="40"
-                                                        height="40" style="object-fit: cover;">
-
-                                                    <div class="flex-grow-1">
-                                                        <strong>{{ $comment->user->name }}:</strong>
-                                                        {{ $comment->content }}
-                                                        <br>
-                                                        <small
-                                                            class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
-                                                    </div>
-
-                                                    @if (Auth::id() === $comment->user_id)
-                                                        <form action="{{ route('comments.destroy', $comment->id) }}"
-                                                            method="POST" class="d-inline" style="box-shadow: none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn">🗑</button>
-                                                        </form>
-                                                    @endif
-                                                </li>
-                                            @endforeach
-                                        @else
-                                            <li class="list-group-item text-muted text-center">No comments yet. Be the
-                                                first to comment!</li>
-                                        @endif
-                                    </ul>
-                                </div>
-
-                                <!-- Divider -->
-                                <hr class="my-3">
-
-                                <form id="commentForm{{ $post->id }}"
-                                    action="{{ route('comments.store', $post->id) }}" method="POST"
-                                    class="d-flex align-items-center">
-                                    @csrf
-
-                                    <!-- Profile Image -->
-                                    <img src="{{ Auth::check() && Auth::user()->profile ? asset('storage/' . Auth::user()->profile) : 'https://static.vecteezy.com/system/resources/previews/045/711/150/non_2x/male-default-placeholder-avatar-profile-gray-picture-isolated-on-background-man-silhouette-with-beard-picture-for-social-media-forum-dating-site-chat-operator-free-vector.jpg' }}"
-                                        alt="Profile" class="rounded-circle me-2" width="40" height="40"
-                                        style="object-fit: cover;">
-
-                                    <!-- Comment Input -->
-                                    <input type="text" name="content" class="form-control me-2"
-                                        placeholder="Write your comment..." required>
-
-                                    <!-- Submit Button -->
-                                    <button type="submit" class="btn btn-primary">💬</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Delete Confirmation Modal -->
-                <div class="modal fade" id="deleteModal{{ $post->id }}" tabindex="-1"
-                    aria-labelledby="deleteModalLabel{{ $post->id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel{{ $post->id }}">Delete Confirm
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Are you sure you want to delete this post?</p>
-                                <p><strong>ID:</strong> {{ $post->id }}</p>
-                                <p><strong>Title:</strong> {{ $post->title }}</p>
-                                <p><strong>Description:</strong> {{ $post->description }}</p>
-                                <p><strong>Status:</strong> {{ $post->status == 1 ? 'Active' : 'Inactive' }}</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <form id="deleteForm{{ $post->id }}"
-                                    action="{{ route('posts.destroy', $post->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Post Detail Modal -->
-                <div class="modal fade" id="postDetailModal{{ $post->id }}" tabindex="-1"
-                    aria-labelledby="postDetailModalLabel{{ $post->id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="postDetailModalLabel{{ $post->id }}">
+                    <!-- Card -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card text-white bg-light mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center "
+                                style="background-color:#f0f1f2!important; ">
+                                <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal"
+                                    data-bs-target="#postDetailModal{{ $post->id }}" style="width: 50%;">
                                     {{ $post->title }}
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                </a>
+                                <p class="m-0 text-light" style="font-size: 0.7rem; color: #323653 !important; width: 35%; text-align: right;">
+                                    <i class="bi bi-calendar"></i> {{ $post->created_at->diffForHumans() }}
+                                </p>
+                                @if (Auth::check())
+                                    <div class="dropdown">
+                                        <button class="btn btn-link btn-sm" type="button"
+                                            id="dropdownMenuButton{{ $post->id }}" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <i class="bi bi-three-dots-vertical fs-4 three-dots"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end pos-dd"
+                                            aria-labelledby="dropdownMenuButton{{ $post->id }}">
+                                            <li><a class="dropdown-item" href="{{ route('posts.edit', $post->id) }}"> <i
+                                                        class="bi bi-pencil me-2"></i> Edit</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('posts.downloadSingle', $post->id) }}"><i
+                                                        class="bi bi-download"></i> Download</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $post->id }}"><i
+                                                        class="bi bi-trash"></i> Delete</a></li>
+                                        </ul>
+                                    </div>
+                                @endif
                             </div>
-                            <div class="modal-body">
-                                <p><strong>Description:</strong> {{ $post->description }}</p>
-                                <p><strong>Status:</strong> {{ $post->status == 1 ? 'Active' : 'Inactive' }}</p>
-                                <p><strong>Created Date:</strong> {{ $post->created_at->format('Y-m-d H:i:s') }}</p>
-                                <p><strong>Created By:</strong> {{ $post->user->name ?? 'Unknown' }}</p>
-                                <p><strong>Updated Date:</strong> {{ $post->updated_at->format('Y-m-d') }}</p>
-                                <p><strong>Updated By:</strong> {{ $post->updated_user->name ?? 'Unknown' }}</p>
 
-                                <!-- Category Display -->
-                                <p><strong>Category:</strong> {{ $post->category->name ?? 'No Category' }}</p>
+                            <div class="card-body" style="background-color: none !important;">
+                                <p class="text-dark">{{ $post->description }}</p>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                            <div class="card-footer bg-transparent border-success p-3"
+                                style="background-color:#f0f1f2!important; ">
+                                <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                                    <div class="d-flex justify-content-between mt-2"
+                                        style="width: 100%; align-items: center;">
+                                        <div class="m-0 text-light"
+                                            style="font-size: 0.8rem; display: flex; align-items: center; width: 100%;">
+                                            <img src="{{ optional($post->user)->profile ? asset('storage/' . $post->user->profile) : 'https://via.placeholder.com/40' }}"
+                                                alt="Profile" class="rounded-circle me-2" width="25" height="25"
+                                                style="object-fit: cover;">
+                                            <span class="username"
+                                                style="white-space: nowrap; color: #323653; overflow: hidden; text-overflow: ellipsis;">
+                                                {{ optional($post->user)->name ?? 'Unknown' }}
+                                            </span>
+                                        </div>
+
+                                        <div class="d-flex reaction-container">
+                                            <!-- Reaction Buttons -->
+                                            <button class="btn btn-outline-primary reaction-btn me-2"
+                                                style="font-size: 1rem; padding: 0.3rem 0.6rem;"
+                                                data-post-id="{{ $post->id }}" data-type="like">
+                                                👍
+                                                <span class="reaction-count" id="like-count-{{ $post->id }}">
+                                                    {{ $post->reactions->where('type', 'like')->count() }}
+                                                </span>
+                                            </button>
+                                            <button class="btn btn-outline-danger reaction-btn me-2"
+                                                style="font-size: 1rem; padding: 0.3rem 0.6rem;"
+                                                data-post-id="{{ $post->id }}" data-type="love">
+                                                ❤️
+                                                <span class="reaction-count" id="love-count-{{ $post->id }}">
+                                                    {{ $post->reactions->where('type', 'love')->count() }}
+                                                </span>
+                                            </button>
+                                            <button class="btn btn-outline-warning reaction-btn me-2"
+                                                style="font-size: 1rem; padding: 0.3rem 0.6rem;"
+                                                data-post-id="{{ $post->id }}" data-type="haha">
+                                                😂
+                                                <span class="reaction-count" id="haha-count-{{ $post->id }}">
+                                                    {{ $post->reactions->where('type', 'haha')->count() }}
+                                                </span>
+                                            </button>
+                                            <button class="btn btn-outline-info reaction-btn me-2"
+                                                style="font-size: 1rem; padding: 0.3rem 0.6rem;" data-bs-toggle="modal"
+                                                data-bs-target="#commentModal{{ $post->id }}"
+                                                data-post-id="{{ $post->id }}">
+                                                💬
+                                                <span class="reaction-count" id="comment-count-{{ $post->id }}">
+                                                    {{ $post->comments->count() }}
+                                                </span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal fade" id="commentModal{{ $post->id }}" tabindex="-1"
+                        aria-labelledby="commentModalLabel{{ $post->id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="commentModalLabel{{ $post->id }}">Comments</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <!-- Comments List (Now at the Top) -->
+                                    <div class="comments-section mb-3">
+                                        <h6 class="mb-3">Previous Comments</h6>
+                                        <ul class="list-group" id="commentList{{ $post->id }}"
+                                            style="max-height: 300px; overflow-y: auto;">
+                                            @if ($post->comments->count() > 0)
+                                                @foreach ($post->comments as $comment)
+                                                    <li class="list-group-item d-flex align-items-center">
+                                                        <!-- Profile Image -->
+                                                        <img src="{{ $comment->user->profile ? asset('storage/' . $comment->user->profile) : 'https://via.placeholder.com/40' }}"
+                                                            alt="Profile" class="rounded-circle me-2" width="40"
+                                                            height="40" style="object-fit: cover;">
+
+                                                        <div class="flex-grow-1">
+                                                            <strong>{{ $comment->user->name }}:</strong>
+                                                            {{ $comment->content }}
+                                                            <br>
+                                                            <small
+                                                                class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
+                                                        </div>
+
+                                                        @if (Auth::id() === $comment->user_id)
+                                                            <form action="{{ route('comments.destroy', $comment->id) }}"
+                                                                method="POST" class="d-inline"
+                                                                style="box-shadow: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn">🗑</button>
+                                                            </form>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            @else
+                                                <li class="list-group-item text-muted text-center">No comments yet. Be the
+                                                    first to comment!</li>
+                                            @endif
+                                        </ul>
+                                    </div>
+
+                                    <!-- Divider -->
+                                    <hr class="my-3">
+
+                                    <form id="commentForm{{ $post->id }}"
+                                        action="{{ route('comments.store', $post->id) }}" method="POST"
+                                        class="d-flex align-items-center">
+                                        @csrf
+
+                                        <!-- Profile Image -->
+                                        <img src="{{ Auth::check() && Auth::user()->profile ? asset('storage/' . Auth::user()->profile) : 'https://static.vecteezy.com/system/resources/previews/045/711/150/non_2x/male-default-placeholder-avatar-profile-gray-picture-isolated-on-background-man-silhouette-with-beard-picture-for-social-media-forum-dating-site-chat-operator-free-vector.jpg' }}"
+                                            alt="Profile" class="rounded-circle me-2" width="40" height="40"
+                                            style="object-fit: cover;">
+
+                                        <!-- Comment Input -->
+                                        <input type="text" name="content" class="form-control me-2"
+                                            placeholder="Write your comment..." required>
+
+                                        <!-- Submit Button -->
+                                        <button type="submit" class="btn btn-primary">💬</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+
+                    <!-- Delete Confirmation Modal -->
+                    <div class="modal fade" id="deleteModal{{ $post->id }}" tabindex="-1"
+                        aria-labelledby="deleteModalLabel{{ $post->id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel{{ $post->id }}">Delete Confirm
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete this post?</p>
+                                    <p><strong>ID:</strong> {{ $post->id }}</p>
+                                    <p><strong>Title:</strong> {{ $post->title }}</p>
+                                    <p><strong>Description:</strong> {{ $post->description }}</p>
+                                    <p><strong>Status:</strong> {{ $post->status == 1 ? 'Active' : 'Inactive' }}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <form id="deleteForm{{ $post->id }}"
+                                        action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post Detail Modal -->
+                    <div class="modal fade" id="postDetailModal{{ $post->id }}" tabindex="-1"
+                        aria-labelledby="postDetailModalLabel{{ $post->id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="postDetailModalLabel{{ $post->id }}">
+                                        {{ $post->title }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>Description:</strong> {{ $post->description }}</p>
+                                    <p><strong>Status:</strong> {{ $post->status == 1 ? 'Active' : 'Inactive' }}</p>
+                                    <p><strong>Created Date:</strong> {{ $post->created_at->format('Y-m-d H:i:s') }}</p>
+                                    <p><strong>Created By:</strong> {{ $post->user->name ?? 'Unknown' }}</p>
+                                    <p><strong>Updated Date:</strong> {{ $post->updated_at->format('Y-m-d') }}</p>
+                                    <p><strong>Updated By:</strong> {{ $post->updated_user->name ?? 'Unknown' }}</p>
+
+                                    <!-- Category Display -->
+                                    <p><strong>Category:</strong> {{ $post->category->name ?? 'No Category' }}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
-                <!-- Modal for comment, delete and post details would follow as usual -->
-            @empty
-                <div class="col-md-12 text-center">
-                    <p>No data available.</p>
+                    <!-- Modal for comment, delete and post details would follow as usual -->
+                @empty
+                    <div class="col-md-12 text-center">
+                        <p>No data available.</p>
+                    </div>
+                    @endforelse
                 </div>
-                @endforelse
             </div>
 
             <!-- Pagination -->
@@ -334,6 +340,7 @@
                     let postId = $(this).data("post-id");
                     let type = $(this).data("type");
 
+                    // Perform AJAX to store the reaction
                     $.ajax({
                         url: "{{ route('reactions.store') }}",
                         method: "POST",
@@ -344,27 +351,29 @@
                         },
                         success: function(response) {
                             if (response.success) {
-                                updateReactionCount(postId);
+                                // Update the reaction counts directly from the response
+                                $(`#like-count-${postId}`).text(response.likeCount);
+                                $(`#love-count-${postId}`).text(response.loveCount);
+                                $(`#haha-count-${postId}`).text(response.hahaCount);
                             }
                         }
                     });
                 });
 
-                function updateReactionCount(postId) {
-                    $.ajax({
-                        url: `/reactions/${postId}`,
-                        method: "GET",
-                        success: function(reactions) {
-                            let likeCount = reactions.filter(r => r.type === 'like').length;
-                            let loveCount = reactions.filter(r => r.type === 'love').length;
-                            let hahaCount = reactions.filter(r => r.type === 'haha').length;
 
-                            $(`#like-count-${postId}`).text(likeCount);
-                            $(`#love-count-${postId}`).text(loveCount);
-                            $(`#haha-count-${postId}`).text(hahaCount);
-                        }
-                    });
-                }
+                $("#myselect").on("change", function(e) {
+                    console.log(e.target.value)
+                });
+                $('#myselect').on('change', function() {
+                    var categoryId = $(this).val();
+                    var url = new URL(window.location.href);
+                    if (categoryId) {
+                        url.searchParams.set('category_id', categoryId);
+                    } else {
+                        url.searchParams.delete('category_id');
+                    }
+                    window.location.href = url.toString();
+                });
             });
         </script>
     </div>

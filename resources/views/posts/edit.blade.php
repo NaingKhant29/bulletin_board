@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container">
-        <div class="user">
-            <h4 class="user-header">Edit Post</h4>
+        <div class="card">
+            <h4 class="card-header">Edit Post</h4>
 
             <!-- Display success message if exists -->
             @if (session('success'))
@@ -26,45 +26,60 @@
             <!-- Form to edit the post -->
             <form action="{{ route('posts.confirmedit', $post->id) }}" method="GET">
                 @csrf
-                <div class="mb-3 create-post container-form-post top">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" name="title" id="title" class="form-control"
-                        value="{{ old('title', $post->title) }}">
-                </div>
-
-                <div class="mb-3 create-post container-form-post">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea name="description" id="description" class="form-control">{{ old('description', $post->description) }}</textarea>
-                </div>
-
-                <!-- Category Dropdown -->
-                <div class="mb-3 create-post container-form-post">
-                    <label for="category_id" class="form-label">Category</label>
-                    <select name="category_id" id="category_id" class="form-control" required>
-                        <option value="">Select Category</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" 
-                                {{ old('category_id', $post->category_id) == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Status Toggle Switch -->
-                <div class="mb-3 create-post container-form-post">
-                    <label for="status" class="form-label">Status</label>
-                    <div class="form-check form-switch">
-                        <input type="checkbox" class="form-check-input" name="status" id="status"
-                            {{ old('status', $post->status) == 1 ? 'checked' : '' }}>
+                <div class="row mb-3">
+                    <label for="title" class="col-md-4 col-form-label text-md-end">Title</label>
+                    <div class="col-md-6">
+                        <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $post->title) }}">
+                        @error('title')
+                            <strong class="text-danger">{{ $message }}</strong>
+                        @enderror
                     </div>
                 </div>
-
-                <div class="btn-create-clear container-form-post">
-                    <button type="submit" class="btn btn-success">Update</button>
-                    <button type="button" class="btn btn-info container-form-post" onclick="clearForm()">Clear</button>
+            
+                <div class="row mb-3">
+                    <label for="description" class="col-md-4 col-form-label text-md-end">Description</label>
+                    <div class="col-md-6">
+                        <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror">{{ old('description', $post->description) }}</textarea>
+                        @error('description')
+                            <strong class="text-danger">{{ $message }}</strong>
+                        @enderror
+                    </div>
+                </div>
+            
+                <div class="row mb-3">
+                    <label for="category_id" class="col-md-4 col-form-label text-md-end">Category</label>
+                    <div class="col-md-6">
+                        <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror" required>
+                            <option value="">Select Category</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ old('category_id', $post->category_id) == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('category_id')
+                            <strong class="text-danger">{{ $message }}</strong>
+                        @enderror
+                    </div>
+                </div>
+            
+                <div class="row mb-3">
+                    <label for="status" class="col-md-4 col-form-label text-md-end">Status</label>
+                    <div class="col-md-6">
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" name="status" id="status" {{ old('status', $post->status) == 1 ? 'checked' : '' }}>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row mb-0">
+                    <div class="col-md-6 offset-md-4">
+                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="button" class="btn btn-info text-white" onclick="clearForm()">Clear</button>
+                    </div>
                 </div>
             </form>
+            
         </div>
     </div>
 

@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container">
-        <div class="user">
-            <h4 class="user-header">Create Post</h4>
+        <div class="card">
+            <h4 class="card-header">Create Post</h4>
 
             <!-- Display success message if exists -->
             @if (session('success'))
@@ -26,35 +27,55 @@
             <!-- Change form method to POST and pass data to the confirm page -->
             <form action="{{ route('posts.confirm') }}" method="POST" class="create-post-title">
                 @csrf
-                <div class="mb-3 create-post container-form-post">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}">
+                <div class="row mb-3">
+                    <label for="title" class="col-md-4 col-form-label text-md-end">{{ __('Title') }}</label>
+                    <div class="col-md-6">
+                        <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}">
+                        @error('title')
+                            <strong class="text-danger">{{ $message }}</strong>
+                        @enderror
+                    </div>
                 </div>
-                
-                <div class="mb-3 create-post container-form-post">
-                    <label for="description" class="form-label des">Description</label>
-                    <textarea name="description" id="description" class="form-control des">{{ old('description') }}</textarea>
+            
+                <div class="row mb-3">
+                    <label for="description" class="col-md-4 col-form-label text-md-end">{{ __('Description') }}</label>
+                    <div class="col-md-6">
+                        <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
+                        @error('description')
+                            <strong class="text-danger">{{ $message }}</strong>
+                        @enderror
+                    </div>
                 </div>
-
-                <div class="mb-3 create-post container-form-post">
-                    <label for="category_id" class="form-label des">Category</label>
-                    <select name="category_id" id="category_id" class="form-control des" required>
-                        <option value="" disabled selected>Select a Category</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
+            
+                <div class="row mb-3">
+                    <label for="category_id" class="col-md-4 col-form-label text-md-end">{{ __('Category') }}</label>
+                    <div class="col-md-6">
+                        <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror" required>
+                            <option value="" disabled selected>{{ __('Select a Category') }}</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('category_id')
+                            <strong class="text-danger">{{ $message }}</strong>
+                        @enderror
+                    </div>
                 </div>
-
-                <div class="btn-create-clear container-form-post">
-                    <!-- Submit button to move to confirm page -->
-                    <button type="submit" class="btn btn-success container-form-post">Create</button>
-                    <button type="button" class="btn btn-info container-form-post" style="color: white"
-                        onclick="clearForm()">Clear</button>
+            
+                <div class="row mb-0">
+                    <div class="col-md-6 offset-md-4">
+                        <button type="submit" class="btn btn-success">
+                            {{ __('Create') }}
+                        </button>
+                        <button type="button" class="btn btn-info" style="color: white" onclick="clearForm()">
+                            {{ __('Clear') }}
+                        </button>
+                    </div>
                 </div>
             </form>
+            
         </div>
     </div>
 

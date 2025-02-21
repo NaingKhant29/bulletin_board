@@ -3,8 +3,8 @@
 @section('content')
 
 <div class="container">
-    <div class="user">
-    <h4 class="user-header">Upload CSV file</h4>
+    <div class="card">
+    <h4 class="card-header">Upload CSV file</h4>
 
     <!-- Display Success or Error Messages -->
     @if(session('success'))
@@ -20,15 +20,25 @@
     <!-- Upload Form -->
     <form action="{{ route('posts.upload') }}" method="POST" class="container-form-post" enctype="multipart/form-data">
         @csrf
-        <div class="form-group container-form-post">
-            <label for="file" class="">CSV file</label> 
-            <input type="file" name="file" id="file" class="form-control" required>
+        <div class="row mb-3">
+            <label for="file" class="col-md-4 col-form-label text-md-end">CSV file</label>
+            <div class="col-md-6">
+                <input type="file" name="file" id="file" class="form-control" required>
+            </div>
         </div>
-
-        <button type="submit" class="btn btn-primary up-btn">Upload</button>
-        <!-- Clear Button -->
-        <button type="button" class="btn btn-secondary up-btn" onclick="clearFileInput()">Clear</button>
+    
+        <div class="row mb-0">
+            <div class="col-md-6 offset-md-4">
+                <button type="submit" class="btn btn-primary">
+                    Upload
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="clearFileInput()">
+                    Clear
+                </button>
+            </div>
+        </div>
     </form>
+    
 
 </div>
 </div>

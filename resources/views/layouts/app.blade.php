@@ -31,8 +31,9 @@
 <body>
     <div id="app">
         <div class="bg-header">
-            <header class="container-nav header">
-
+            <header class="container-nav">
+                <div class="mdle header">
+                
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Bulletinboard') }}
                 </a>
@@ -87,6 +88,7 @@
                     
                 </nav>
                 <div class="layer-window"></div>
+            </div>
             </header>
         </div>
         <main class="py-4">

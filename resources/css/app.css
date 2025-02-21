@@ -13,18 +13,22 @@ html {
   .navbar-brand{
     align-content: center !important;
     font-size: xx-large;
-    color:#dcdcdc;
+    color:#753653 !important;
 }
 .navbar-brand:hover{
-    color: #ffd700;
+    color: red !important;
 }
 .dropdown-menu {
   animation: none !important;
 }
-
+.mdle {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+}
  .nav-link> a{
     text-decoration: none;
-    color:#dcdcdc;
+    color:#753653 !important;
     position: relative;
     
   }
@@ -50,10 +54,15 @@ html {
     color:#000;
   }
   .container-nav {
-    width: 97%;
-    max-width: 1360px;
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
+    position: fixed;
+    background: #bde3ff;
+    z-index: 100;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 0 12px 30px rgba(0, 0, 0, 0.1), inset 0 6px 12px rgba(255, 255, 255, 0.2);
   }
+  
   .co{
     border-radius: 8px;
     color: #dcdcdc;
@@ -76,6 +85,7 @@ html {
     display: flex;
     flex-direction: column;
     min-height: 80vh;
+    margin-top: 8%;
 }
 .modal-header {
     border-bottom: 2px solid #d1e7dd;

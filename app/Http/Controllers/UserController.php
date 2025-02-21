@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -23,8 +24,9 @@ class UserController extends Controller
         $email = $request->input('email');
         $dob_from = $request->input('dob_from');
         $dob_to = $request->input('dob_to');
+        $type = $request->input('type', 'all');
 
-     
+
         $query = User::query();
 
         if ($name) {
@@ -42,10 +44,13 @@ class UserController extends Controller
         } elseif ($dob_to) {
             $query->where('dob', '<=', $dob_to);
         }
-
+        if ($type !== 'all' && in_array($type, ['0', '1'], true)) {
+            $query->where('type', (int) $type); // Filter by 'type'
+        }
+    
         $users = $query->paginate(10);
 
-        return view('users.dexin', compact('users'));
+        return view('users.dexin', compact('users', 'type'));
     }
 
     /**
@@ -62,10 +67,10 @@ class UserController extends Controller
 
         $user->delete();
 
-      
+
         return redirect()->route('users.dexin')->with('success', 'User deleted successfully');
     }
- 
+
     /**
      * 
      * @return redirect
@@ -73,9 +78,9 @@ class UserController extends Controller
     public function showRegistrationForm()
     {
         if (Auth::check()) {
-            if (Auth::user()->type == 0) { 
-                return view('auth.register'); 
-            } else { 
+            if (Auth::user()->type == 0) {
+                return view('auth.register');
+            } else {
                 return redirect()->route('home')->with('error', 'You are not authorized to create users.');
             }
         }
@@ -88,54 +93,54 @@ class UserController extends Controller
      */
     protected function validator(array $data)
     {
-        info('********');
-        info($data);
         return Validator::make($data, [
+            'dob' => ['required', 'date', 'before_or_equal:today'], 
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'type' => ['required', 'integer', 'in:0,1'],
-            'phone' => ['nullable', 'string', 'max:15'], 
-            'dob' => ['nullable', 'date'],
+            'phone' => ['nullable', 'string', 'max:15'],
             'address' => ['nullable', 'string', 'max:255'],
             'image' => ['required', 'file', 'mimes:jpeg,png,jpg,gif', 'max:8048'],
         ], [
+            'dob.required' => 'Please provide your date of birth.',
+            'dob.date' => 'The date of birth is not a valid date.',
+            'dob.before_or_equal' => 'The date of birth cannot be in the future.',
+            'dob.age' => 'You must be at least 12 years old.',
+        
             'name.required' => 'Please provide your full name.',
             'name.string' => 'The name must be a valid string.',
             'name.max' => 'The name cannot be longer than 255 characters.',
-
+        
             'email.required' => 'We need your email to contact you.',
             'email.email' => 'Email Format is invalid',
             'email.max' => 'The email cannot be longer than 255 characters.',
             'email.unique' => 'The email is already taken.',
-
+        
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 8 characters.',
             'password.confirmed' => 'Password and Password confirmation does not match.',
-
+        
             'type.required' => 'Please select the user type.',
             'type.in' => 'The user type must be either Admin (0) or User (1).',
-
+        
             'phone.max' => 'Phone number cannot be longer than 15 characters.',
-
-            'dob.date' => 'Please provide a valid date of birth.',
-
             'address.max' => 'The address cannot be longer than 255 characters.',
-
+        
             'image.required' => 'Please upload a profile picture.',
             'image.file' => 'The profile picture must be a file.',
             'image.mimes' => 'The profile picture must be a JPEG, PNG, JPG, or GIF image.',
             'image.max' => 'The profile picture cannot be larger than 8MB.',
         ]);
-    }
+    }        
     /**
      *
      * @return View
      */
     public function edit()
     {
-        $user = Auth::user(); 
-        return view('users.profileedit', compact('user')); 
+        $user = Auth::user();
+        return view('users.profileedit', compact('user'));
     }
     /**
      * @param Request $request
@@ -181,7 +186,7 @@ class UserController extends Controller
             $user->profile = $image;
         }
 
-      
+
         if ($isEdited) {
             $user->updated_user_id = auth()->id();
             $user->updated_at = now();
@@ -286,6 +291,7 @@ class UserController extends Controller
         info("ah shit! Here we go");
         return view('auth.change-password');
     }
+    
 
     /**
      * @param Request $request
