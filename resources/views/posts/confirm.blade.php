@@ -1,38 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
+@vite(['resources/css/confirm.css'])
     <div class="container">
-        <div class="user">
-            <h4 class="user-header">Create Post</h4>
+        <div class="card">
+            <h4 class="card-header">Are you sure you want to create this post?</h4>
 
-            <!-- Display the title and description passed from the controller -->
-            <div class="mb-3 create-post container-form-post top">
-                <label for="title" class="form-label">Title</label>
-                <p class="form-control txt-lft">{{ $title }}</p>
-            </div>
-
-            <div class="mb-3 create-post container-form-post">
-                <label for="description" class="form-label des">Description</label>
-                <p class="form-control txt-lft">{{ $description }}</p>
-            </div>
-            <div class="mb-3 create-post container-form-post">
-                <label for="category" class="form-label">Category</label>
-                <p class="form-control txt-lft">{{ $category->name }}</p>
-            </div>
-
-
-            <!-- Form to confirm the creation of the post -->
-            <form action="{{ route('posts.store') }}" method="POST">
-                @csrf
-                <input type="hidden" name="title" value="{{ $title }}">
-                <input type="hidden" name="description" value="{{ $description }}">
-                <input type="hidden" name="category_id" value="{{ $category_id }}">
-
-                <div class="btn-create-clear container-form-post">
-                    <button type="submit" class="btn btn-success container-form-post">Confirm</button>
-                    <a href="{{ route('posts.create') }}" class="btn btn-info container-form-post">Cancel</a>
+            <div class = "confirm-container">
+                <div class="space-evenly mb-3">
+                    <label for="title" class="col-md-4 col-form-label text-md-end">Title</label>
+                    <div class="w-30 txt-lft">{{ $title }}</div>
                 </div>
-            </form>
+
+                <div class="space-evenly mb-3">
+                    <label for="description" class="col-md-4 col-form-label text-md-end">Description</label>
+                    <div class="w-30 txt-lft">{{ $description }}</div>
+                </div>
+                <div class="space-evenly mb-3">
+                    <label for="category" class="col-md-4 col-form-label text-md-end">Category</label>
+                    <div class="w-30 txt-lft">{{ $category->name }}</div>
+                </div>
+
+
+                <!-- Form to confirm the creation of the post -->
+                <form action="{{ route('posts.store') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="title" value="{{ $title }}">
+                    <input type="hidden" name="description" value="{{ $description }}">
+                    <input type="hidden" name="category_id" value="{{ $category_id }}">
+
+                    <div class="btn-create-clear container-form-post">
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                        <a href="{{ route('posts.create') }}" class="btn btn-info">Cancel</a>
+                    </div>
+                </form>
+            </div>
 
         </div>
     </div>

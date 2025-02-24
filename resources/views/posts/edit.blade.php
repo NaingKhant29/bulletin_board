@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@vite(['resources/css/confirm.css'])
     <div class="container">
         <div class="card">
             <h4 class="card-header">Edit Post</h4>
@@ -74,7 +75,7 @@
             
                 <div class="row mb-0">
                     <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                         <button type="button" class="btn btn-info text-white" onclick="clearForm()">Clear</button>
                     </div>
                 </div>

@@ -80,7 +80,7 @@ Route::middleware(['guest'])->group(function () {
         ->name('password.email');
 
     Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-    Route::patch('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+    Route::patch('password/reset', [ResetPasswordController::class, 'reset'])->name('password.updat');
 });
 
 

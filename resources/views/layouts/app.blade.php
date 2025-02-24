@@ -24,7 +24,6 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @vite(['resources/css/app.css'])
     @vite(['resources/css/dexin.css'])
-    @vite(['resources/css/confirm.css'])
     @vite(['resources/css/upload.css'])
 </head>
 
@@ -101,7 +100,7 @@
             <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content shadow-lg rounded-3">
-                        <div class="modal-header bg-success text-white">
+                        <div class="modal-header text-white" style="background-color: #40a3a7">
                             <h5 class="modal-title" id="profileModalLabel">
                                 <i class="bi bi-person-circle me-2"></i> Profile
                             </h5>

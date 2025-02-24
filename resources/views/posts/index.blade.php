@@ -293,7 +293,7 @@
                         aria-labelledby="postDetailModalLabel{{ $post->id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
+                                <div class="modal-header" style="background-color: #40a3a7; color: #fff;">
                                     <h5 class="modal-title" id="postDetailModalLabel{{ $post->id }}">
                                         {{ $post->title }}
                                     </h5>

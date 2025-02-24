@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+@vite(['resources/css/confirm.css'])
+@vite(['resources/css/profileedit.css'])
     <div class="container">
         <div class="card shadow border-0">
-            <div class="card-header bg-success text-white text-center">
-                <h4 class="user-header txt-lft">Profile Edit</h4>
-            </div>
+                <h4 class="card-header txt-lft">Profile Edit</h4>
             <div class="card-body">
                 <form id="editProfileForm" method="POST" enctype="multipart/form-data"
                     action="{{ route('profile.update', $user->id) }}">
@@ -114,7 +114,7 @@
                     <!-- Buttons -->
                     <div class="row mb-0">
                         <div class="col-md-6 offset-md-4 ">
-                            <button type="submit" class="btn btn-success">
+                            <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-pencil-square"></i> Edit
                             </button>
                             <button type="button" class="btn btn-info colorfff" id="clearFormBtn">Clear</button>

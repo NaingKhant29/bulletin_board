@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@vite(['resources/css/confirm.css'])
 
 <div class="container">
     <div class="card">
@@ -18,7 +19,7 @@
     @endif
 
     <!-- Upload Form -->
-    <form action="{{ route('posts.upload') }}" method="POST" class="container-form-post" enctype="multipart/form-data">
+    <form action="{{ route('posts.upload') }}" method="POST" class= "form-pad" enctype="multipart/form-data">
         @csrf
         <div class="row mb-3">
             <label for="file" class="col-md-4 col-form-label text-md-end">CSV file</label>

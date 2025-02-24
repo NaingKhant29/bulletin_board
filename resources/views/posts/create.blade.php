@@ -66,7 +66,7 @@
             
                 <div class="row mb-0">
                     <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" class="btn btn-primary">
                             {{ __('Create') }}
                         </button>
                         <button type="button" class="btn btn-info" style="color: white" onclick="clearForm()">
