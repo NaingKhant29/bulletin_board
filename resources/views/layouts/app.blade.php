@@ -18,8 +18,8 @@
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @vite(['resources/css/app.css'])
-    @vite(['resources/css/dexin.css'])
-    @vite(['resources/css/upload.css'])
+    @vite(['resources/css/user/index.css'])
+    @vite(['resources/css/post/upload.css'])
 </head>
 
 <body>
@@ -38,7 +38,7 @@
                             <span class="bar"></span>
                         </div>
                         <div class="nav-link">
-                            <a href="{{ route('users.dexin') }}">
+                            <a href="{{ route('users.index') }}">
                                 <i class="bi bi-people"></i> Users
                             </a>
                             <a href="{{ url('/posts') }}">

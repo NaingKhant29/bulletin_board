@@ -11,7 +11,7 @@
             @endif
 
             <!-- Search Form -->
-         <form method="GET" action="{{ route('users.dexin') }}" class="mb-3">
+         <form method="GET" action="{{ route('users.index') }}" class="mb-3">
     <div class="row container-form">
         <!-- DOB From -->
         <div class="col-md-2 label wd">

@@ -1,8 +1,8 @@
 @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-@vite(['resources/css/dexin.css'])
+@vite(['resources/css/user/index.css'])
 @vite(['resources/css/confirm.css'])
-@vite(['resources/css/upload.css'])
+@vite(['resources/css/post/upload.css'])
 @vite(['resources/css/login.css'])
 
 <body>

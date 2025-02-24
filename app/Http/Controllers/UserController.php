@@ -16,7 +16,7 @@ class UserController extends Controller
      * @param Request $request
      * @return View
      */
-    public function dexin(Request $request)
+    public function index(Request $request)
     {
         $name = $request->input('name');
         $email = $request->input('email');
@@ -48,7 +48,7 @@ class UserController extends Controller
 
         $users = $query->paginate(10);
 
-        return view('users.dexin', compact('users', 'type'));
+        return view('users.index', compact('users', 'type'));
     }
 
     /**
@@ -60,13 +60,13 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         if (Auth::id() === $user->id) {
-            return redirect()->route('users.dexin')->with('error', 'You cannot delete your own account.');
+            return redirect()->route('users.index')->with('error', 'You cannot delete your own account.');
         }
 
         $user->delete();
 
 
-        return redirect()->route('users.dexin')->with('success', 'User deleted successfully');
+        return redirect()->route('users.index')->with('success', 'User deleted successfully');
     }
 
     /**
@@ -189,11 +189,9 @@ class UserController extends Controller
             $user->updated_user_id = auth()->id();
             $user->updated_at = now();
         }
-
-
         $user->save();
 
-        return redirect()->route('users.dexin')->with('success', 'Profile updated successfully!');
+        return redirect()->route('users.index')->with('success', 'Profile updated successfully!');
     }
     /**
      * @param Request $request
@@ -202,8 +200,6 @@ class UserController extends Controller
 
     public function confirm(Request $request)
     {
-        info($request->all());
-
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
@@ -216,7 +212,6 @@ class UserController extends Controller
         if ($request->hasFile('image')) {
             $profilePath = $request->file('image')->store('profiles', 'public');
         }
-
 
         session([
             'name' => $validated['name'],
@@ -248,7 +243,6 @@ class UserController extends Controller
      */
     public function new()
     {
-
         $data = session()->all();
 
         $name = $data['name'];
@@ -275,7 +269,7 @@ class UserController extends Controller
 
         ]);
 
-        return redirect()->route('users.dexin')->with('success', 'User registered successfully!');
+        return redirect()->route('users.index')->with('success', 'User registered successfully!');
     }
     /**
      * 
@@ -283,11 +277,8 @@ class UserController extends Controller
      */
     public function showChangePasswordForm()
     {
-        info("ah shit! Here we go");
         return view('auth.change-password');
     }
-
-
     /**
      * @param Request $request
      * @return redirect
@@ -295,8 +286,6 @@ class UserController extends Controller
 
     public function changePassword(Request $request)
     {
-
-        info($request->all());
         $validated = $request->validate([
             'current_password' => ['required'],
             'new_password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -311,6 +300,6 @@ class UserController extends Controller
             'password' => Hash::make($request->new_password),
         ]);
 
-        return redirect()->route('users.dexin')->with('success', 'Password changed successfully.');
+        return redirect()->route('users.index')->with('success', 'Password changed successfully.');
     }
 }

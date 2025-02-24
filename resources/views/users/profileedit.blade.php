@@ -2,7 +2,7 @@
 
 @section('content')
 @vite(['resources/css/confirm.css'])
-@vite(['resources/css/profileedit.css'])
+@vite(['resources/css/user/profileedit.css'])
     <div class="container">
         <div class="card shadow border-0">
                 <h4 class="card-header txt-lft">Profile Edit</h4>

@@ -29,7 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/posts/{post}/comment', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
-    Route::get('/users', [UserController::class, 'dexin'])->name('users.dexin');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/', [PostController::class, 'index']);  
     Route::get('/posts/detail/{id}', [PostController::class, 'detail']);

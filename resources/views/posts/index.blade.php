@@ -2,7 +2,7 @@
 
 
 @section('content')
-    @vite(['resources/css/index.css'])
+    @vite(['resources/css/post/index.css'])
     <div id = "content">
         <div class="container">
 
