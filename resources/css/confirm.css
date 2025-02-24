@@ -1,40 +1,40 @@
 .txt-lft {
-    text-align: left;
+  text-align: left;
 }
 .card-header {
-    text-align: center;
-    color: #753653;
+  text-align: center;
+  color: #753653;
 }
 .top {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 .confirm-container {
-    padding: 40px;
+  padding: 40px;
 }
 .text-align-lft {
-    text-align: left !important;
-    width: 65% !important;
+  text-align: left !important;
+  width: 65% !important;
 }
 .space-evenly {
-    display: flex;
-    justify-content: space-evenly !important;
+  display: flex;
+  justify-content: space-evenly !important;
 }
 .w-30 {
-    width: 30% !important;
-    padding: 10px;
+  width: 30% !important;
+  padding: 10px;
 }
 .text-md-end {
-    padding: 10px;
+  padding: 10px;
 }
 .btn-create-clear {
-    display: flex;
-    justify-content: center;
-    margin-left: 190px;
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  margin-left: 190px;
+  padding: 20px;
 }
 .btn-primary:hover {
-    background-color: #99d7099e !important;
+  background-color: #99d7099e !important;
 }
 .btn-info:hover {
-    background-color: #4000ff7e !important;
+  background-color: #4000ff7e !important;
 }

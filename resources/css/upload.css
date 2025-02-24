@@ -1,23 +1,23 @@
 .form-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
 }
 .up-btn {
-    padding: 10px 20px;
-    margin-left: 35%;
-    margin-top: 30px;
-    margin-bottom: 50px;
+  padding: 10px 20px;
+  margin-left: 35%;
+  margin-top: 30px;
+  margin-bottom: 50px;
 }
 .up-btn:last-child {
-    margin-left: 0;
+  margin-left: 0;
 }
 .btn-primary {
-    width: auto;
+  width: auto;
 }
 .form-pad {
-    padding: 20px;
+  padding: 20px;
 }
 .btn-primary:hover {
-    background-color: #99d7099e;
+  background-color: #99d7099e;
 }
