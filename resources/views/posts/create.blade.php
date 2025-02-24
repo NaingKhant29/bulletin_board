@@ -50,7 +50,7 @@
                 <div class="row mb-3">
                     <label for="category_id" class="col-md-4 col-form-label text-md-end">{{ __('Category') }}</label>
                     <div class="col-md-6">
-                        <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror" required>
+                        <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror" >
                             <option value="" disabled selected>{{ __('Select a Category') }}</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
