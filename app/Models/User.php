@@ -8,16 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable // Keep this extending Authenticatable for authentication
+class User extends Authenticatable
 {
     use HasFactory, SoftDeletes;
     use Notifiable;
 
-
-    // Define the table name if it doesn't follow Laravel's convention
     protected $table = 'users';
-
-    // The attributes that are mass assignable
     protected $fillable = [
         'name',
         'email',
@@ -32,27 +28,26 @@ class User extends Authenticatable // Keep this extending Authenticatable for au
         'delete_user_id',
         'remember_token',
     ];
-
-    // The attributes that should be hidden for serialization
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
-    // The attributes that should be cast
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'dob' => 'date', // Assuming dob is a date field
+        'dob' => 'date',
     ];
 
-    // User.php
-
-    public function createUser()
+    /**
+     * @reurn BelongsTo
+     */
+    public function createUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_user_id');
     }
-
-    public function updatedUser()
+    /**
+     * @return BelongsTo
+     */
+    public function updatedUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_user_id');
     }
@@ -67,9 +62,13 @@ class User extends Authenticatable // Keep this extending Authenticatable for au
     {
         $this->notify(new ResetPasswordNotification($token));
     }
-    public function reactions() {
+    /**
+     * Get all reactions for this post.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function reactions()
+    {
         return $this->hasMany(Reaction::class);
     }
-    
-   
 }

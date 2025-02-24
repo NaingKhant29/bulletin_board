@@ -29,7 +29,7 @@ class ResetPasswordNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail']; // Send via email
+        return ['mail']; 
     }
 
  /**
@@ -39,9 +39,9 @@ class ResetPasswordNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Reset Your Password') // Subject for the email
+            ->subject('Reset Your Password')
             ->line('You are receiving this email because we received a password reset request for your account.')
-            ->action('Reset Password', url(route('password.reset', $this->token, false))) // Reset link
+            ->action('Reset Password', url(route('password.reset', $this->token, false))) 
             ->line('If you did not request a password reset, no further action is required.');
     }
 

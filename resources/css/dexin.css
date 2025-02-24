@@ -1,5 +1,5 @@
 td {
-    color:#323653dd !important;
+    color: #323653dd !important;
 }
 .user-card {
     border-radius: 10px;
@@ -22,15 +22,15 @@ td {
 .form-control {
     width: 100% !important;
 }
-th{
-    background-color:#f0f1f2 !important;
-    color: #323653  !important;
+th {
+    background-color: #f0f1f2 !important;
+    color: #323653 !important;
 }
 
-.label{
+.label {
     display: flex !important;
     justify-content: space-between;
-    align-items: center ;
+    align-items: center;
     padding: 8px;
 }
 
@@ -46,10 +46,11 @@ th{
     margin-left: 0;
     margin-right: 0;
 }
-.keyword, .blank {
+.keyword,
+.blank {
     margin-right: 4%;
 }
-.upload-download{
+.upload-download {
     width: 30%;
 }
 
@@ -62,12 +63,12 @@ th{
 .create-post-title {
     margin-top: 50px;
 }
-.des{
+.des {
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.container-form-post{
+.container-form-post {
     max-width: 900px;
     margin: 0px auto;
 }
@@ -77,14 +78,14 @@ th{
 .warning {
     color: red;
 }
-.form-label{
+.form-label {
     width: 30%;
 }
-.wd{
+.wd {
     width: 65%;
     text-align: left !important;
 }
-.search{
+.search {
     width: 100%;
     display: block;
     width: 100%;
@@ -100,15 +101,17 @@ th{
     background-clip: padding-box;
     border: var(--bs-border-width) solid var(--bs-border-color);
     border-radius: var(--bs-border-radius);
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition:
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
 }
-.form-control{
+.form-control {
     width: 65%;
 }
-.form-switch{
+.form-switch {
     width: 65%;
 }
-.colorfff{
+.colorfff {
     color: white;
 }
 .btn-create-clear {
@@ -116,7 +119,7 @@ th{
     justify-content: center;
     margin-left: 128px;
 }
-.btn-create-clear > button{
+.btn-create-clear > button {
     margin-left: 1%;
     margin-right: 0px;
     padding: 5px 10px;
@@ -131,17 +134,17 @@ th{
 }
 .text-decoration-none {
     text-decoration: none;
-    color:#323653dd !important;
+    color: #323653dd !important;
 }
 .text-decoration-none:hover {
-    color : rgba(255, 119, 0, 0.888) !important;
+    color: rgba(255, 119, 0, 0.888) !important;
 }
 .post-search {
     width: 75% !important;
 }
 .modal-body {
     padding: 20px;
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
 }
 
 .d-flex {

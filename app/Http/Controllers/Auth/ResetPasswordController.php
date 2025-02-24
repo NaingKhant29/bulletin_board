@@ -29,7 +29,7 @@ class ResetPasswordController extends Controller
     {
         $validatedData = $request->validate([
             'password' => 'required|string|min:8|confirmed',
-            'token' => 'required',  
+            'token' => 'required',
         ]);
 
         $isUserExist = DB::table('password_resets')->where('email', $request->email)->first();

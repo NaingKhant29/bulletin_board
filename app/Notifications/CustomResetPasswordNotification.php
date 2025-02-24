@@ -33,7 +33,7 @@ class CustomResetPasswordNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];  // Send the notification via email
+        return ['mail'];  
     }
 
     /**
@@ -60,7 +60,7 @@ class CustomResetPasswordNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            // Additional data for the notification can go here (e.g., user details)
+        //
         ];
     }
 }

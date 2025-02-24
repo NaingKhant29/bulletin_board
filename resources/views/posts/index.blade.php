@@ -6,14 +6,12 @@
     <div id = "content">
         <div class="container">
 
-
-            <!-- Success Message -->
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
-            <!-- Error Message (Bootstrap Alert) -->
+
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ session('error') }}
@@ -21,20 +19,14 @@
                 </div>
             @endif
 
-
-            <!-- Search Form -->
             <form method="GET" action="{{ route('posts.index') }}" class="search-form mb-4">
                 <div class="d-flex flex-row align-items-center gap-3 w-100">
-
-                    <!-- Filter by Date -->
                     <div class="flex-shrink-0" style="width: 18%;">
                         <input type="date" name="created_at" class="form-control date-input"
                             value="{{ request('created_at') }}">
                     </div>
 
-
                     <div class="d-flex align-items-center" style="width: 50%">
-                        <!-- Category Dropdown -->
                         <div class="flex-shrink-0" style="width: 20%;">
                             <select name="category_id" id="myselect" class="form-select border border-secondary rounded-0">
                                 <option value="">All</option>
@@ -47,19 +39,14 @@
                             </select>
                         </div>
 
-
-                        <!-- Search Input -->
                         <input type="text" name="search" class="form-control border border-secondary rounded-0"
                             placeholder="Search by keyword" value="{{ request('search') }}" style="width: 30vw;">
 
-
-                        <!-- Search Button -->
                         <button type="submit" class="btn btn-secondary border border-secondary rounded-0">
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
 
-                    <!-- Action Buttons (Create, Upload, Download) -->
                     <div class="d-flex gap-2" style="width: 28%">
                         <a href="{{ route('posts.create') }}" class="btn btn-secondary" style="width: 30%">
                             <i class="bi bi-plus-circle"></i> <br>Create
@@ -79,11 +66,10 @@
                 <div class="row justify-content-start">
                     @forelse ($posts as $index => $post)
                         @if ($index % 3 == 0 && $index != 0)
-                </div> <!-- Close previous row after 3 cards -->
-                <div class="row justify-content-start"> <!-- Start a new row -->
+                </div>
+                <div class="row justify-content-start">
                     @endif
 
-                    <!-- Card -->
                     <div class="col-md-4 mb-3">
                         <div class="card text-white bg-light mb-3">
                             <div class="card-header d-flex justify-content-between align-items-center "
@@ -92,7 +78,8 @@
                                     data-bs-target="#postDetailModal{{ $post->id }}" style="width: 50%;">
                                     {{ $post->title }}
                                 </a>
-                                <p class="m-0 text-light" style="font-size: 0.7rem; color: #323653 !important; width: 35%; text-align: right;">
+                                <p class="m-0 text-light"
+                                    style="font-size: 0.7rem; color: #323653 !important; width: 35%; text-align: right;">
                                     <i class="bi bi-calendar"></i> {{ $post->created_at->diffForHumans() }}
                                 </p>
                                 @if (Auth::check())
@@ -138,7 +125,6 @@
                                         </div>
 
                                         <div class="d-flex reaction-container">
-                                            <!-- Reaction Buttons -->
                                             <button class="btn btn-outline-primary reaction-btn me-2"
                                                 style="font-size: 1rem; padding: 0.3rem 0.6rem;"
                                                 data-post-id="{{ $post->id }}" data-type="like">
@@ -191,7 +177,6 @@
                                 </div>
                                 <div class="modal-body">
 
-                                    <!-- Comments List (Now at the Top) -->
                                     <div class="comments-section mb-3">
                                         <h6 class="mb-3">Previous Comments</h6>
                                         <ul class="list-group" id="commentList{{ $post->id }}"
@@ -238,16 +223,13 @@
                                         class="d-flex align-items-center">
                                         @csrf
 
-                                        <!-- Profile Image -->
                                         <img src="{{ Auth::check() && Auth::user()->profile ? asset('storage/' . Auth::user()->profile) : 'https://static.vecteezy.com/system/resources/previews/045/711/150/non_2x/male-default-placeholder-avatar-profile-gray-picture-isolated-on-background-man-silhouette-with-beard-picture-for-social-media-forum-dating-site-chat-operator-free-vector.jpg' }}"
                                             alt="Profile" class="rounded-circle me-2" width="40" height="40"
                                             style="object-fit: cover;">
 
-                                        <!-- Comment Input -->
                                         <input type="text" name="content" class="form-control me-2"
                                             placeholder="Write your comment..." required>
 
-                                        <!-- Submit Button -->
                                         <button type="submit" class="btn btn-primary">💬</button>
                                     </form>
                                 </div>
@@ -307,8 +289,6 @@
                                     <p><strong>Created By:</strong> {{ $post->user->name ?? 'Unknown' }}</p>
                                     <p><strong>Updated Date:</strong> {{ $post->updated_at->format('Y-m-d') }}</p>
                                     <p><strong>Updated By:</strong> {{ $post->updated_user->name ?? 'Unknown' }}</p>
-
-                                    <!-- Category Display -->
                                     <p><strong>Category:</strong> {{ $post->category->name ?? 'No Category' }}</p>
                                 </div>
                                 <div class="modal-footer">

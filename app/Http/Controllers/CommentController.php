@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CommentController extends Controller {
-    public function store(Request $request, $postId) {
+class CommentController extends Controller
+{
+    /**
+     * Store a newly created comment.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $postId
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request, $postId)
+    {
         $request->validate([
             'content' => 'required|string|max:500',
         ]);
@@ -21,8 +29,14 @@ class CommentController extends Controller {
 
         return redirect()->back()->with('success', 'Comment added successfully!');
     }
-
-    public function destroy($id) {
+    /**
+     * Remove the specified comment.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
         $comment = Comment::findOrFail($id);
 
         if (Auth::id() !== $comment->user_id) {

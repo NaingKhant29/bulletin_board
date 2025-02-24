@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -19,7 +18,6 @@ class UserController extends Controller
      */
     public function dexin(Request $request)
     {
-        // Get search values from request
         $name = $request->input('name');
         $email = $request->input('email');
         $dob_from = $request->input('dob_from');
@@ -45,9 +43,9 @@ class UserController extends Controller
             $query->where('dob', '<=', $dob_to);
         }
         if ($type !== 'all' && in_array($type, ['0', '1'], true)) {
-            $query->where('type', (int) $type); // Filter by 'type'
+            $query->where('type', (int) $type);
         }
-    
+
         $users = $query->paginate(10);
 
         return view('users.dexin', compact('users', 'type'));
@@ -94,7 +92,7 @@ class UserController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'dob' => ['required', 'date', 'before_or_equal:today'], 
+            'dob' => ['required', 'date', 'before_or_equal:today'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -107,32 +105,32 @@ class UserController extends Controller
             'dob.date' => 'The date of birth is not a valid date.',
             'dob.before_or_equal' => 'The date of birth cannot be in the future.',
             'dob.age' => 'You must be at least 12 years old.',
-        
+
             'name.required' => 'Please provide your full name.',
             'name.string' => 'The name must be a valid string.',
             'name.max' => 'The name cannot be longer than 255 characters.',
-        
+
             'email.required' => 'We need your email to contact you.',
             'email.email' => 'Email Format is invalid',
             'email.max' => 'The email cannot be longer than 255 characters.',
             'email.unique' => 'The email is already taken.',
-        
+
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 8 characters.',
             'password.confirmed' => 'Password and Password confirmation does not match.',
-        
+
             'type.required' => 'Please select the user type.',
             'type.in' => 'The user type must be either Admin (0) or User (1).',
-        
+
             'phone.max' => 'Phone number cannot be longer than 15 characters.',
             'address.max' => 'The address cannot be longer than 255 characters.',
-        
+
             'image.required' => 'Please upload a profile picture.',
             'image.file' => 'The profile picture must be a file.',
             'image.mimes' => 'The profile picture must be a JPEG, PNG, JPG, or GIF image.',
             'image.max' => 'The profile picture cannot be larger than 8MB.',
         ]);
-    }        
+    }
     /**
      *
      * @return View
@@ -169,7 +167,7 @@ class UserController extends Controller
             $user->phone !== $request->input('phone') ||
             $user->dob !== $request->input('dob') ||
             $user->address !== $request->input('address') ||
-            $request->hasFile('profile');  // Check for profile image change
+            $request->hasFile('profile');
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
@@ -266,7 +264,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $name,
             'email' => $email,
-            'password' => bcrypt($password), 
+            'password' => bcrypt($password),
             'type' => $type,
             'phone' => $phone,
             'dob' => $dob,
@@ -288,7 +286,7 @@ class UserController extends Controller
         info("ah shit! Here we go");
         return view('auth.change-password');
     }
-    
+
 
     /**
      * @param Request $request
@@ -308,7 +306,7 @@ class UserController extends Controller
             return back()->withErrors(['current_password' => 'The current password is incorrect.']);
         }
 
-      
+
         Auth::user()->update([
             'password' => Hash::make($request->new_password),
         ]);

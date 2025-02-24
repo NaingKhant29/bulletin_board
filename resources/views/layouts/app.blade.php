@@ -5,22 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Bulletinboard') }}</title>
 
-    <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
         rel="stylesheet">
 
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> --}}
 
-    <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @vite(['resources/css/app.css'])
     @vite(['resources/css/dexin.css'])
@@ -32,62 +27,64 @@
         <div class="bg-header">
             <header class="container-nav">
                 <div class="mdle header">
-                
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Bulletinboard') }}
-                </a>
-                <nav>
-                    <div class="hamburger">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </div>
-                    <div class="nav-link">
-                        <a href="{{ route('users.dexin') }}">
-                            <i class="bi bi-people"></i> Users
-                        </a>
-                        <a href="{{ url('/posts') }}">
-                            <i class="bi bi-card-list"></i> Posts
-                        </a>
-                        
-                        @if (Auth::check() && Auth::user()->type == 0)
-                            <a href="{{ route('users.show') }}">
-                                <i class="bi bi-plus-circle"></i> Create User
+
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        {{ config('app.name', 'Bulletinboard') }}
+                    </a>
+                    <nav>
+                        <div class="hamburger">
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                        </div>
+                        <div class="nav-link">
+                            <a href="{{ route('users.dexin') }}">
+                                <i class="bi bi-people"></i> Users
                             </a>
-                        @endif
-                    
-                        @guest
-                            @if (Route::has('login'))
-                                <a href="{{ route('login') }}">
-                                    <i class="bi bi-person-circle"></i> {{ __('Login') }}
+                            <a href="{{ url('/posts') }}">
+                                <i class="bi bi-card-list"></i> Posts
+                            </a>
+
+                            @if (Auth::check() && Auth::user()->type == 0)
+                                <a href="{{ route('users.show') }}">
+                                    <i class="bi bi-plus-circle"></i> Create User
                                 </a>
                             @endif
-                        @else
-                            <a id="navbarDropdown" class="dropdown-toggle d-flex align-items-center justify-content-center" href="#"
-                               role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
-                                <i class="bi bi-gear ms-2"></i>
-                            </a>
-                    
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">
-                                    <i class="bi bi-person"></i> {{ __('Profile') }}
+
+                            @guest
+                                @if (Route::has('login'))
+                                    <a href="{{ route('login') }}">
+                                        <i class="bi bi-person-circle"></i> {{ __('Login') }}
+                                    </a>
+                                @endif
+                            @else
+                                <a id="navbarDropdown"
+                                    class="dropdown-toggle d-flex align-items-center justify-content-center" href="#"
+                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
+                                    <i class="bi bi-gear ms-2"></i>
                                 </a>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="bi bi-box-arrow-right"></i> {{ __('Logout') }}
-                                </a>
-                    
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
-                        @endguest
-                    </div>
-                    
-                </nav>
-                <div class="layer-window"></div>
-            </div>
+
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#profileModal">
+                                        <i class="bi bi-person"></i> {{ __('Profile') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="bi bi-box-arrow-right"></i> {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            @endguest
+                        </div>
+
+                    </nav>
+                    <div class="layer-window"></div>
+                </div>
             </header>
         </div>
         <main class="py-4">
@@ -194,7 +191,6 @@
             });
 
         });
-        
     </script>
 </body>
 

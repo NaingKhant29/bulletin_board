@@ -28,7 +28,7 @@ return new class extends Migration
             $table->foreign('updated_user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->rememberToken();
-            $table->timestamps(); 
+            $table->timestamps();
             $table->softDeletes()->nullable();
         });
 

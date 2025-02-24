@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <form method="POST" action="{{ route('password.updat') }}">
                             @csrf
-                            @method('PATCH') 
+                            @method('PATCH')
                             <input type="hidden" name="token" value="{{ $token }}">
                             <input type="hidden" name="email" value="{{ request()->query('email') }}">
 

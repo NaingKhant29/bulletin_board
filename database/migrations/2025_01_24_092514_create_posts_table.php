@@ -20,9 +20,9 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_user_id')->nullable();
             $table->unsignedBigInteger('deleted_user_id')->nullable();
             $table->timestamps();
-            $table->softDeletes()->nullable(); // Adds `deleted_at` column
+            $table->softDeletes()->nullable();
 
-            // Foreign keys
+
             $table->foreign('create_user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('deleted_user_id')->references('id')->on('users')->onDelete('set null');

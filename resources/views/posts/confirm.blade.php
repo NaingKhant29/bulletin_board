@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@vite(['resources/css/confirm.css'])
+    @vite(['resources/css/confirm.css'])
     <div class="container">
         <div class="card">
             <h4 class="card-header">Are you sure you want to create this post?</h4>

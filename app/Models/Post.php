@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
@@ -20,11 +21,17 @@ class Post extends Model
         'deleted_user_id',
     ];
 
-    public function user()
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'create_user_id');
     }
-    public function updated_user()
+    /**
+     * @return BelongsTo
+     */
+    public function updated_user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_user_id');
     }
@@ -33,17 +40,25 @@ class Post extends Model
         $this->status = $this->status === 1 ? 0 : 1;
         $this->save();
     }
-    public function reactions() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function reactions()
+    {
         return $this->hasMany(Reaction::class);
     }
-    public function comments() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * */
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
-    
-    // In Post.php model
-public function category()
-{
-    return $this->belongsTo(Category::class);
-}
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

@@ -1,35 +1,38 @@
 .three-dots {
-    color : #A1D6E2 !important;
+    color: #a1d6e2 !important;
 }
 .card {
-    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition:
+        transform 0.3s ease-in-out,
+        background-color 0.3s ease-in-out;
     height: 200px !important; /* Set a fixed height */
     overflow: hidden;
 }
 .card-body p.text-dark {
-    white-space: nowrap;          
-    overflow: hidden;             
+    white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
-
 
 .justify-content-space-between {
     display: flex !important;
     justify-content: space-between !important;
 }
 .text-dark {
-    color : #323653 !important;
+    color: #323653 !important;
 }
 .d-flex {
     justify-content: center;
 }
 .card:hover {
     transform: scale(1.05);
-    background-color: #4e5b6e; 
+    background-color: #4e5b6e;
 }
 
 .btn {
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
 }
 
 .btn:hover {
@@ -38,15 +41,15 @@
 }
 
 .search {
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 .search:focus {
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
-
-
 
 .modal.fade .modal-dialog {
     animation: fadeIn 0.5s ease-out;
@@ -67,11 +70,10 @@
     animation: slideUp 0.5s ease-out;
 }
 
-
 @keyframes dropdownFade {
     from {
         opacity: 0;
-        transform: translateY(0); 
+        transform: translateY(0);
     }
     to {
         opacity: 1;
@@ -85,57 +87,55 @@
 }
 
 .dropdown-menu {
-    animation: dropdownFade 0.25s ease-in-out; 
+    animation: dropdownFade 0.25s ease-in-out;
 }
 .pos-dd {
     transform: translate3d(14.2px, 52.6px, 0px) !important;
 }
 form {
-    background-color: #f8f9fa; 
+    background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 .vh-6 {
     height: 6vh;
 }
- .reaction-count {
-        display: none;
-    }
+.reaction-count {
+    display: none;
+}
 
-    
-    .reaction-btn:hover .reaction-count {
-        display: inline-block;
-        margin-left: 5px;
-    }
-    .reaction-container {
-        display: flex;
-        align-items: center;  
-        justify-content: flex-start; 
-        gap: 8px; 
-    }
-    
-    .reaction-btn {
-        display: flex;
-        align-items: center; 
-        font-size: 1rem; /* Reduced font size for smaller buttons */
-        padding: 0.3rem 0.6rem; /* Smaller padding to prevent buttons from being too large */
-    }
-    
-    .reaction-count {
-        margin-left: 4px; /* Reduced space between emoji and count */
-    }
-    
-    .username {
-        flex: 1; /* Allow username to take remaining space */
-        white-space: nowrap; /* Prevent the text from wrapping */
-        overflow: hidden; /* Hide overflow text */
-        text-overflow: ellipsis; /* Show ellipsis for long usernames */
-    }
-    
+.reaction-btn:hover .reaction-count {
+    display: inline-block;
+    margin-left: 5px;
+}
+.reaction-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.reaction-btn {
+    display: flex;
+    align-items: center;
+    font-size: 1rem; /* Reduced font size for smaller buttons */
+    padding: 0.3rem 0.6rem; /* Smaller padding to prevent buttons from being too large */
+}
+
+.reaction-count {
+    margin-left: 4px; /* Reduced space between emoji and count */
+}
+
+.username {
+    flex: 1; /* Allow username to take remaining space */
+    white-space: nowrap; /* Prevent the text from wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for long usernames */
+}
 
 /* Custom styles for the search form */
 .search-form {
-    background-color:#f8f9fa; /* White background for contrast */
+    background-color: #f8f9fa; /* White background for contrast */
     padding: 15px 20px;
     border-radius: 8px;
     margin-top: -20px;
@@ -177,10 +177,10 @@ form {
 }
 
 .search-form .search-btn:hover {
-    background-color: 	#d6b4fc;
+    background-color: #d6b4fc;
     transform: scale(1.05);
     border: 1px solid #4c3c3c;
-    color : #000;
+    color: #000;
 }
 
 .search-form .date-input {
@@ -192,19 +192,22 @@ form {
 .search-form .action-buttons .btn {
     margin-right: 10px; /* Add spacing between buttons */
     font-weight: bold;
-    background-color : #4c3c3c !important;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: #4c3c3c !important;
+    transition:
+        background-color 0.3s ease,
+        transform 0.3s ease;
 }
 
 .search-form .action-buttons .btn:hover {
-    background-color:#d6b4fc !important;
+    background-color: #d6b4fc !important;
     transform: scale(1.05);
     color: #000;
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 767px) {
-    .search-form .col-md-3, .search-form .col-md-5 {
+    .search-form .col-md-3,
+    .search-form .col-md-5 {
         width: 100%; /* Full width for smaller screens */
         margin-bottom: 10px;
     }
@@ -220,8 +223,8 @@ form {
 
     .search-form .search-btn {
         margin-top: 0px !important;
-      }
-    .form-control{
+    }
+    .form-control {
         width: 100%;
     }
     .col-md-6 {
@@ -231,5 +234,5 @@ form {
 }
 
 #content {
-    background-color:#f7f6f2;
+    background-color: #f7f6f2;
 }
