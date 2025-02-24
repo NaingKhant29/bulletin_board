@@ -14,13 +14,11 @@ class ReactionController extends Controller {
             'type' => 'required|string',
         ]);
     
-        // Create or update the reaction
         $reaction = Reaction::updateOrCreate(
             ['user_id' => Auth::id(), 'post_id' => $request->post_id],
             ['type' => $request->type]
         );
     
-        // Fetch the updated reaction counts for the post
         $likeCount = Reaction::where('post_id', $request->post_id)->where('type', 'like')->count();
         $loveCount = Reaction::where('post_id', $request->post_id)->where('type', 'love')->count();
         $hahaCount = Reaction::where('post_id', $request->post_id)->where('type', 'haha')->count();

@@ -250,10 +250,9 @@ class UserController extends Controller
      */
     public function new()
     {
-        // Retrieve data from session
+
         $data = session()->all();
 
-        // Now you can use this data as needed, for example:
         $name = $data['name'];
         $email = $data['email'];
         $password = $data['password'];
@@ -264,11 +263,10 @@ class UserController extends Controller
         $address = $data['address'];
         $image = $data['image'];
 
-        // Create the new user
         $user = User::create([
             'name' => $name,
             'email' => $email,
-            'password' => bcrypt($password), // Always hash the password
+            'password' => bcrypt($password), 
             'type' => $type,
             'phone' => $phone,
             'dob' => $dob,
@@ -279,7 +277,6 @@ class UserController extends Controller
 
         ]);
 
-        // You can also redirect or return a response after saving
         return redirect()->route('users.dexin')->with('success', 'User registered successfully!');
     }
     /**
@@ -300,19 +297,18 @@ class UserController extends Controller
 
     public function changePassword(Request $request)
     {
-        // Validate the password inputs
+
         info($request->all());
         $validated = $request->validate([
             'current_password' => ['required'],
             'new_password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        // Check if the current password matches the stored password
         if (!Hash::check($request->current_password, Auth::user()->password)) {
             return back()->withErrors(['current_password' => 'The current password is incorrect.']);
         }
 
-        // Update the password using bcrypt (Hash::make)
+      
         Auth::user()->update([
             'password' => Hash::make($request->new_password),
         ]);
