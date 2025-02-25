@@ -18,6 +18,9 @@ html {
   justify-content: space-between;
   font-family: 'Cookie', sans-serif;
 }
+.py-4 {
+  background-color: #f7f6f2;
+}
 .bg-header {
   background-color: #4c3c3c;
 }
