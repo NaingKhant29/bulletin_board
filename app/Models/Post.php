@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
@@ -28,6 +29,7 @@ class Post extends Model
     {
         return $this->belongsTo(User::class, 'create_user_id');
     }
+
     /**
      * @return BelongsTo
      */
@@ -35,29 +37,36 @@ class Post extends Model
     {
         return $this->belongsTo(User::class, 'updated_user_id');
     }
-    public function toggleStatus()
+
+    /**
+     * @return void
+     */
+    public function toggleStatus():void
     {
         $this->status = $this->status === 1 ? 0 : 1;
         $this->save();
     }
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function reactions()
+    public function reactions():HasMany
     {
         return $this->hasMany(Reaction::class);
     }
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      * */
-    public function comments()
+    public function comments():HasMany
     {
         return $this->hasMany(Comment::class);
     }
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function category()
+    public function category():BelongsTo
     {
         return $this->belongsTo(Category::class);
     }

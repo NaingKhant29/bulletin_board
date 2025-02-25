@@ -10,7 +10,7 @@ class UserFactory extends Factory
 {
     /**
      * The current password being used by the factory.
-s     */
+     */
     protected static ?string $password;
 
     /**

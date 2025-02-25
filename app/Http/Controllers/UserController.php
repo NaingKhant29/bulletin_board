@@ -24,7 +24,6 @@ class UserController extends Controller
         $dob_to = $request->input('dob_to');
         $type = $request->input('type', 'all');
 
-
         $query = User::query();
 
         if ($name) {
@@ -65,7 +64,6 @@ class UserController extends Controller
 
         $user->delete();
 
-
         return redirect()->route('users.index')->with('success', 'User deleted successfully');
     }
 
@@ -85,6 +83,7 @@ class UserController extends Controller
 
         return redirect()->route('users')->with('error', 'Please log in first.');
     }
+
     /**
      * @param array $data
      * @return Illuminate\Contracts\Validation\Validator
@@ -131,6 +130,7 @@ class UserController extends Controller
             'image.max' => 'The profile picture cannot be larger than 8MB.',
         ]);
     }
+
     /**
      *
      * @return View
@@ -140,6 +140,7 @@ class UserController extends Controller
         $user = Auth::user();
         return view('users.profileedit', compact('user'));
     }
+
     /**
      * @param Request $request
      * @param int $id
@@ -193,6 +194,7 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Profile updated successfully!');
     }
+
     /**
      * @param Request $request
      * @return View
@@ -237,6 +239,7 @@ class UserController extends Controller
             'image' => $profilePath,
         ]);
     }
+
     /**
      * 
      * @return redirect
@@ -271,6 +274,7 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'User registered successfully!');
     }
+
     /**
      * 
      * @return View
@@ -279,6 +283,7 @@ class UserController extends Controller
     {
         return view('auth.change-password');
     }
+
     /**
      * @param Request $request
      * @return redirect
@@ -294,7 +299,6 @@ class UserController extends Controller
         if (!Hash::check($request->current_password, Auth::user()->password)) {
             return back()->withErrors(['current_password' => 'The current password is incorrect.']);
         }
-
 
         Auth::user()->update([
             'password' => Hash::make($request->new_password),

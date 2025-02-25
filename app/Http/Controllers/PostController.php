@@ -18,14 +18,11 @@ class PostController extends Controller
      */
     public function index(Request $request): View
     {
-
         $query = Post::query()->whereNull('deleted_at');
-
 
         if ($categoryId = $request->input('category_id')) {
             $query->where('category_id', $categoryId);
         }
-
 
         if ($search = $request->input('search')) {
             $query->where(function ($query) use ($search) {
@@ -47,10 +44,8 @@ class PostController extends Controller
 
         $categories = Category::all();
 
-
         return view('posts.index', compact('posts', 'categories'));
     }
-
 
     /**
      * 
@@ -104,6 +99,7 @@ class PostController extends Controller
         ]);
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
+
     /**
      * @param Post $post
      * @return View
@@ -149,6 +145,7 @@ class PostController extends Controller
             'category' => $categoryName,
         ]);
     }
+
     /**
      * @param Request $request
      * @param int $id 
@@ -193,6 +190,7 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
+
     /**
      * @param Request $request
      * @return redirect
@@ -294,6 +292,7 @@ class PostController extends Controller
             ->header('Content-Type', 'text/csv')
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
+    
     /**
      * Download a single post as a CSV file.
      *

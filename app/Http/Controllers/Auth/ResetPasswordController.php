@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-
 class ResetPasswordController extends Controller
 {
     /**
@@ -19,7 +18,6 @@ class ResetPasswordController extends Controller
     {
         return view('auth.reset_password', ['token' => $token]);
     }
-
 
     /**
      * @param Request $request

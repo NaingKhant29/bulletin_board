@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot():void
     {
         // Customizing the password reset link
         ResetPassword::createUrlUsing(function (User $user, string $token) {
@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register():void
     {
         //
     }

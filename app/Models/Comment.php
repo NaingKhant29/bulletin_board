@@ -20,6 +20,7 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class);
     }
+    
     /**
      * Get the user who made this reaction.
      *

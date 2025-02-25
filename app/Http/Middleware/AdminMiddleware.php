@@ -15,11 +15,9 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // Check if user is logged in and is an admin (type = 0)
         if (!Auth::check() || Auth::user()->type !== 0) {
             return redirect()->route('posts.index')->with('error', 'Access Denied!');
         }
-
         return $next($request);
     }
 }
