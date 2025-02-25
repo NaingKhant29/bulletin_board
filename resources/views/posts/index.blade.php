@@ -315,44 +315,46 @@
             </div>
         </div>
         <script>
-            $(document).ready(function() {
-                $(".reaction-btn").click(function() {
-                    let postId = $(this).data("post-id");
-                    let type = $(this).data("type");
+            document.addEventListener("DOMContentLoaded", function() {
+                $(document).ready(function() {
+                    $(".reaction-btn").click(function() {
+                        let postId = $(this).data("post-id");
+                        let type = $(this).data("type");
 
-                    // Perform AJAX to store the reaction
-                    $.ajax({
-                        url: "{{ route('reactions.store') }}",
-                        method: "POST",
-                        data: {
-                            _token: "{{ csrf_token() }}",
-                            post_id: postId,
-                            type: type
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                // Update the reaction counts directly from the response
-                                $(`#like-count-${postId}`).text(response.likeCount);
-                                $(`#love-count-${postId}`).text(response.loveCount);
-                                $(`#haha-count-${postId}`).text(response.hahaCount);
+                        // Perform AJAX to store the reaction
+                        $.ajax({
+                            url: "{{ route('reactions.store') }}",
+                            method: "POST",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                post_id: postId,
+                                type: type
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    // Update the reaction counts directly from the response
+                                    $(`#like-count-${postId}`).text(response.likeCount);
+                                    $(`#love-count-${postId}`).text(response.loveCount);
+                                    $(`#haha-count-${postId}`).text(response.hahaCount);
+                                }
                             }
-                        }
+                        });
                     });
-                });
 
 
-                $("#myselect").on("change", function(e) {
-                    console.log(e.target.value)
-                });
-                $('#myselect').on('change', function() {
-                    var categoryId = $(this).val();
-                    var url = new URL(window.location.href);
-                    if (categoryId) {
-                        url.searchParams.set('category_id', categoryId);
-                    } else {
-                        url.searchParams.delete('category_id');
-                    }
-                    window.location.href = url.toString();
+                    $("#myselect").on("change", function(e) {
+                        console.log(e.target.value)
+                    });
+                    $('#myselect').on('change', function() {
+                        var categoryId = $(this).val();
+                        var url = new URL(window.location.href);
+                        if (categoryId) {
+                            url.searchParams.set('category_id', categoryId);
+                        } else {
+                            url.searchParams.delete('category_id');
+                        }
+                        window.location.href = url.toString();
+                    });
                 });
             });
         </script>

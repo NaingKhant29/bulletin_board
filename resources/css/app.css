@@ -1,3 +1,13 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+@font-face {
+  font-family: 'Cookie';
+  src: url('/fonts/Cookie-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 html {
   background: #f7f7f7;
 }
@@ -6,6 +16,7 @@ html {
   height: 94px;
   width: 100%;
   justify-content: space-between;
+  font-family: 'Cookie', sans-serif;
 }
 .bg-header {
   background-color: #4c3c3c;

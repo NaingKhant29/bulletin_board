@@ -10,13 +10,10 @@
     <title>{{ config('app.name', 'Bulletinboard') }}</title>
 
     <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
-        rel="stylesheet">
+    {{-- <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet"> --}}
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/js/app.js'])
     @vite(['resources/css/app.css'])
     @vite(['resources/css/user/index.css'])
     @vite(['resources/css/post/upload.css'])
@@ -167,29 +164,31 @@
         </footer>
     </div>
     <script>
-        $(document).ready(function() {
-            $("body").hide().fadeToggle(600);
-            const hamburger = $(".hamburger");
-            const navlink = $(".nav-link");
-            const layerWindow = $(".layer-window");
+        document.addEventListener("DOMContentLoaded", function() {
+            $(document).ready(function() {
+                $("body").hide().fadeToggle(600);
+                const hamburger = $(".hamburger");
+                const navlink = $(".nav-link");
+                const layerWindow = $(".layer-window");
 
-            hamburger.on("click", function() {
-                hamburger.toggleClass("active");
-                if (hamburger.hasClass("active")) {
-                    layerWindow.css("display", "block");
-                    navlink.css("height", "450px");
-                } else {
+                hamburger.on("click", function() {
+                    hamburger.toggleClass("active");
+                    if (hamburger.hasClass("active")) {
+                        layerWindow.css("display", "block");
+                        navlink.css("height", "450px");
+                    } else {
+                        layerWindow.css("display", "none");
+                        navlink.css("height", "0px");
+                    }
+                });
+
+                layerWindow.on("click", function() {
+                    hamburger.removeClass("active");
                     layerWindow.css("display", "none");
                     navlink.css("height", "0px");
-                }
-            });
+                });
 
-            layerWindow.on("click", function() {
-                hamburger.removeClass("active");
-                layerWindow.css("display", "none");
-                navlink.css("height", "0px");
             });
-
         });
     </script>
 </body>
