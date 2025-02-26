@@ -45,8 +45,16 @@ html {
   color: #753653 !important;
   position: relative;
 }
+#navbarDropdown::after {
+  content: none !important;
+}
 
-.nav-link > a::after {
+.nav-link a {
+  position: relative; /* Ensure relative positioning for underline effect */
+  text-decoration: none; /* Remove default underline */
+}
+
+.nav-link a::after {
   content: '';
   position: absolute;
   bottom: -3px;
@@ -57,9 +65,40 @@ html {
   transition: 0.5s;
   background: #e57e00;
 }
-.nav-link > a:hover::after {
+
+.nav-link a:hover::after {
   width: 100%;
 }
+/* Hide Bootstrap's default dropdown arrow */
+#navbarDropdown::after {
+  display: none !important;
+}
+
+/* Ensure hover effect works */
+#navbarDropdown {
+  position: relative;
+  text-decoration: none;
+  padding-bottom: 5px; /* Adds space for the underline */
+}
+
+/* Create a hover underline effect */
+#navbarDropdown::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0%;
+  height: 2px;
+  background: #e57e00;
+  transition: width 0.5s ease-in-out;
+}
+
+/* Expand underline on hover */
+#navbarDropdown:hover::before {
+  width: 100%;
+}
+
 .nav-link > a:hover:not(.navbar-brand) {
   background-color: lightblue;
   border-radius: 8px;
@@ -100,7 +139,7 @@ html {
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 80vh;
+  min-height: 75vh;
   margin-top: 8%;
 }
 .modal-header {
@@ -216,7 +255,6 @@ html {
     left: 0;
     width: 100%;
     height: 0px;
-    background: white;
     opacity: 0.9;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
@@ -226,10 +264,10 @@ html {
     z-index: 100;
     text-align: center;
     padding-right: 30px;
-    background: #046169;
+    background: #03e4f9;
   }
   .nav-link .contact-btn {
-    background-color: #ff8364;
+    background-color: #ef390c;
     border-radius: 4px;
     border: none;
     padding: 6px 29px 7px 28px;
@@ -250,7 +288,29 @@ html {
     margin-bottom: 36px;
   }
   .nav-link > a:hover {
-    background-color: rgb(245, 95, 8);
+    background-color: rgb(19, 18, 18) !important;
     border-radius: 4px;
+    color: #fff !important;
+  }
+  .text-sz {
+    font-size: small;
+  }
+}
+@media screen and (max-width: 640px) {
+  .mdle {
+    width: 100%;
+    max-width: 580px !important;
+    margin: 0 auto;
+  }
+  #content {
+    margin-top: 90px;
+  }
+  .date-input {
+    padding-left: 7px !important;
+    font-size: xx-small;
+}
+
+  .border-secondary {
+    font-size: xx-small;
   }
 }

@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+@vite(['resources/css/confirm.css'])
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Confirm Registration') }}</div>
+                    <h4 class="card-header">{{ __('Confirm Registration') }}</h4>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('users.new') }}" enctype="multipart/form-data">

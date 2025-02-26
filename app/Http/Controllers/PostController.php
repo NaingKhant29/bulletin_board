@@ -19,7 +19,7 @@ class PostController extends Controller
     public function index(Request $request): View
     {
         $query = Post::query()->whereNull('deleted_at');
-
+    
         if ($categoryId = $request->input('category_id')) {
             $query->where('category_id', $categoryId);
         }
@@ -30,23 +30,24 @@ class PostController extends Controller
                     ->orWhere('description', 'LIKE', '%' . $search . '%');
             });
         }
-
+    
         if ($createdAt = $request->input('created_at')) {
             $query->whereDate('created_at', '=', $createdAt);
         }
 
         if (Auth::user() && Auth::user()->type == 0) {
-
             $posts = $query->orderBy('created_at', 'desc')->paginate(12);
         } else {
             $posts = $query->where('status', 1)->orderBy('created_at', 'desc')->paginate(12);
         }
-
+    
+        $posts->appends(request()->query());
+    
         $categories = Category::all();
-
+    
         return view('posts.index', compact('posts', 'categories'));
     }
-
+    
     /**
      * 
      * @return View
@@ -200,37 +201,56 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'file' => 'required|mimes:csv,txt|max:2048',
         ]);
-
+    
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
+    
         $file = $request->file('file');
         $path = $file->getRealPath();
-        $data = array_map('str_getcsv', file($path));
-
-        $header = $data[0];
-        if (count($header) !== 4) {
-            return redirect()->back()->with('error', 'The CSV file must have 4 columns: title, description, status, and category_name.');
+    
+        $handle = fopen($path, 'r');
+        $delimiter = $this->detectDelimiter($path);
+        $data = [];
+    
+        while (($row = fgetcsv($handle, 1000, $delimiter)) !== false) {
+            $data[] = $row;
         }
+        fclose($handle);
+    
+        if (empty($data)) {
+            return redirect()->back()->with('error', 'CSV file is empty or invalid.');
+        }
+    
+        $header = array_map('trim', $data[0]);
+        $expectedColumns = ['title', 'description', 'status', 'category_name'];
+    
+        if (array_diff($expectedColumns, $header)) {
+            return redirect()->back()->with('error', 'CSV file must contain: title, description, status, category_name.');
+        }
+    
         unset($data[0]);
-
+    
+        $insertData = [];
+    
         foreach ($data as $row) {
-            if (count($row) !== 4) {
-                return redirect()->back()->with('error', 'Each row in the CSV must have exactly 4 columns.');
+            $rowAssoc = array_combine($header, $row);
+    
+            if (!$rowAssoc) {
+                continue;
             }
-
-            $category = Category::where('name', $row[3])->first();
-
-            if (!$category) {
-                $category = Category::create([
-                    'name' => $row[3],
-                ]);
+    
+            // ✅ **Check if category_name is missing**
+            if (empty($rowAssoc['category_name'])) {
+                return redirect()->back()->with('error', 'Each row must have a category name.');
             }
+    
+            $category = Category::firstOrCreate(['name' => $rowAssoc['category_name']]);
+    
             $insertData[] = [
-                'title' => $row[0],
-                'description' => $row[1],
-                'status' => (int) $row[2],
+                'title' => $rowAssoc['title'],
+                'description' => $rowAssoc['description'],
+                'status' => (int) $rowAssoc['status'],
                 'category_id' => $category->id,
                 'create_user_id' => Auth::id(),
                 'updated_user_id' => Auth::id(),
@@ -238,14 +258,34 @@ class PostController extends Controller
                 'updated_at' => now(),
             ];
         }
-
+    
         if (!empty($insertData)) {
             Post::insert($insertData);
         }
-
+    
         return redirect()->back()->with('success', 'Posts uploaded successfully!');
     }
-
+    
+    
+    /**
+     * 
+     * @return string
+     */
+    private function detectDelimiter($filePath)
+    {
+        $delimiters = [',', "\t", ';'];
+        $handle = fopen($filePath, 'r');
+        $line = fgets($handle);
+        fclose($handle);
+    
+        foreach ($delimiters as $delimiter) {
+            if (substr_count($line, $delimiter) > 0) {
+                return $delimiter;
+            }
+        }   
+        return ',';
+    }
+    
     /**
      * 
      * @return Response

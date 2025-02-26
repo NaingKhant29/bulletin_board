@@ -31,7 +31,12 @@
 
                     <div class="btn-create-clear container-form-post">
                         <button type="submit" class="btn btn-primary">Confirm</button>
-                        <a href="{{ route('posts.create') }}" class="btn btn-info">Cancel</a>
+                        <a href="{{ route('posts.create', [
+                            'title' => $title,
+                            'description' => $description,
+                            'category_id' => $category_id
+                        ]) }}" class="btn btn-info">Cancel</a>
+                        
                     </div>
                 </form>
             </div>

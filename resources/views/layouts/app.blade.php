@@ -10,12 +10,8 @@
     <title>{{ config('app.name', 'Bulletinboard') }}</title>
 
     <link rel="dns-prefetch" href="//fonts.bunny.net">
-    {{-- <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet"> --}}
-
-
     @vite(['resources/js/app.js'])
     @vite(['resources/css/app.css'])
-    @vite(['resources/css/user/index.css'])
     @vite(['resources/css/post/upload.css'])
 </head>
 
@@ -154,12 +150,12 @@
 
         <footer class="footer container">
             <section class="footer-session-one">
-                <a class="btn btn-link" href="https://seattleconsultingmm.com">
+                <a class="btn btn-link text-sz" href="https://seattleconsultingmm.com">
                     {{ __('Seattle Consulting Myanmar') }}
                 </a>
             </section>
             <section class="footer-session-two">
-                <label>Copyright &copy; Seattle Consulting Myanmar Co., Ltd. All rights reserved.</label>
+                <label class="text-sz">Copyright &copy; Seattle Consulting Myanmar Co., Ltd. All rights reserved.</label>
             </section>
         </footer>
     </div>

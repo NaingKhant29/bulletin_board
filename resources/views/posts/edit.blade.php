@@ -88,7 +88,7 @@
 
     <script>
         function clearForm() {
-            $('#title, #description').val('');
+            $('#title, #description, #category_id').val('');
         }
     </script>
 @endsection

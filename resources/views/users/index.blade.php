@@ -1,47 +1,54 @@
 @extends('layouts.app')
 
 @section('content')
+@vite(['resources/css/user/index.css'])
     <div class="container">
         <div class="user-card">
-
             @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        
 
             <!-- Search Form -->
          <form method="GET" action="{{ route('users.index') }}" class="mb-3">
     <div class="row container-form">
         <!-- DOB From -->
-        <div class="col-md-2 label wd">
+        <div class="col-md-2 label wd txt-sm">
             <label for="dob_from">From:</label>
-            <input type="date" class="form-control" name="dob_from" value="{{ request('dob_from') }}">
+            <input type="date" class="form-control txt-sm user-form-pad" name="dob_from" value="{{ request('dob_from') }}">
         </div>
         <!-- DOB To -->
-        <div class="col-md-2 label wd">
+        <div class="col-md-2 label wd txt-sm mrgin-lf">
             <label for="dob_to">To: </label>
-            <input type="date" class="form-control" name="dob_to" value="{{ request('dob_to') }}">
+            <input type="date" class="form-control txt-sm user-form-pad" name="dob_to" value="{{ request('dob_to') }}">
         </div>
         <div class="d-flex col-md-2 label wk p-2">
             <!-- Dropdown Filter -->
-            <select name="type" class="form-select border" style="width: 43%; border-radius: 8px;" id="type" onchange="this.form.submit()">
+            <select name="type" class="form-select border txt-sm" style="width: 43%; border-radius: 8px;" id="type" onchange="this.form.submit()">
                 <option value="all" {{ $type == 'all' ? 'selected' : '' }}>All</option>
                 <option value="0" {{ $type == '0' ? 'selected' : '' }}>Admin</option>
                 <option value="1" {{ $type == '1' ? 'selected' : '' }}>User</option>
             </select>
 
             <!-- Search Input -->
-            <input type="text" class="form-control border" name="name" placeholder="Search" value="{{ request('name') }}" style="width: 100%; border-radius: 8px;">
+            <input type="text" class="form-control border txt-sm" name="name" placeholder="Search" value="{{ request('name') }}" style="width: 100%; border-radius: 8px;">
         </div>
 
         <!-- Email Search -->
         <div class="col-md-2 label wd">
-            <input type="text" class="form-control" name="email" placeholder="Search by email" value="{{ request('email') }}">
+            <input type="text" class="form-control txt-sm" name="email" placeholder="Search by email" value="{{ request('email') }}">
         </div>
         <!-- Submit Button -->
-        <div class="col-md-2 d-flex align-items-end ws">
-            <button type="submit" class="btn btn-primary search-btn">Search</button>
+        <div class="col-md-2 d-flex align-items-end ws pd-left-zero">
+            <button type="submit" class="btn btn-primary search-btn txt-sm ">Search</button>
         </div>
     </div>
 </form>
@@ -53,13 +60,13 @@
                         <th>No</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Created User</th>
+                        <th class="hide-on-mobile">Created User</th>
                         <th>Type</th>
                         <th>Phone</th>
                         <th>Date of Birth</th>
-                        <th>Address</th>
-                        <th>Created_date</th>
-                        <th>Updated_date</th>
+                        <th class="hide-on-mobile">Address</th>
+                        <th class="hide-on-mobile">Created_date</th>
+                        <th class="hide-on-mobile">Updated_date</th>
                         @if (Auth::check() && Auth::user()->type == 0)
                             <th>Operation</th>
                         @endif
@@ -76,16 +83,16 @@
                                 </a>
                             </td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ optional(\App\Models\User::find($user->created_user_id))->name ?? 'N/A' }}</td>
+                            <td class="hide-on-mobile">{{ optional(\App\Models\User::find($user->created_user_id))->name ?? 'N/A' }}</td>
                             <td>{{ $user->type == 0 ? 'Admin' : 'User' }}</td>
                             <td>{{ $user->phone }}</td>
                             <td>{{ $user->dob }}</td>
-                            <td>{{ $user->address }}</td>
-                            <td>{{ $user->created_at }}</td>
-                            <td>{{ $user->updated_at }}</td>
+                            <td class="hide-on-mobile">{{ $user->address }}</td>
+                            <td class="hide-on-mobile">{{ $user->created_at }}</td>
+                            <td class="hide-on-mobile">{{ $user->updated_at }}</td>
                             @if (Auth::check() && Auth::user()->type == 0)
                                 <td>
-                                    <a href="#" class="btn btn-danger" data-bs-toggle="modal"
+                                    <a href="#" class="btn btn-danger btn-danger-sm" data-bs-toggle="modal"
                                         data-bs-target="#deleteModal{{ $user->id }}">
                                         Delete
                                     </a>

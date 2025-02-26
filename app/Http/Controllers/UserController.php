@@ -57,15 +57,18 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-
-        if (Auth::id() === $user->id) {
+    
+        // Prevent logged-in user from deleting their own account
+        if ((int) Auth::id() === (int) $user->id) {
             return redirect()->route('users.index')->with('error', 'You cannot delete your own account.');
         }
-
+    
+        // Delete the user
         $user->delete();
-
-        return redirect()->route('users.index')->with('success', 'User deleted successfully');
+    
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
+    
 
     /**
      * 

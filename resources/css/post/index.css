@@ -8,6 +8,9 @@
     height: 200px !important; /* Set a fixed height */
     overflow: hidden;
   }
+  .width-dd {
+    width: 20%;
+  }
   .card-body p.text-dark {
     white-space: nowrap;
     overflow: hidden;
@@ -34,7 +37,17 @@
       background-color 0.3s ease,
       transform 0.2s ease;
   }
-  
+  .dlt-btn {
+    background-color: #0d6efd;
+    border: none;
+    border-radius: 8px;
+    margin-right: 10px;
+    padding: 8px 16px;
+  }
+  .dlt-btn:hover {
+    transform: scale(1.1);
+    background-color: #5b9bd5;
+  }
   .btn:hover {
     transform: scale(1.1);
     background-color: #5b9bd5;
@@ -233,3 +246,17 @@
     }
   }
   
+.category-id {
+  text-overflow: ellipsis;
+}
+@media screen and (max-width: 640px) {
+  .width-dd {
+    width: 36%;
+  }
+ .hide-on-mobile {
+  display: none;
+ }
+ .dropdown-menu.show {
+  transform: translate3d(0, 0, 0) !important; /* Adjust position to be visible */
+}
+}

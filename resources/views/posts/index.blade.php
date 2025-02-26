@@ -18,17 +18,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-
             <form method="GET" action="{{ route('posts.index') }}" class="search-form mb-4">
                 <div class="d-flex flex-row align-items-center gap-3 w-100">
+                    <!-- Date Filter -->
                     <div class="flex-shrink-0" style="width: 18%;">
                         <input type="date" name="created_at" class="form-control date-input"
                             value="{{ request('created_at') }}">
                     </div>
 
+                    <!-- Category Dropdown & Search -->
                     <div class="d-flex align-items-center" style="width: 50%">
-                        <div class="flex-shrink-0" style="width: 20%;">
-                            <select name="category_id" id="myselect" class="form-select border border-secondary rounded-0">
+                        <div class="flex-shrink-0 width-dd">
+                            <select name="category_id" id="myselect"
+                                class="form-select category-id border border-secondary rounded-0">
                                 <option value="">All</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
@@ -47,18 +49,21 @@
                         </button>
                     </div>
 
+                    <!-- Action Buttons -->
                     <div class="d-flex gap-2" style="width: 28%">
                         <a href="{{ route('posts.create') }}" class="btn btn-secondary" style="width: 30%">
-                            <i class="bi bi-plus-circle"></i> <br>Create
+                            <i class="bi bi-plus-circle"></i> <br>
+                            <div class="hide-on-mobile">Create</div>
                         </a>
                         <a href="{{ route('posts.upload') }}" class="btn btn-secondary" style="width: 30%">
-                            <i class="bi bi-upload"></i> <br>Upload
+                            <i class="bi bi-upload"></i> <br>
+                            <div class="hide-on-mobile">Upload</div>
                         </a>
                         <a href="{{ route('posts.download') }}" class="btn btn-secondary" style="width: 30%">
-                            <i class="bi bi-download"></i> <br>Download
+                            <i class="bi bi-download"></i> <br>
+                            <div class="hide-on-mobile">Download</div>
                         </a>
                     </div>
-
                 </div>
             </form>
 
@@ -315,48 +320,54 @@
             </div>
         </div>
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                $(document).ready(function() {
-                    $(".reaction-btn").click(function() {
-                        let postId = $(this).data("post-id");
-                        let type = $(this).data("type");
-
-                        // Perform AJAX to store the reaction
-                        $.ajax({
-                            url: "{{ route('reactions.store') }}",
-                            method: "POST",
-                            data: {
-                                _token: "{{ csrf_token() }}",
-                                post_id: postId,
-                                type: type
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    // Update the reaction counts directly from the response
-                                    $(`#like-count-${postId}`).text(response.likeCount);
-                                    $(`#love-count-${postId}`).text(response.loveCount);
-                                    $(`#haha-count-${postId}`).text(response.hahaCount);
-                                }
+            document.addEventListener("DOMContentLoaded", function () {
+                // Handle reactions via AJAX
+                $(".reaction-btn").click(function () {
+                    let postId = $(this).data("post-id");
+                    let type = $(this).data("type");
+        
+                    $.ajax({
+                        url: "{{ route('reactions.store') }}",
+                        method: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            post_id: postId,
+                            type: type
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                $(`#like-count-${postId}`).text(response.likeCount);
+                                $(`#love-count-${postId}`).text(response.loveCount);
+                                $(`#haha-count-${postId}`).text(response.hahaCount);
                             }
-                        });
-                    });
-
-
-                    $("#myselect").on("change", function(e) {
-                        console.log(e.target.value)
-                    });
-                    $('#myselect').on('change', function() {
-                        var categoryId = $(this).val();
-                        var url = new URL(window.location.href);
-                        if (categoryId) {
-                            url.searchParams.set('category_id', categoryId);
-                        } else {
-                            url.searchParams.delete('category_id');
                         }
-                        window.location.href = url.toString();
                     });
+                });
+
+                function updateURL() {
+                    let url = new URL(window.location.href);
+                    url.searchParams.delete("page");
+
+                    let categoryId = $("#myselect").val();
+                    categoryId ? url.searchParams.set("category_id", categoryId) : url.searchParams.delete("category_id");
+        
+                    let searchQuery = $("input[name='search']").val();
+                    searchQuery ? url.searchParams.set("search", searchQuery) : url.searchParams.delete("search");
+        
+                    let createdAt = $("input[name='created_at']").val();
+                    createdAt ? url.searchParams.set("created_at", createdAt) : url.searchParams.delete("created_at");
+
+                    window.location.href = url.toString();
+                }
+        
+                $("#myselect").on("change", updateURL);
+                let typingTimer;
+                $("input[name='search']").on("keyup", function () {
+                    clearTimeout(typingTimer);
+                    typingTimer = setTimeout(updateURL, 500);
                 });
             });
         </script>
+        
     </div>
 @endsection

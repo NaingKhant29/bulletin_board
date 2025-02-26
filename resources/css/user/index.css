@@ -10,6 +10,7 @@ td {
   align-items: center;
   margin-right: 20px;
 }
+
 .wd {
   width: 20% !important;
 }
@@ -211,4 +212,35 @@ th {
 }
 .flex-start {
   align-self: flex-start;
+}
+@media screen and (max-width: 640px) {
+  .wrapper {
+    margin-top: 16% !important;
+  }
+  table {
+    font-size: xx-small !important;
+  }
+  .btn-danger-sm {
+    padding: 4px !important;
+    font-size: xx-small !important;
+  }
+  .hide-on-mobile {
+    display: none;
+  }
+  .pd-left-zero {
+    padding-left: 0 !important;
+  }
+  .txt-sm {
+    font-size: xx-small !important;
+  }
+  .label {
+    padding: 0px !important;
+  }
+  .user-form-pad {
+    padding: 8px 0px 8px 0px!important;
+    justify-content: flex-start !important;
+  }
+  .mrgin-lf {
+    margin-left : 8px !important;
+  }
 }
