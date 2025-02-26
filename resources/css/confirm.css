@@ -4,6 +4,10 @@
 .card-header {
   text-align: center;
   color: #753653;
+  padding: 20px;
+}
+.card-body {
+  padding: 40px;
 }
 .top {
   margin-top: 50px;
@@ -33,7 +37,7 @@
   padding: 20px;
 }
 .btn-primary:hover {
-  background-color: #99d7099e !important;
+  background-color: #6c757d !important;
 }
 .btn-info:hover {
   background-color: #4000ff7e !important;

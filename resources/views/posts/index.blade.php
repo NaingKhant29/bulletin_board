@@ -205,10 +205,10 @@
                                                         @if (Auth::id() === $comment->user_id)
                                                             <form action="{{ route('comments.destroy', $comment->id) }}"
                                                                 method="POST" class="d-inline"
-                                                                style="box-shadow: none;">
+                                                                style="box-shadow: none; background : #fff">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit" class="btn">🗑</button>
+                                                                <button type="submit" class="dlt-btn">🗑</button>
                                                             </form>
                                                         @endif
                                                     </li>
@@ -303,9 +303,6 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <!-- Modal for comment, delete and post details would follow as usual -->
                 @empty
                     <div class="col-md-12 text-center">
                         <p>No data available.</p>
