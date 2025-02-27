@@ -57,18 +57,18 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-    
+
         // Prevent logged-in user from deleting their own account
         if ((int) Auth::id() === (int) $user->id) {
             return redirect()->route('users.index')->with('error', 'You cannot delete your own account.');
         }
-    
+
         // Delete the user
         $user->delete();
-    
+
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
-    
+
 
     /**
      * 
@@ -94,7 +94,26 @@ class UserController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'dob' => ['required', 'date', 'before_or_equal:today'],
+            'dob' => [
+                'required',
+                'date',
+                'before_or_equal:today',
+                function ($attribute, $value, $fail) {
+                    $minYear = 1900;
+                    $dob = strtotime($value);
+                    $year = date('Y', $dob);
+                    $age = date('Y') - $year;
+
+                    if ($year < $minYear) {
+                        $fail('You are not a human!');
+                    }
+
+                    if ($age < 14) {
+                        $fail('You must be at least 14 years old to register.');
+                    }
+                }
+            ],
+
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -105,7 +124,7 @@ class UserController extends Controller
         ], [
             'dob.required' => 'Please provide your date of birth.',
             'dob.date' => 'The date of birth is not a valid date.',
-            'dob.before_or_equal' => 'The date of birth cannot be in the future.',
+            'dob.before_or_equal' => 'You are a time traveller. You are not allowed to access!',
             'dob.age' => 'You must be at least 12 years old.',
 
             'name.required' => 'Please provide your full name.',
@@ -155,9 +174,56 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'nullable|string|max:15',
-            'dob' => 'nullable|date',
+            'dob' => [
+                'required',
+                'date',
+                'before_or_equal:today',
+                function ($attribute, $value, $fail) {
+                    $minYear = 1900;
+                    $dob = strtotime($value);
+                    $year = date('Y', $dob);
+                    $age = date('Y') - $year;
+
+                    if ($year < $minYear) {
+                        $fail('You are not a human!');
+                    }
+
+                    if ($age < 14) {
+                        $fail('You must be at least 14 years old to register.');
+                    }
+                }
+            ],
             'address' => 'nullable|string|max:255',
             'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8048',
+        ],  [
+            'dob.required' => 'Please provide your date of birth.',
+            'dob.date' => 'The date of birth is not a valid date.',
+            'dob.before_or_equal' => 'You are a time traveller. You are not allowed to access!',
+            'dob.age' => 'You must be at least 12 years old.',
+
+            'name.required' => 'Please provide your full name.',
+            'name.string' => 'The name must be a valid string.',
+            'name.max' => 'The name cannot be longer than 255 characters.',
+
+            'email.required' => 'We need your email to contact you.',
+            'email.email' => 'Email Format is invalid',
+            'email.max' => 'The email cannot be longer than 255 characters.',
+            'email.unique' => 'The email is already taken.',
+
+            'password.required' => 'Password is required.',
+            'password.min' => 'Password must be at least 8 characters.',
+            'password.confirmed' => 'Password and Password confirmation does not match.',
+
+            'type.required' => 'Please select the user type.',
+            'type.in' => 'The user type must be either Admin (0) or User (1).',
+
+            'phone.max' => 'Phone number cannot be longer than 15 characters.',
+            'address.max' => 'The address cannot be longer than 255 characters.',
+
+            'image.required' => 'Please upload a profile picture.',
+            'image.file' => 'The profile picture must be a file.',
+            'image.mimes' => 'The profile picture must be a JPEG, PNG, JPG, or GIF image.',
+            'image.max' => 'The profile picture cannot be larger than 8MB.',
         ]);
 
         $user = User::findOrFail($id);
@@ -190,8 +256,8 @@ class UserController extends Controller
 
 
         if ($isEdited) {
-            $user->updated_user_id = auth()->id();
-            $user->updated_at = now();
+            $user->updated_user_id = Auth::id();
+            $user->updated_at = now()->format('d-m-Y H:i:s'); // Formats as DD-MM-YYYY HH:MM:SS
         }
         $user->save();
 

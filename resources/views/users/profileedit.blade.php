@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-@vite(['resources/css/confirm.css'])
-@vite(['resources/css/user/profileedit.css'])
+    @vite(['resources/css/confirm.css'])
+    @vite(['resources/css/user/profileedit.css'])
     <div class="container">
         <div class="card shadow border-0">
-                <h4 class="card-header txt-lft">Profile Edit</h4>
+            <h4 class="card-header txt-lft">Profile Edit</h4>
             <div class="card-body">
                 <form id="editProfileForm" method="POST" enctype="multipart/form-data"
                     action="{{ route('profile.update', $user->id) }}">
@@ -70,7 +70,8 @@
                         <label for="dob" class="col-md-4 col-form-label text-md-end">Date of Birth</label>
                         <div class="col-md-6">
                             <input type="date" class="form-control @error('dob') is-invalid @enderror" id="dob"
-                                name="dob" value="{{ old('dob', $user->dob) }}">
+                                name="dob" value="{{ old('dob', optional($user->dob)->format('Y-m-d')) }}">
+
                             @error('dob')
                                 <strong class="text-danger">{{ $message }}</strong>
                             @enderror
@@ -93,9 +94,9 @@
                     <div class="row mb-3">
                         <label for="old-profile" class="col-md-4 col-form-label text-md-end">Old Profile</label>
                         <div class="col-md-6">
-                            <img id="profilePreview" class="img-thumbnail"
+                            <img class="img-thumbnail"
                                 src="{{ $user->profile ? asset('storage/' . $user->profile) : 'https://via.placeholder.com/150' }}"
-                                alt="Profile" style="width: 150px; height: 150px; object-fit: cover;">
+                                alt="Old Profile" style="width: 150px; height: 150px; object-fit: cover;">
                         </div>
                     </div>
 
@@ -108,8 +109,13 @@
                             @error('profile')
                                 <strong class="text-danger">{{ $message }}</strong>
                             @enderror
+
+                            @if ($user->profile)
+                                <p class="text-muted mt-2">Uploading a new image will replace the old one.</p>
+                            @endif
                         </div>
                     </div>
+
 
                     <!-- Buttons -->
                     <div class="row mb-0">
@@ -135,12 +141,13 @@
         $(document).ready(function() {
             $("#clearFormBtn").click(function() {
                 $("#editProfileForm").find("input, select, textarea").val("");
-                $("#editProfileForm").find("input[type=checkbox], input[type=radio]").prop("checked", false);
+                $("#editProfileForm").find("input[type=checkbox], input[type=radio]").prop("checked",
+                    false);
                 $("#editProfileForm").find("select").prop("selectedIndex", 0);
                 $("#profile").val("");
                 $("#profilePreview").attr("src", "https://via.placeholder.com/150");
             });
-    
+
             $("#profile").change(function(event) {
                 let reader = new FileReader();
                 reader.onload = function(e) {

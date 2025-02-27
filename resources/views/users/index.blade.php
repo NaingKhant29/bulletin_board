@@ -1,57 +1,62 @@
 @extends('layouts.app')
 
 @section('content')
-@vite(['resources/css/user/index.css'])
+    @vite(['resources/css/user/index.css'])
     <div class="container">
         <div class="user-card">
             @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-        
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-        
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
 
             <!-- Search Form -->
-         <form method="GET" action="{{ route('users.index') }}" class="mb-3">
-    <div class="row container-form">
-        <!-- DOB From -->
-        <div class="col-md-2 label wd txt-sm">
-            <label for="dob_from">From:</label>
-            <input type="date" class="form-control txt-sm user-form-pad" name="dob_from" value="{{ request('dob_from') }}">
-        </div>
-        <!-- DOB To -->
-        <div class="col-md-2 label wd txt-sm mrgin-lf">
-            <label for="dob_to">To: </label>
-            <input type="date" class="form-control txt-sm user-form-pad" name="dob_to" value="{{ request('dob_to') }}">
-        </div>
-        <div class="d-flex col-md-2 label wk p-2">
-            <!-- Dropdown Filter -->
-            <select name="type" class="form-select border txt-sm" style="width: 43%; border-radius: 8px;" id="type" onchange="this.form.submit()">
-                <option value="all" {{ $type == 'all' ? 'selected' : '' }}>All</option>
-                <option value="0" {{ $type == '0' ? 'selected' : '' }}>Admin</option>
-                <option value="1" {{ $type == '1' ? 'selected' : '' }}>User</option>
-            </select>
+            <form method="GET" action="{{ route('users.index') }}" class="mb-3">
+                <div class="row container-form">
+                    <!-- DOB From -->
+                    <div class="col-md-2 label wd txt-sm">
+                        <label for="dob_from">From:</label>
+                        <input type="date" class="form-control txt-sm user-form-pad" name="dob_from"
+                            value="{{ request('dob_from') }}">
+                    </div>
+                    <!-- DOB To -->
+                    <div class="col-md-2 label wd txt-sm mrgin-lf">
+                        <label for="dob_to">To: </label>
+                        <input type="date" class="form-control txt-sm user-form-pad" name="dob_to"
+                            value="{{ request('dob_to') }}">
+                    </div>
+                    <div class="d-flex col-md-2 label wk p-2">
+                        <!-- Dropdown Filter -->
+                        <select name="type" class="form-select border txt-sm" style="width: 43%; border-radius: 8px;"
+                            id="type" onchange="this.form.submit()">
+                            <option value="all" {{ $type == 'all' ? 'selected' : '' }}>All</option>
+                            <option value="0" {{ $type == '0' ? 'selected' : '' }}>Admin</option>
+                            <option value="1" {{ $type == '1' ? 'selected' : '' }}>User</option>
+                        </select>
 
-            <!-- Search Input -->
-            <input type="text" class="form-control border txt-sm" name="name" placeholder="Search" value="{{ request('name') }}" style="width: 100%; border-radius: 8px;">
-        </div>
+                        <!-- Search Input -->
+                        <input type="text" class="form-control border txt-sm" name="name" placeholder="Search"
+                            value="{{ request('name') }}" style="width: 100%; border-radius: 8px;">
+                    </div>
 
-        <!-- Email Search -->
-        <div class="col-md-2 label wd">
-            <input type="text" class="form-control txt-sm" name="email" placeholder="Search by email" value="{{ request('email') }}">
-        </div>
-        <!-- Submit Button -->
-        <div class="col-md-2 d-flex align-items-end ws pd-left-zero">
-            <button type="submit" class="btn btn-primary search-btn txt-sm ">Search</button>
-        </div>
-    </div>
-</form>
+                    <!-- Email Search -->
+                    <div class="col-md-2 label wd">
+                        <input type="text" class="form-control txt-sm" name="email" placeholder="Search by email"
+                            value="{{ request('email') }}">
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="col-md-2 d-flex align-items-end ws pd-left-zero">
+                        <button type="submit" class="btn btn-primary search-btn txt-sm ">Search</button>
+                    </div>
+                </div>
+            </form>
 
 
             <table class="table">
@@ -83,7 +88,8 @@
                                 </a>
                             </td>
                             <td>{{ $user->email }}</td>
-                            <td class="hide-on-mobile">{{ optional(\App\Models\User::find($user->created_user_id))->name ?? 'N/A' }}</td>
+                            <td class="hide-on-mobile">
+                                {{ optional(\App\Models\User::find($user->created_user_id))->name ?? 'N/A' }}</td>
                             <td>{{ $user->type == 0 ? 'Admin' : 'User' }}</td>
                             <td>{{ $user->phone }}</td>
                             <td>{{ $user->dob }}</td>
@@ -126,13 +132,16 @@
                                                 <p><strong>Phone:</strong> {{ $user->phone }}</p>
                                                 <p><strong>Date of Birth:</strong> {{ $user->dob }}</p>
                                                 <p><strong>Address:</strong> {{ $user->address }}</p>
-                                                <p><strong>Created Date:</strong> {{ $user->created_at->format('Y-m-d') }}
-                                                </p>
+                                                <p><strong>Created Date:</strong>
+                                                    {{ $user->created_at->format('Y-m-d H:i:s') }}</p>
+
                                                 <p><strong>Created User:</strong>
                                                     {{ $user->createUser ? $user->createUser->created_user_id : 'N/A' }}
                                                 </p>
-                                                <p><strong>Updated Date:</strong> {{ $user->updated_at->format('Y-m-d') }}
-                                                </p>
+
+                                                <p><strong>Updated Date:</strong>
+                                                    {{ $user->updated_at->format('Y-m-d H:i:s') }}</p>
+
                                                 <p><strong>Updated User:</strong>
                                                     {{ $user->updatedUser ? $user->updatedUser->name : 'N/A' }}</p>
                                             </div>
@@ -193,8 +202,5 @@
             </div>
         </div>
     </div>
-    <script>
-     
-
-    </script>
+    <script></script>
 @endsection
