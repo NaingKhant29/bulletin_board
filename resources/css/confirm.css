@@ -21,7 +21,7 @@
 }
 .space-evenly {
   display: flex;
-  justify-content: space-evenly !important;
+  justify-content: center !important;
 }
 .w-30 {
   width: 30% !important;
@@ -29,6 +29,13 @@
 }
 .text-md-end {
   padding: 10px;
+}
+.flex-center {
+  display: flex;
+  justify-content: center; 
+}
+.margin-left {
+  margin-left: 20px;
 }
 .btn-create-clear {
   display: flex;
@@ -41,4 +48,10 @@
 }
 .btn-info:hover {
   background-color: #4000ff7e !important;
+}
+.margin-right {
+  margin-right: 20px;
+}
+.mgn-lft {
+  margin-left: -125px;
 }

@@ -20,11 +20,11 @@
                                 <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
                                 <div class="col-md-6">
                                     <div class="position-relative">
-                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror pe-5" name="password" required>
+                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror pe-5" name="password"  style="@error('password') background-image: none !important; @enderror">
                                         <i class="bi bi-eye-slash position-absolute end-0 top-50 translate-middle-y me-3 toggle-password" data-target="password" style="cursor: pointer;"></i>
                                     </div>
                                     @error('password')
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
@@ -35,7 +35,7 @@
                                 <label for="password_confirmation" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
                                 <div class="col-md-6">
                                     <div class="position-relative">
-                                        <input id="password-confirm" type="password" class="form-control pe-5" name="password_confirmation" required>
+                                        <input id="password-confirm" type="password" class="form-control pe-5" name="password_confirmation" >
                                         <i class="bi bi-eye-slash position-absolute end-0 top-50 translate-middle-y me-3 toggle-password" data-target="password-confirm" style="cursor: pointer;"></i>
                                     </div>
                                 </div>

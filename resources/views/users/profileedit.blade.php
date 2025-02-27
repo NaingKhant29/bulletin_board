@@ -129,20 +129,25 @@
     </div>
 
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#clearFormBtn").click(function() {
-                $("#editProfileForm")[0].reset(); // Reset all form fields
-
-                // Clear file input manually
+                $("#editProfileForm").find("input, select, textarea").val("");
+                $("#editProfileForm").find("input[type=checkbox], input[type=radio]").prop("checked", false);
+                $("#editProfileForm").find("select").prop("selectedIndex", 0);
                 $("#profile").val("");
-
-                // Reset profile preview to the old image
-                $("#profilePreview").attr("src",
-                    "{{ $user->profile ? asset('storage/' . $user->profile) : 'https://via.placeholder.com/150' }}"
-                );
+                $("#profilePreview").attr("src", "https://via.placeholder.com/150");
             });
-
+    
+            $("#profile").change(function(event) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    $("#profilePreview").attr("src", e.target.result);
+                };
+                reader.readAsDataURL(this.files[0]);
+            });
         });
     </script>
 @endsection

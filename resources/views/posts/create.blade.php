@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@vite(['resources/css/confirm.css'])
+    @vite(['resources/css/confirm.css'])
     <div class="container">
         <div class="card">
             <h4 class="card-header">Create Post</h4>
@@ -23,7 +23,7 @@
             @endif
             <form action="{{ route('posts.confirm') }}" method="POST" style="padding: 40px;">
                 @csrf
-            
+
                 <div class="row mb-3">
                     <label for="title" class="col-md-4 col-form-label text-md-end">{{ __('Title') }}</label>
                     <div class="col-md-6">
@@ -35,18 +35,17 @@
                         @enderror
                     </div>
                 </div>
-            
+
                 <div class="row mb-3">
                     <label for="description" class="col-md-4 col-form-label text-md-end">{{ __('Description') }}</label>
                     <div class="col-md-6">
-                        <textarea name="description" id="description" 
-                            class="form-control @error('description') is-invalid @enderror">{{ old('description', request('description')) }}</textarea>
+                        <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror">{{ old('description', request('description')) }}</textarea>
                         @error('description')
                             <strong class="text-danger">{{ $message }}</strong>
                         @enderror
                     </div>
                 </div>
-            
+
                 <div class="row mb-3">
                     <label for="category_id" class="col-md-4 col-form-label text-md-end">{{ __('Category') }}</label>
                     <div class="col-md-6">
@@ -54,7 +53,7 @@
                             class="form-control @error('category_id') is-invalid @enderror">
                             <option value="" disabled>{{ __('Select a Category') }}</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" 
+                                <option value="{{ $category->id }}"
                                     {{ old('category_id', request('category_id')) == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
@@ -65,7 +64,7 @@
                         @enderror
                     </div>
                 </div>
-            
+
                 <div class="row mb-0">
                     <div class="col-md-6 offset-md-4">
                         <button type="submit" class="btn btn-primary">
@@ -77,15 +76,16 @@
                     </div>
                 </div>
             </form>
-
-        </div>
-    </div>
-
-    <script>
-        function clearForm() {
-            document.getElementById('title').value = '';
-            document.getElementById('description').value = '';
-            document.getElementById('category_id').selectedIndex = 0; 
-        }
-    </script>
-@endsection
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    $(document).ready(function() {
+                        // Attach the click event to the clear button
+                        $('#clear-btn').click(function() {
+                            $('#title').val('');
+                            $('#description').val('');
+                            $('#category_id').prop('selectedIndex', 0);
+                        });
+                    });
+                });
+            </script>
+        @endsection

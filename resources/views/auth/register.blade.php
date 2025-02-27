@@ -45,19 +45,21 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="password"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
+                                <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                        
                                 <div class="col-md-6">
                                     <div class="position-relative">
                                         <input id="password" type="password"
                                             class="form-control pe-5 @error('password') is-invalid @enderror"
-                                            name="password" autocomplete="new-password">
+                                            name="password" autocomplete="new-password"
+                                            style="@error('password') background-image: none !important; @enderror">
+                        
                                         <i class="bi bi-eye-slash position-absolute end-0 top-50 translate-middle-y me-3 toggle-password"
                                             data-target="password" style="cursor: pointer;"></i>
                                     </div>
+                        
                                     @error('password')
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="text-danger">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror

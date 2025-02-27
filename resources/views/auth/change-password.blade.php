@@ -16,11 +16,11 @@
                                 <label for="current_password" class="col-md-4 col-form-label text-md-end">{{ __('Current Password') }}</label>
                                 <div class="col-md-6">
                                     <div class="position-relative">
-                                        <input id="current_password" type="password" class="form-control @error('current_password') is-invalid @enderror pe-5" name="current_password">
+                                        <input id="current_password" type="password" class="form-control pe-5 @error('current_password') is-invalid @enderror" name="current_password" style="@error('current_password') background-image: none !important; @enderror">
                                         <i class="bi bi-eye-slash position-absolute end-0 top-50 translate-middle-y me-3 toggle-password" data-target="current_password" style="cursor: pointer;"></i>
                                     </div>
                                     @error('current_password')
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
@@ -31,11 +31,11 @@
                                 <label for="new_password" class="col-md-4 col-form-label text-md-end">{{ __('New Password') }}</label>
                                 <div class="col-md-6">
                                     <div class="position-relative">
-                                        <input id="new_password" type="password" class="form-control @error('new_password') is-invalid @enderror pe-5" name="new_password">
+                                        <input id="new_password" type="password" class="form-control @error('new_password') is-invalid @enderror pe-5" name="new_password" style="@error('new_password') background-image: none !important; @enderror">
                                         <i class="bi bi-eye-slash position-absolute end-0 top-50 translate-middle-y me-3 toggle-password" data-target="new_password" style="cursor: pointer;"></i>
                                     </div>
                                     @error('new_password')
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror

@@ -4,3 +4,7 @@
 .btn-link:hover {
   color: red;
 }
+#clearFormBtn:hover {
+  background-color: #6c757d !important;
+  color: #fff !important;
+}

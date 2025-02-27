@@ -85,10 +85,18 @@
 
         </div>
     </div>
-
     <script>
-        function clearForm() {
-            $('#title, #description, #category_id').val('');
-        }
+         function clearForm() {
+        console.log("🧹 Clear button clicked!"); // Debugging
+        $('#title').val('');
+        $('#description').val('');
+        $('#category_id').prop('selectedIndex', 0);
+        $('#status').prop('checked', false);
+    }
+
+    $(document).ready(function () {
+        console.log("✅ jQuery is working with Vite!");
+    });
     </script>
+
 @endsection

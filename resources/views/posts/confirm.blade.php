@@ -30,7 +30,7 @@
                     <input type="hidden" name="category_id" value="{{ $category_id }}">
 
                     <div class="btn-create-clear container-form-post">
-                        <button type="submit" class="btn btn-primary">Confirm</button>
+                        <button type="submit" class="btn btn-primary margin-right mgn-lft">Confirm</button>
                         <a href="{{ route('posts.create', [
                             'title' => $title,
                             'description' => $description,

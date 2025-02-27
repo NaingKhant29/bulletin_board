@@ -232,6 +232,7 @@ class PostController extends Controller
         unset($data[0]);
     
         $insertData = [];
+        $existingTitles = Post::pluck('title')->toArray(); // Fetch existing titles
     
         foreach ($data as $row) {
             $rowAssoc = array_combine($header, $row);
@@ -240,9 +241,12 @@ class PostController extends Controller
                 continue;
             }
     
-            // ✅ **Check if category_name is missing**
             if (empty($rowAssoc['category_name'])) {
                 return redirect()->back()->with('error', 'Each row must have a category name.');
+            }
+    
+            if (in_array($rowAssoc['title'], $existingTitles)) {
+                return redirect()->back()->with('error', "The title '{$rowAssoc['title']}' already exists.");
             }
     
             $category = Category::firstOrCreate(['name' => $rowAssoc['category_name']]);
