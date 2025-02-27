@@ -40,7 +40,7 @@
 
                     <!-- Type -->
                     <div class="row mb-3">
-                        <label for="type" class="col-md-4 col-form-label text-md-end">Type</label>
+                        <label for="type" class="col-md-4 col-form-label text-md-end">Type<span class="text-danger">*</span></label>
                         <div class="col-md-6">
                             <select class="form-control @error('type') is-invalid @enderror" id="type" name="type"
                                 {{ Auth::user()->type == 1 ? 'disabled' : '' }}>

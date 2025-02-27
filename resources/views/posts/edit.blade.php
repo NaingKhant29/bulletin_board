@@ -25,7 +25,7 @@
             <form action="{{ route('posts.confirmedit', $post->id) }}" method="GET" style="padding: 40px">
                 @csrf
                 <div class="row mb-3">
-                    <label for="title" class="col-md-4 col-form-label text-md-end">Title</label>
+                    <label for="title" class="col-md-4 col-form-label text-md-end">Title<span class="text-danger">*</span></label>
                     <div class="col-md-6">
                         <input type="text" name="title" id="title"
                             class="form-control @error('title') is-invalid @enderror"
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="description" class="col-md-4 col-form-label text-md-end">Description</label>
+                    <label for="description" class="col-md-4 col-form-label text-md-end">Description<span class="text-danger">*</span></label>
                     <div class="col-md-6">
                         <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror">{{ old('description', $post->description) }}</textarea>
                         @error('description')
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="category_id" class="col-md-4 col-form-label text-md-end">Category</label>
+                    <label for="category_id" class="col-md-4 col-form-label text-md-end">Category<span class="text-danger">*</span></label>
                     <div class="col-md-6">
                         <select name="category_id" id="category_id"
                             class="form-control @error('category_id') is-invalid @enderror" required>

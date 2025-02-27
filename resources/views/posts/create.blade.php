@@ -25,7 +25,7 @@
                 @csrf
 
                 <div class="row mb-3">
-                    <label for="title" class="col-md-4 col-form-label text-md-end">{{ __('Title') }}</label>
+                    <label for="title" class="col-md-4 col-form-label text-md-end">{{ __('Title') }} <span class="text-danger">*</span></label>
                     <div class="col-md-6">
                         <input type="text" name="title" id="title"
                             class="form-control @error('title') is-invalid @enderror"
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="description" class="col-md-4 col-form-label text-md-end">{{ __('Description') }}</label>
+                    <label for="description" class="col-md-4 col-form-label text-md-end">{{ __('Description') }} <span class="text-danger">*</span></label>
                     <div class="col-md-6">
                         <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror">{{ old('description', request('description')) }}</textarea>
                         @error('description')
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="category_id" class="col-md-4 col-form-label text-md-end">{{ __('Category') }}</label>
+                    <label for="category_id" class="col-md-4 col-form-label text-md-end">{{ __('Category') }}<span class="text-danger">*</span></label>
                     <div class="col-md-6">
                         <select name="category_id" id="category_id"
                             class="form-control @error('category_id') is-invalid @enderror">
@@ -79,7 +79,6 @@
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
                     $(document).ready(function() {
-                        // Attach the click event to the clear button
                         $('#clear-btn').click(function() {
                             $('#title').val('');
                             $('#description').val('');

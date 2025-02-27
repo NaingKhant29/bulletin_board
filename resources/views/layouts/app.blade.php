@@ -22,7 +22,7 @@
                 <div class="mdle header">
 
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Bulletinboard') }}
+                       Bulletinboard
                     </a>
                     <nav>
                         <div class="hamburger">

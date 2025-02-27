@@ -14,7 +14,7 @@
 
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('error') }}
+                    {{session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
@@ -25,8 +25,6 @@
                         <input type="date" name="created_at" class="form-control date-input"
                             value="{{ request('created_at') }}">
                     </div>
-
-                    <!-- Category Dropdown & Search -->
                     <div class="d-flex align-items-center" style="width: 50%">
                         <div class="flex-shrink-0 width-dd">
                             <select name="category_id" id="myselect"
@@ -40,10 +38,8 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <input type="text" name="search" class="form-control border border-secondary rounded-0"
                             placeholder="Search by keyword" value="{{ request('search') }}" style="width: 30vw;">
-
                         <button type="submit" class="btn btn-secondary border border-secondary rounded-0">
                             <i class="bi bi-search"></i>
                         </button>
@@ -318,7 +314,6 @@
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                // Handle reactions via AJAX
                 $(".reaction-btn").click(function () {
                     let postId = $(this).data("post-id");
                     let type = $(this).data("type");

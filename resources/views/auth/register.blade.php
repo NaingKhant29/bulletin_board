@@ -16,7 +16,7 @@
 
                             <div class="row mb-3">
                                 <label for="name"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('Name') }}<span class="text-danger">*</span></label>
 
                                 <div class="col-md-6">
                                     <input id="name" type="text"
@@ -32,7 +32,7 @@
 
                             <div class="row mb-3">
                                 <label for="email"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}<span class="text-danger">*</span></label>
 
                                 <div class="col-md-6">
                                     <input id="email" class="form-control @error('email') is-invalid @enderror"
@@ -45,7 +45,7 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                                <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}<span class="text-danger">*</span></label>
                         
                                 <div class="col-md-6">
                                     <div class="position-relative">
@@ -68,7 +68,7 @@
 
                             <div class="row mb-3">
                                 <label for="password-confirm"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Password Confirmation') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('Password Confirmation') }}<span class="text-danger">*</span></label>
 
                                 <div class="col-md-6">
                                     <div class="position-relative">
@@ -85,7 +85,7 @@
 
                             <div class="row mb-3">
                                 <label for="type"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Type') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('Type') }}<span class="text-danger">*</span></label>
 
                                 <div class="col-md-6">
                                     <select id="type" class="form-control" name="type">
@@ -138,7 +138,7 @@
 
                             <div class="row mb-3">
                                 <label for="profile"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Profile') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('Profile') }}<span class="text-danger">*</span></label>
                                 <div class="col-md-6">
                                     <input id="profile" type="file"
                                         class="form-control @error('image') is-invalid @enderror" name="image"
