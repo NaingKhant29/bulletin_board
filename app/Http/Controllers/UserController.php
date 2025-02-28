@@ -316,29 +316,19 @@ class UserController extends Controller
     public function new()
     {
         $data = session()->all();
+        $currentUserId = Auth::id(); // Get current user ID
 
-        $name = $data['name'];
-        $email = $data['email'];
-        $password = $data['password'];
-        $password_confirm = $data['password_confirm'];
-        $type = $data['type'];
-        $phone = $data['phone'];
-        $dob = $data['dob'];
-        $address = $data['address'];
-        $image = $data['image'];
-
-        $user = User::create([
-            'name' => $name,
-            'email' => $email,
-            'password' => bcrypt($password),
-            'type' => $type,
-            'phone' => $phone,
-            'dob' => $dob,
-            'address' => $address,
-            'profile' => $image ? $image : null,
-            'created_user_id' => Auth::id(),
-            'updated_user_id' => Auth::id(),
-
+        User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+            'type' => $data['type'],
+            'phone' => $data['phone'],
+            'dob' => $data['dob'],
+            'address' => $data['address'],
+            'profile' => $data['image'] ? $data['image'] : null,
+            'created_user_id' => $currentUserId,
+            'updated_user_id' => $currentUserId,
         ]);
 
         return redirect()->route('users.index')->with('success', 'User registered successfully!');

@@ -6,12 +6,16 @@
 <div class="d-flex justify-content-center align-items-center min-vh-100">
     <div class="login-container">
         <h4 class="card-header mb-4">{{ __('Login') }}</h4>
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}" id="loginForm">
             @csrf
             <div class="mb-3">
                 <label for="email" class="form-label">{{ __('Email') }}</label>
-                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
-                       name="email" value="{{ old('email') }}" autocomplete="email" autofocus>
+                <input id="email" 
+                       type="email" 
+                       class="form-control @error('email') is-invalid @enderror" 
+                       name="email" 
+                       value="{{ Cookie::get('email') !== null ? Cookie::get('email') : '' }}"
+                       autocomplete="off">
                 @error('email')
                     <span class="invalid-feedback">
                         <strong>{{ $message }}</strong>
@@ -22,10 +26,16 @@
             <div class="mb-3 position-relative">
                 <label for="password" class="form-label">{{ __('Password') }}</label>
                 <div class="input-group">
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
-                           name="password" autocomplete="current-password">
-                        <i class="bi bi-eye-slash position-absolute end-0 top-50 translate-middle-y me-3 toggle-password" data-target="password" style="cursor: pointer;"></i>
-             
+                    <input id="password" 
+                           type="password" 
+                           class="form-control b-radi @error('password') is-invalid @enderror" 
+                           name="password"
+                           value="{{ Cookie::get('password') !== null ? Cookie::get('password') : '' }}"
+                           autocomplete="off"
+                           style="@error('password') background-image: none !important; @enderror">
+                    <i class="bi bi-eye-slash position-absolute end-0 top-50 translate-middle-y me-3 toggle-password" 
+                       data-target="password" 
+                       style="cursor: pointer;"></i>
                 </div>
                 @error('password')
                     <span class="invalid-feedback">
@@ -35,8 +45,11 @@
             </div>
 
             <div class="mb-3 form-check">
-                <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                    {{ old('remember') ? 'checked' : '' }}>
+                <input class="form-check-input" 
+                       type="checkbox" 
+                       name="remember" 
+                       id="remember"
+                       {{ isset($remember) && !empty($remember) ? 'checked' : '' }}>
                 <label class="form-check-label" for="remember">
                     {{ __('Remember Me') }}
                 </label>

@@ -18,6 +18,7 @@ class PostController extends Controller
      */
     public function index(Request $request): View
     {
+        // dd(request()->cookie());
         $query = Post::query()->whereNull('deleted_at');
     
         if ($categoryId = $request->input('category_id')) {

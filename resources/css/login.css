@@ -26,6 +26,9 @@ body {
   background: #6c757d !important;
   color: #fff !important;
 }
+.b-radi {
+  border-radius: 8px !important;
+}
 .toggle-password {
   cursor: pointer;
 }

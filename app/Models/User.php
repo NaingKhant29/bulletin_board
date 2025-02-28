@@ -26,7 +26,7 @@ class User extends Authenticatable
         'address',
         'dob',
         'created_user_id',
-        'update_user_id',
+        'updated_user_id',
         'delete_user_id',
         'remember_token',
     ];
