@@ -91,7 +91,12 @@ class PostController extends Controller
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
         ]);
-
+    
+        // Check if a post with the same title already exists
+        if (Post::where('title', $request->input('title'))->exists()) {
+            return redirect()->route('posts.index')->with('error', 'A post with this title already exists.');
+        }
+    
         Post::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -99,8 +104,10 @@ class PostController extends Controller
             'create_user_id' => Auth::id(),
             'updated_user_id' => Auth::id(),
         ]);
+    
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
+    
 
     /**
      * @param Post $post

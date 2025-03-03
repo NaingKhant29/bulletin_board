@@ -18,42 +18,64 @@
 
 
             <!-- Search Form -->
-            <form method="GET" action="{{ route('users.index') }}" class="mb-3">
-                <div class="row container-form">
-                    <!-- DOB From -->
-                    <div class="col-md-2 label wd txt-sm">
-                        <label for="dob_from">From:</label>
-                        <input type="date" class="form-control txt-sm user-form-pad" name="dob_from"
-                            value="{{ request('dob_from') }}">
+            <form method="GET" action="{{ route('users.index') }}" style="margin-bottom: 12px !important;">
+                <div style="display: flex !important; flex-direction: row !important; gap: 4px !important; padding: 4px !important; align-items: center !important;">
+                    <!-- Calendar Dropdown -->
+                    <div class="dropdown" style="width: 32px !important;">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" 
+                            style="height: 30px !important; 
+                                   width: 32px !important; 
+                                   padding: 2px !important; 
+                                   font-size: 12px !important; 
+                                   display: flex !important; 
+                                   align-items: center !important; 
+                                   justify-content: center !important;">
+                            <i class="bi bi-calendar3"></i>
+                        </button>
+                        <div class="dropdown-menu" style="min-width: 220px !important; padding: 8px !important;">
+                            <div style="display: flex !important; gap: 4px !important;">
+                                <div style="flex: 1 !important;">
+                                    <small style="font-size: 10px !important; color: #666 !important;">From</small>
+                                    <input type="date" class="form-control" name="dob_from" 
+                                        style="font-size: 11px !important; padding: 4px !important; height: 28px !important;" 
+                                        value="{{ request('dob_from') }}">
+                                </div>
+                                <div style="flex: 1 !important;">
+                                    <small style="font-size: 10px !important; color: #666 !important;">To</small>
+                                    <input type="date" class="form-control" name="dob_to" 
+                                        style="font-size: 11px !important; padding: 4px !important; height: 28px !important;" 
+                                        value="{{ request('dob_to') }}">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!-- DOB To -->
-                    <div class="col-md-2 label wd txt-sm mrgin-lf">
-                        <label for="dob_to">To: </label>
-                        <input type="date" class="form-control txt-sm user-form-pad" name="dob_to"
-                            value="{{ request('dob_to') }}">
-                    </div>
-                    <div class="d-flex col-md-2 label wk p-2">
-                        <!-- Dropdown Filter -->
-                        <select name="type" class="form-select border txt-sm" style="width: 43%; border-radius: 8px;"
-                            id="type" onchange="this.form.submit()">
-                            <option value="all" {{ $type == 'all' ? 'selected' : '' }}>All</option>
-                            <option value="0" {{ $type == '0' ? 'selected' : '' }}>Admin</option>
-                            <option value="1" {{ $type == '1' ? 'selected' : '' }}>User</option>
-                        </select>
+                    
+                    <!-- User Type Dropdown -->
+                    <select name="type" class="form-select mb-type" id="type" onchange="this.form.submit()">
+                        <option value="all" {{ $type == 'all' ? 'selected' : '' }}>&#xF4E3;</option>
+                        <option value="0" {{ $type == '0' ? 'selected' : '' }}>&#xF4DA;</option>
+                        <option value="1" {{ $type == '1' ? 'selected' : '' }}>&#xF4D5;</option>
+                    </select>
 
-                        <!-- Search Input -->
-                        <input type="text" class="form-control border txt-sm" name="name" placeholder="Search"
-                            value="{{ request('name') }}" style="width: 100%; border-radius: 8px;">
-                    </div>
+                    <!-- Name Input -->
+                    <input type="text" class="form-control mb-name-search" name="name" placeholder="Name" value="{{ request('name') }}">
 
-                    <!-- Email Search -->
-                    <div class="col-md-2 label wd">
-                        <input type="text" class="form-control txt-sm" name="email" placeholder="Search by email"
+                    <!-- Email Search with Button -->
+                    <div class="mb-email-search">
+                        <input type="text" class="form-control mb-email-search-input" name="email" placeholder="Email" 
                             value="{{ request('email') }}">
-                    </div>
-                    <!-- Submit Button -->
-                    <div class="col-md-2 d-flex align-items-end ws pd-left-zero">
-                        <button type="submit" class="btn btn-primary search-btn txt-sm ">Search</button>
+                        <button type="submit" class="btn btn-primary" 
+                            style="width: 32px !important;
+                                   height: 30px !important;
+                                   padding: 2px !important;
+                                   font-size: 12px !important;
+                                   display: flex !important;
+                                   align-items: center !important;
+                                   justify-content: center !important;
+                                   border-top-left-radius: 0 !important;
+                                   border-bottom-left-radius: 0 !important;">
+                            <i class="bi bi-search"></i>
+                        </button>
                     </div>
                 </div>
             </form>

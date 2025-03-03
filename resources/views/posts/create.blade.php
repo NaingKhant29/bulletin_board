@@ -49,16 +49,16 @@
                 <div class="row mb-3">
                     <label for="category_id" class="col-md-4 col-form-label text-md-end">{{ __('Category') }}<span class="text-danger">*</span></label>
                     <div class="col-md-6">
-                        <select name="category_id" id="category_id"
-                            class="form-control @error('category_id') is-invalid @enderror">
-                            <option value="" disabled>{{ __('Select a Category') }}</option>
+                        <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
+                            <option value="" selected disabled>{{ __('Select a Category') }}</option> 
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}"
+                                <option value="{{ $category->id }}" 
                                     {{ old('category_id', request('category_id')) == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
+                        
                         @error('category_id')
                             <strong class="text-danger">{{ $message }}</strong>
                         @enderror

@@ -237,10 +237,38 @@ th {
     padding: 0px !important;
   }
   .user-form-pad {
-    padding: 8px 0px 8px 0px!important;
+    padding: 8px 0px 8px 0px !important;
     justify-content: flex-start !important;
   }
   .mrgin-lf {
-    margin-left : 8px !important;
+    margin-left: 8px !important;
+  }
+  .mb-type {
+    width: 40px !important;
+    height: 30px !important;
+    padding: 2px !important;
+    font-size: 12px !important;
+    font-family: bootstrap-icons !important;
+    background-position: right 2px center !important;
+    background-size: 8px !important;
+    padding-right: 12px !important;
+  }
+  .mb-name-search {
+    width: 60px !important;
+    height: 30px !important;
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+  }
+  .mb-email-search {
+    display: flex !important;
+    flex: 1 !important;
+  }
+  .mb-email-search-input {
+    height: 30px !important;
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+    border-right: none !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
   }
 }
