@@ -91,12 +91,7 @@ class PostController extends Controller
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
         ]);
-    
-        // Check if a post with the same title already exists
-        if (Post::where('title', $request->input('title'))->exists()) {
-            return redirect()->route('posts.index')->with('error', 'A post with this title already exists.');
-        }
-    
+
         Post::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -104,10 +99,8 @@ class PostController extends Controller
             'create_user_id' => Auth::id(),
             'updated_user_id' => Auth::id(),
         ]);
-    
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
-    
 
     /**
      * @param Post $post
@@ -207,7 +200,7 @@ class PostController extends Controller
     public function upload(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'file' => 'required|mimes:csv,txt|max:2048',
+            'file' => 'required|mimes:csv,txt|max:5120', 
         ]);
     
         if ($validator->fails()) {
@@ -219,42 +212,32 @@ class PostController extends Controller
     
         $handle = fopen($path, 'r');
         $delimiter = $this->detectDelimiter($path);
-        $data = [];
-    
-        while (($row = fgetcsv($handle, 1000, $delimiter)) !== false) {
-            $data[] = $row;
-        }
-        fclose($handle);
-    
-        if (empty($data)) {
-            return redirect()->back()->with('error', 'CSV file is empty or invalid.');
+        
+        if (!$handle) {
+            return redirect()->back()->with('error', 'Cannot open the file.');
         }
     
-        $header = array_map('trim', $data[0]);
+        $header = fgetcsv($handle, 1000, $delimiter);
+        if (!$header) {
+            return redirect()->back()->with('error', 'Invalid CSV file.');
+        }
+    
         $expectedColumns = ['title', 'description', 'status', 'category_name'];
-    
         if (array_diff($expectedColumns, $header)) {
             return redirect()->back()->with('error', 'CSV file must contain: title, description, status, category_name.');
         }
-    
-        unset($data[0]);
-    
+        $batchSize = 500; 
         $insertData = [];
-        $existingTitles = Post::pluck('title')->toArray(); // Fetch existing titles
+        $existingTitles = Post::pluck('title')->toArray();
     
-        foreach ($data as $row) {
+        while (($row = fgetcsv($handle, 1000, $delimiter)) !== false) {
             $rowAssoc = array_combine($header, $row);
-    
-            if (!$rowAssoc) {
+            if (!$rowAssoc || empty($rowAssoc['title']) || empty($rowAssoc['category_name'])) {
                 continue;
             }
     
-            if (empty($rowAssoc['category_name'])) {
-                return redirect()->back()->with('error', 'Each row must have a category name.');
-            }
-    
             if (in_array($rowAssoc['title'], $existingTitles)) {
-                return redirect()->back()->with('error', "The title '{$rowAssoc['title']}' already exists.");
+                continue; 
             }
     
             $category = Category::firstOrCreate(['name' => $rowAssoc['category_name']]);
@@ -269,19 +252,24 @@ class PostController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+    
+            if (count($insertData) >= $batchSize) {
+                Post::insert($insertData);
+                $insertData = [];
+            }
         }
     
         if (!empty($insertData)) {
             Post::insert($insertData);
         }
     
-        return redirect()->back()->with('success', 'Posts uploaded successfully!');
+        fclose($handle);
+        return redirect()->route('posts.index')->with('success', 'CSV uploaded successfully in chunks!');
+
     }
     
-    
     /**
-     * 
-     * @return string
+     * Detects the delimiter used in the CSV file.
      */
     private function detectDelimiter($filePath)
     {
@@ -294,9 +282,11 @@ class PostController extends Controller
             if (substr_count($line, $delimiter) > 0) {
                 return $delimiter;
             }
-        }   
-        return ',';
+        }
+        return ','; // Default to comma
     }
+    
+    
     
     /**
      * 

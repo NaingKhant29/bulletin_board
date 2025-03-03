@@ -1,6 +1,8 @@
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 td {
   color: #323653dd !important;
 }
+
 .user-card {
   border-radius: 10px;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
@@ -10,19 +12,30 @@ td {
   align-items: center;
   margin-right: 20px;
 }
-
+.hide-on-pc{
+  display: none !important;
+}
 .wd {
   width: 20% !important;
 }
+
 .wk {
   width: 31% !important;
 }
+
 .ws {
   width: 8%;
+}
+.name-wd {
+  width: 40%;
+}
+.form-wd {
+  width: 20%;
 }
 .form-control {
   width: 100% !important;
 }
+
 th {
   background-color: #f0f1f2 !important;
   color: #323653 !important;
@@ -39,18 +52,22 @@ th {
   max-width: 1300px;
   margin: 0px auto;
 }
+
 .search-btn {
   align-self: center;
 }
+
 .row {
   justify-content: flex-center;
   margin-left: 0;
   margin-right: 0;
 }
+
 .keyword,
 .blank {
   margin-right: 4%;
 }
+
 .upload-download {
   width: 30%;
 }
@@ -61,9 +78,11 @@ th {
   justify-content: space-between;
   text-align: right;
 }
+
 .create-post-title {
   margin-top: 50px;
 }
+
 .des {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -73,19 +92,24 @@ th {
   max-width: 900px;
   margin: 0px auto;
 }
+
 .adjust-width {
   width: 50%;
 }
+
 .warning {
   color: red;
 }
+
 .form-label {
   width: 30%;
 }
+
 .wd {
   width: 65%;
   text-align: left !important;
 }
+
 .search {
   width: 100%;
   display: block;
@@ -106,43 +130,53 @@ th {
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
 }
+
 .form-control {
   width: 65%;
 }
+
 .form-switch {
   width: 65%;
 }
+
 .colorfff {
   color: white;
 }
+
 .btn-create-clear {
   display: flex;
   justify-content: center;
   margin-left: 128px;
 }
-.btn-create-clear > button {
+
+.btn-create-clear>button {
   margin-left: 1%;
   margin-right: 0px;
   padding: 5px 10px;
   margin-bottom: 36px;
 }
-.btn-create-clear > a {
+
+.btn-create-clear>a {
   margin-left: 1%;
   margin-right: 0px;
   padding: 5px 10px;
   margin-bottom: 36px;
   color: white;
 }
+
 .text-decoration-none {
   text-decoration: none;
   color: #323653dd !important;
 }
+
 .text-decoration-none:hover {
   color: rgba(255, 119, 0, 0.888) !important;
 }
+
 .post-search {
   width: 75% !important;
 }
+
 .modal-body {
   padding: 20px;
   font-family: 'Arial', sans-serif;
@@ -210,39 +244,51 @@ th {
 .modal-body .btn-close:hover {
   color: #333;
 }
+
+
 .flex-start {
   align-self: flex-start;
 }
+
 @media screen and (max-width: 640px) {
   .wrapper {
     margin-top: 16% !important;
   }
+
   table {
     font-size: xx-small !important;
   }
+
   .btn-danger-sm {
     padding: 4px !important;
     font-size: xx-small !important;
   }
+
   .hide-on-mobile {
-    display: none;
+    display: none !important;
   }
+
   .pd-left-zero {
     padding-left: 0 !important;
   }
+
   .txt-sm {
     font-size: xx-small !important;
   }
+
   .label {
     padding: 0px !important;
   }
+
   .user-form-pad {
     padding: 8px 0px 8px 0px !important;
     justify-content: flex-start !important;
   }
+
   .mrgin-lf {
     margin-left: 8px !important;
   }
+
   .mb-type {
     width: 40px !important;
     height: 30px !important;
@@ -253,16 +299,19 @@ th {
     background-size: 8px !important;
     padding-right: 12px !important;
   }
+
   .mb-name-search {
     width: 60px !important;
     height: 30px !important;
     padding: 4px 8px !important;
     font-size: 12px !important;
   }
+
   .mb-email-search {
     display: flex !important;
     flex: 1 !important;
   }
+
   .mb-email-search-input {
     height: 30px !important;
     padding: 4px 8px !important;
@@ -270,5 +319,17 @@ th {
     border-right: none !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
+  }
+
+  .beside-email-search-btn {
+    width: 32px !important;
+    height: 30px !important;
+    padding: 2px !important;
+    font-size: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
   }
 }
