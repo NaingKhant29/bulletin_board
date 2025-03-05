@@ -3,7 +3,7 @@
 @section('content')
     @vite(['resources/css/confirm.css'])
     <div class="container">
-        <div class="card">
+        <div class="card form-mg-top">
             <h4 class="card-header">Create Post</h4>
 
             @if (session('success'))

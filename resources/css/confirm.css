@@ -55,3 +55,18 @@
 .mgn-lft {
   margin-left: -125px;
 }
+@media screen and (max-width: 640px) {
+  .form-mg-top {
+      margin-top: 50px;
+  }
+  .lable {
+    width: 50%;
+    text-align: center;
+  }
+  .w-30 {
+    width: 50% !important;
+  }
+  .btn-create-clear {
+    margin-left: 130px;
+}
+}

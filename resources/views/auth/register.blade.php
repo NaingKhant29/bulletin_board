@@ -3,8 +3,9 @@
 @section('content')
     @vite(['resources/css/app.js'])
     @vite(['resources/css/confirm.css'])
+    @vite(['resources/css/register.css'])
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center form-mg-top">
             <div class="col-md-8">
                 <div class="card">
                     <h4 class="card-header">{{ __('Register') }}</h4>

@@ -1,4 +1,5 @@
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+
 td {
   color: #323653dd !important;
 }
@@ -12,9 +13,11 @@ td {
   align-items: center;
   margin-right: 20px;
 }
-.hide-on-pc{
+
+.hide-on-pc {
   display: none !important;
 }
+
 .wd {
   width: 20% !important;
 }
@@ -26,12 +29,11 @@ td {
 .ws {
   width: 8%;
 }
+
 .name-wd {
   width: 4%;
 }
-.form-wd {
-  width: 20%;
-}
+
 .form-control {
   width: 100% !important;
 }
@@ -46,6 +48,11 @@ th {
   justify-content: space-between;
   align-items: center;
   padding: 8px;
+}
+
+.dropdown-menu {
+  min-width: 220px !important;
+  padding: 8px !important;
 }
 
 .container-form {
@@ -231,6 +238,12 @@ th {
   border-radius: 4px;
 }
 
+.mb-type:active {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
 .modal-body .btn-close {
   position: absolute;
   top: 10px;
@@ -241,10 +254,78 @@ th {
   color: #777;
 }
 
+.form-filter {
+  margin-bottom: 12px !important;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px;
+}
+
+.md-name-search {
+  width: 100%;
+}
+
+.name-wd {
+  width: 30% !important;
+}
+
+.email-wd {
+  display: flex;
+  width: 30% !important;
+}
+
+.wd-dd {
+  width: 10% !important;
+}
+
+.type-wd {
+  width: 10% !important;
+}
+
+.mb-type {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+}
+
+.dropdown-calendar {
+  padding: 8px;
+  width: 100%;
+}
+
 .modal-body .btn-close:hover {
   color: #333;
 }
 
+.mb-name-search {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.mb-email-search-input {
+  width: 90%;
+  padding: 8px;
+  border-radius: 8px;
+  border-right: none;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.beside-email-search-btn {
+  width: 42px !important;
+  height: 41.6px !important;
+  padding: 2px !important;
+  font-size: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
 
 .flex-start {
   align-self: flex-start;
@@ -290,21 +371,20 @@ th {
   }
 
   .mb-type {
-    width: 40px !important;
-    height: 30px !important;
-    padding: 2px !important;
+    padding: 6px;
     font-size: 12px !important;
     font-family: bootstrap-icons !important;
     background-position: right 2px center !important;
     background-size: 8px !important;
-    padding-right: 12px !important;
+    border-radius: 8px;
+    height: 35.6px;
   }
 
   .mb-name-search {
-    width: 60px !important;
-    height: 30px !important;
-    padding: 4px 8px !important;
     font-size: 12px !important;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    padding: 6px;
   }
 
   .mb-email-search {
@@ -312,24 +392,28 @@ th {
     flex: 1 !important;
   }
 
-  .mb-email-search-input {
-    height: 30px !important;
-    padding: 4px 8px !important;
-    font-size: 12px !important;
-    border-right: none !important;
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-  }
-
-  .beside-email-search-btn {
-    width: 32px !important;
-    height: 30px !important;
-    padding: 2px !important;
+  .dropdown-calendar {
     font-size: 12px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    border-top-left-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
+  }
+
+  .mb-email-search-input {
+    width: 90%;
+    padding: 6px;
+    font-size: 12px !important;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    border-right: none;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .beside-email-search-btn {
+    width: 32px !important;
+    height: 35.6px !important;
+  }
+  .dropdown-menu.show {
+    transform: translate3d(61px, 159px, 0px) !important;
   }
 }

@@ -3,8 +3,8 @@
 @section('content')
     @vite(['resources/css/confirm.css'])
 
-    <div class="container mt-4">  {{-- Added margin-top for spacing --}}
-        <div class="card">
+    <div class="container mt-4 ">  {{-- Added margin-top for spacing --}}
+        <div class="card form-mg-top">
             <h4 class="card-header">Upload CSV File</h4>
 
             {{-- Success/Error Messages --}}

@@ -7,7 +7,6 @@
   font-weight: normal;
   font-style: normal;
 }
-
 html {
   background: #f7f7f7;
 }
@@ -103,7 +102,7 @@ html {
   background-color: lightblue;
   border-radius: 8px;
   font-weight: bold;
-  color: #000;
+  color: #04e3df2f;
 }
 .container-nav {
   width: 100%;
@@ -288,7 +287,7 @@ html {
     margin-bottom: 36px;
   }
   .nav-link > a:hover {
-    background-color: rgb(19, 18, 18) !important;
+    background-color: rgba(231, 29, 29, 0.726) !important;
     border-radius: 4px;
     color: #fff !important;
   }
@@ -309,7 +308,15 @@ html {
     padding-left: 7px !important;
     font-size: xx-small;
 }
-
+.footer {
+  font-size: xx-small;
+}
+.footer-session-one {
+  width: 30%;
+}
+.footer-session-two {
+  width: 35%;
+}
   .border-secondary {
     font-size: xx-small;
   }

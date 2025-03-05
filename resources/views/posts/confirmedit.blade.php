@@ -3,25 +3,25 @@
 @section('content')
     @vite(['resources/css/confirm.css'])
     <div class="container">
-        <div class="card">
+        <div class="card form-mg-top">
             <h4 class="card-header">Confirm Edit</h4>
             <div class = "confirm-container">
                 <div class="space-evenly mb-3">
-                    <label for="title" class="col-md-4 col-form-label text-md-end">Title</label>
+                    <label for="title" class="col-md-4 lable col-form-label text-md-end">Title</label>
                     <div class="w-30 txt-lft">{{ $title }}</div>
                 </div>
 
                 <div class="space-evenly mb-3">
-                    <label for="description" class="col-md-4 col-form-label text-md-end">Description</label>
+                    <label for="description" class="col-md-4 lable col-form-label text-md-end">Description</label>
                     <div class="w-30 txt-lft">{{ $description }}</div>
                 </div>
 
                 <div class="space-evenly mb-3">
-                    <label for="description" class="col-md-4 col-form-label text-md-end">Category</label>
+                    <label for="description" class="col-md-4 lable col-form-label text-md-end">Category</label>
                     <p class="w-30 txt-lft">{{ $category }}</p>
                 </div>
                 <div class="space-evenly mb-3">
-                    <label for="status" class="col-md-4 col-form-label text-md-end">Status</label>
+                    <label for="status" class="col-md-4 lable col-form-label text-md-end">Status</label>
                     <p class="w-30 txt-lft">
                         <input type="checkbox" class="form-check-input" id="status"
                             {{ $status == 1 ? 'checked' : '' }} disabled>

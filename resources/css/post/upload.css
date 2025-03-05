@@ -91,3 +91,8 @@
 }
 .ldio-x2uulkbinbj div { box-sizing: content-box; }
 
+@media screen and (max-width: 640px) {
+  .form-mg-top {
+      margin-top: 50px;
+  }
+}
