@@ -103,7 +103,8 @@
                                 {{ optional(\App\Models\User::find($user->created_user_id))->name ?? 'N/A' }}</td>
                             <td>{{ $user->type == 0 ? 'Admin' : 'User' }}</td>
                             <td>{{ $user->phone }}</td>
-                            <td>{{ $user->dob }}</td>
+                            <td>{{ $user->dob->format('m-d-Y') }}</td>
+
                             <td class="hide-on-mobile">{{ $user->address }}</td>
                             <td class="hide-on-mobile">{{ $user->created_at }}</td>
                             <td class="hide-on-mobile">{{ $user->updated_at }}</td>
@@ -141,7 +142,7 @@
                                                 <p><strong>Type:</strong> {{ $user->type == 0 ? 'Admin' : 'User' }}</p>
                                                 <p><strong>Email:</strong> {{ $user->email }}</p>
                                                 <p><strong>Phone:</strong> {{ $user->phone }}</p>
-                                                <p><strong>Date of Birth:</strong> {{ $user->dob }}</p>
+                                                <p><strong>Date of Birth:</strong> {{ $user->dob->format('m-d-Y')}}</p>
                                                 <p><strong>Address:</strong> {{ $user->address }}</p>
                                                 <p><strong>Created Date:</strong>
                                                     {{ $user->created_at->format('Y-m-d H:i:s') }}</p>
