@@ -17,7 +17,7 @@ class Post extends Model
         'description',
         'status',
         'category_id',
-        'create_user_id',
+        'created_user_id',
         'updated_user_id',
         'deleted_user_id',
     ];
@@ -27,7 +27,7 @@ class Post extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'create_user_id');
+        return $this->belongsTo(User::class, 'created_user_id');
     }
 
     /**

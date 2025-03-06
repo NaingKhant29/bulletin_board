@@ -44,12 +44,12 @@
                 </div>
                 <div class="type-wd">
                     <select name="type" class="mb-type" id="type" onchange="this.form.submit()">
-                        <option value="all" {{ $type == 'all' ? 'selected' : '' }} data-text="All Users" data-icon="📇">
+                        <option value="all" {{$filters['type'] == 'all' ? 'selected' : '' }} data-text="All Users" data-icon="📇">
                             All
                             Users</option>
-                        <option value="0" {{ $type == '0' ? 'selected' : '' }} data-text="User" data-icon="⚙️">User
+                        <option value="0" {{$filters['type']== '0' ? 'selected' : '' }} data-text="User" data-icon="⚙️">User
                         </option>
-                        <option value="1" {{ $type == '1' ? 'selected' : '' }} data-text="Admin" data-icon="👥">Admin
+                        <option value="1" {{$filters['type']== '1' ? 'selected' : '' }} data-text="Admin" data-icon="👥">Admin
                         </option>
                     </select>
                 </div>
@@ -103,7 +103,8 @@
                                 {{ optional(\App\Models\User::find($user->created_user_id))->name ?? 'N/A' }}</td>
                             <td>{{ $user->type == 0 ? 'Admin' : 'User' }}</td>
                             <td>{{ $user->phone }}</td>
-                            <td>{{ $user->dob->format('m-d-Y') }}</td>
+                            <td>{{ $user->dob ? $user->dob->format('Y-m-d') : 'N/A' }}</td>
+
 
                             <td class="hide-on-mobile">{{ $user->address }}</td>
                             <td class="hide-on-mobile">{{ $user->created_at }}</td>
@@ -142,7 +143,8 @@
                                                 <p><strong>Type:</strong> {{ $user->type == 0 ? 'Admin' : 'User' }}</p>
                                                 <p><strong>Email:</strong> {{ $user->email }}</p>
                                                 <p><strong>Phone:</strong> {{ $user->phone }}</p>
-                                                <p><strong>Date of Birth:</strong> {{ $user->dob->format('m-d-Y')}}</p>
+                                                <p><strong>Date of Birth:</strong> {{ $user->dob ? $user->dob->format('m-d-Y') : 'N/A' }}</p>
+
                                                 <p><strong>Address:</strong> {{ $user->address }}</p>
                                                 <p><strong>Created Date:</strong>
                                                     {{ $user->created_at->format('Y-m-d H:i:s') }}</p>

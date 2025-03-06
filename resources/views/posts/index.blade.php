@@ -14,7 +14,7 @@
 
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{session('error') }}
+                    {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
@@ -75,10 +75,12 @@
                         <div class="card text-white bg-light mb-3">
                             <div class="card-header d-flex justify-content-between align-items-center "
                                 style="background-color:#f0f1f2!important; ">
-                                <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal"
-                                    data-bs-target="#postDetailModal{{ $post->id }}" style="width: 50%;">
+                                <a href="#" class="text-decoration-none text-dark white-space-nowrap"
+                                    data-bs-toggle="modal" data-bs-target="#postDetailModal{{ $post->id }}"
+                                    style="width: 50%; display: inline-block;">
                                     {{ $post->title }}
                                 </a>
+
                                 <p class="m-0 text-light"
                                     style="font-size: 0.7rem; color: #323653 !important; width: 35%; text-align: right;">
                                     <i class="bi bi-calendar"></i> {{ $post->created_at->diffForHumans() }}
@@ -313,11 +315,11 @@
             </div>
         </div>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                $(".reaction-btn").click(function () {
+            document.addEventListener("DOMContentLoaded", function() {
+                $(".reaction-btn").click(function() {
                     let postId = $(this).data("post-id");
                     let type = $(this).data("type");
-        
+
                     $.ajax({
                         url: "{{ route('reactions.store') }}",
                         method: "POST",
@@ -326,7 +328,7 @@
                             post_id: postId,
                             type: type
                         },
-                        success: function (response) {
+                        success: function(response) {
                             if (response.success) {
                                 $(`#like-count-${postId}`).text(response.likeCount);
                                 $(`#love-count-${postId}`).text(response.loveCount);
@@ -341,25 +343,26 @@
                     url.searchParams.delete("page");
 
                     let categoryId = $("#myselect").val();
-                    categoryId ? url.searchParams.set("category_id", categoryId) : url.searchParams.delete("category_id");
-        
+                    categoryId ? url.searchParams.set("category_id", categoryId) : url.searchParams.delete(
+                        "category_id");
+
                     let searchQuery = $("input[name='search']").val();
                     searchQuery ? url.searchParams.set("search", searchQuery) : url.searchParams.delete("search");
-        
+
                     let createdAt = $("input[name='created_at']").val();
                     createdAt ? url.searchParams.set("created_at", createdAt) : url.searchParams.delete("created_at");
 
                     window.location.href = url.toString();
                 }
-        
+
                 $("#myselect").on("change", updateURL);
                 let typingTimer;
-                $("input[name='search']").on("keyup", function () {
+                $("input[name='search']").on("keyup", function() {
                     clearTimeout(typingTimer);
                     typingTimer = setTimeout(updateURL, 500);
                 });
             });
         </script>
-        
+
     </div>
 @endsection

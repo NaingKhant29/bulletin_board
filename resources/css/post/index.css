@@ -16,6 +16,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .white-space-nowrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 100%; /* Adjust as needed */
+}
+
   
   .justify-content-space-between {
     display: flex !important;

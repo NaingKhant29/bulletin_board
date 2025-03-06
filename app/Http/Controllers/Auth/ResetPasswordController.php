@@ -42,7 +42,6 @@ class ResetPasswordController extends Controller
         }
 
         if ($user && Hash::check($request->token, $isUserExist->token)) {
-            info("I'm here");
             $user->password = Hash::make($request->password);
 
             $user->save();

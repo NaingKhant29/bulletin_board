@@ -5,49 +5,32 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use App\Interface\Service\User\UserServiceInterface;
 
 class UserController extends Controller
 {
-    /**
-     * @param Request $request
-     * @return View
-     */
+    protected $userService;
+
+    public function __construct(UserServiceInterface $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function index(Request $request)
     {
-        $name = $request->input('name');
-        $email = $request->input('email');
-        $dob_from = $request->input('dob_from');
-        $dob_to = $request->input('dob_to');
-        $type = $request->input('type', 'all');
+        $filters = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'dob_from' => $request->input('dob_from'),
+            'dob_to' => $request->input('dob_to'),
+            'type' => $request->input('type', 'all')
+        ];
 
-        $query = User::query();
+        // Fetch filtered users
+        $users = $this->userService->getFilteredUsers($filters);
 
-        if ($name) {
-            $query->where('name', 'like', '%' . $name . '%');
-        }
-
-        if ($email) {
-            $query->where('email', 'like', '%' . $email . '%');
-        }
-
-        if ($dob_from && $dob_to) {
-            $query->whereBetween('dob', [$dob_from, $dob_to]);
-        } elseif ($dob_from) {
-            $query->where('dob', '>=', $dob_from);
-        } elseif ($dob_to) {
-            $query->where('dob', '<=', $dob_to);
-        }
-        if ($type !== 'all' && in_array($type, ['0', '1'], true)) {
-            $query->where('type', (int) $type);
-        }
-
-        $users = $query->paginate(10);
-
-        return view('users.index', compact('users', 'type'));
+        return view('users.index', compact('users', 'filters'));
     }
 
     /**
@@ -58,311 +41,89 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // Prevent logged-in user from deleting their own account
         if ((int) Auth::id() === (int) $user->id) {
             return redirect()->route('users.index')->with('error', 'You cannot delete your own account.');
         }
-
-        // Delete the user
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 
 
-    /**
-     * 
-     * @return redirect
-     */
     public function showRegistrationForm()
     {
-        if (Auth::check()) {
-            if (Auth::user()->type == 0) {
-                return view('auth.register');
-            } else {
-                return redirect()->route('home')->with('error', 'You are not authorized to create users.');
-            }
+        if (Auth::check() && Auth::user()->type == 0) {
+            return view('auth.register');
         }
 
-        return redirect()->route('users')->with('error', 'Please log in first.');
+        return redirect()->route(Auth::check() ? 'home' : 'users')
+            ->with('error', Auth::check() ? 'You are not authorized to create users.' : 'Please log in first.');
     }
 
-    /**
-     * @param array $data
-     * @return Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function confirm(Request $request)
     {
-        return Validator::make($data, [
-            'dob' => [
-                'required',
-                'date',
-                'before_or_equal:today',
-                function ($attribute, $value, $fail) {
-                    $minYear = 1900;
-                    $dob = strtotime($value);
-                    $year = date('Y', $dob);
-                    $age = date('Y') - $year;
+        $result = $this->userService->confirmUser($request->all());
 
-                    if ($year < $minYear) {
-                        $fail('You are not a human!');
-                    }
+        if (isset($result['errors'])) {
+            return redirect()->back()->withErrors($result['errors'])->withInput();
+        }
 
-                    if ($age < 14) {
-                        $fail('You must be at least 14 years old to register.');
-                    }
-                }
-            ],
+        return view('auth.confirm', $result);
+    }
 
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'type' => ['required', 'integer', 'in:0,1'],
-            'phone' => ['nullable', 'string', 'max:15'],
-            'address' => ['nullable', 'string', 'max:255'],
-            'image' => ['required', 'file', 'mimes:jpeg,png,jpg,gif', 'max:8048'],
-        ], [
-            'dob.required' => 'Please provide your date of birth.',
-            'dob.date' => 'The date of birth is not a valid date.',
-            'dob.before_or_equal' => 'You are a time traveller. You are not allowed to access!',
-            'dob.age' => 'You must be at least 12 years old.',
-
-            'name.required' => 'Please provide your full name.',
-            'name.string' => 'The name must be a valid string.',
-            'name.max' => 'The name cannot be longer than 255 characters.',
-
-            'email.required' => 'We need your email to contact you.',
-            'email.email' => 'Email Format is invalid',
-            'email.max' => 'The email cannot be longer than 255 characters.',
-            'email.unique' => 'The email is already taken.',
-
-            'password.required' => 'Password is required.',
-            'password.min' => 'Password must be at least 8 characters.',
-            'password.confirmed' => 'Password and Password confirmation does not match.',
-
-            'type.required' => 'Please select the user type.',
-            'type.in' => 'The user type must be either Admin (0) or User (1).',
-
-            'phone.max' => 'Phone number cannot be longer than 15 characters.',
-            'address.max' => 'The address cannot be longer than 255 characters.',
-
-            'image.required' => 'Please upload a profile picture.',
-            'image.file' => 'The profile picture must be a file.',
-            'image.mimes' => 'The profile picture must be a JPEG, PNG, JPG, or GIF image.',
-            'image.max' => 'The profile picture cannot be larger than 8MB.',
-        ]);
+    public function new()
+    {
+        $this->userService->registerUser();
+        return redirect()->route('users.index')->with('success', 'User registered successfully!');
     }
 
     /**
      *
      * @return View
      */
-    public function edit()
-    {
-        $user = Auth::user();
-        return view('users.profileedit', compact('user'));
-    }
 
-    /**
-     * @param Request $request
-     * @param int $id
-     * @return redirect
-     */
-    public function updateProfile(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'phone' => 'nullable|string|max:15',
-            'dob' => [
-                'required',
-                'date',
-                'before_or_equal:today',
-                function ($attribute, $value, $fail) {
-                    $minYear = 1900;
-                    $dob = strtotime($value);
-                    $year = date('Y', $dob);
-                    $age = date('Y') - $year;
-
-                    if ($year < $minYear) {
-                        $fail('You are not a human!');
-                    }
-
-                    if ($age < 14) {
-                        $fail('You must be at least 14 years old to register.');
-                    }
-                }
-            ],
-            'address' => 'nullable|string|max:255',
-            'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8048',
-        ],  [
-            'dob.required' => 'Please provide your date of birth.',
-            'dob.date' => 'The date of birth is not a valid date.',
-            'dob.before_or_equal' => 'You are a time traveller. You are not allowed to access!',
-            'dob.age' => 'You must be at least 12 years old.',
-
-            'name.required' => 'Please provide your full name.',
-            'name.string' => 'The name must be a valid string.',
-            'name.max' => 'The name cannot be longer than 255 characters.',
-
-            'email.required' => 'We need your email to contact you.',
-            'email.email' => 'Email Format is invalid',
-            'email.max' => 'The email cannot be longer than 255 characters.',
-            'email.unique' => 'The email is already taken.',
-
-            'password.required' => 'Password is required.',
-            'password.min' => 'Password must be at least 8 characters.',
-            'password.confirmed' => 'Password and Password confirmation does not match.',
-
-            'type.required' => 'Please select the user type.',
-            'type.in' => 'The user type must be either Admin (0) or User (1).',
-
-            'phone.max' => 'Phone number cannot be longer than 15 characters.',
-            'address.max' => 'The address cannot be longer than 255 characters.',
-
-            'image.required' => 'Please upload a profile picture.',
-            'image.file' => 'The profile picture must be a file.',
-            'image.mimes' => 'The profile picture must be a JPEG, PNG, JPG, or GIF image.',
-            'image.max' => 'The profile picture cannot be larger than 8MB.',
-        ]);
-
-        $user = User::findOrFail($id);
-
-        if (Auth::user()->type == 0) {
-            $user->type = $request->input('type');
-        }
-
-        $isEdited = $user->name !== $request->input('name') ||
-            $user->email !== $request->input('email') ||
-            $user->phone !== $request->input('phone') ||
-            $user->dob !== $request->input('dob') ||
-            $user->address !== $request->input('address') ||
-            $request->hasFile('profile');
-
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->phone = $request->input('phone');
-        $user->dob = $request->input('dob');
-        $user->address = $request->input('address');
-
-        if ($request->hasFile('profile')) {
-            if ($user->profile) {
-                Storage::delete('public/' . $user->profile);
-            }
-
-            $image = $request->file('profile')->store('profiles', 'public');
-            $user->profile = $image;
-        }
+     public function edit()
+     {
+         $user = $this->userService->editProfile();
+         return view('users.profileedit', compact('user'));
+     }
+ 
+     public function updateProfile(Request $request, $id)
+     {
+         $validatedData = $request->validate([
+             'name' => 'required|string|max:255',
+             'email' => 'required|email|unique:users,email,' . $id,
+             'phone' => 'nullable|string|max:15',
+             'dob' => 'required|date|before_or_equal:today',
+             'address' => 'nullable|string|max:255',
+             'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8048',
+         ]);
+ 
+         if ($this->userService->updateProfile($id, $validatedData)) {
+             return redirect()->route('users.index')->with('success', 'Profile updated successfully!');
+         }
+ 
+         return redirect()->back()->with('error', 'Failed to update profile.');
+     }
 
 
-        if ($isEdited) {
-            $user->updated_user_id = Auth::id();
-            $user->updated_at = now()->format('d-m-Y H:i:s'); // Formats as DD-MM-YYYY HH:MM:SS
-        }
-        $user->save();
 
-        return redirect()->route('users.index')->with('success', 'Profile updated successfully!');
-    }
-
-    /**
-     * @param Request $request
-     * @return View
-     */
-
-    public function confirm(Request $request)
-    {
-        $validator = $this->validator($request->all());
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $validated = $validator->validated();
-
-        $profilePath = null;
-        if ($request->hasFile('image')) {
-            $profilePath = $request->file('image')->store('profiles', 'public');
-        }
-
-        session([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-            'password_confirm' => $request->input('password_confirmation'),
-            'type' => $validated['type'],
-            'phone' => $validated['phone'] ?? null,
-            'dob' => $validated['dob'] ?? null,
-            'address' => $validated['address'] ?? null,
-            'image' => $profilePath,
-        ]);
-
-        return view('auth.confirm', [
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-            'password_confirm' => $request->input('password_confirmation'),
-            'type' => $validated['type'],
-            'phone' => $validated['phone'] ?? null,
-            'dob' => $validated['dob'] ?? null,
-            'address' => $validated['address'] ?? null,
-            'image' => $profilePath,
-        ]);
-    }
-
-    /**
-     * 
-     * @return redirect
-     */
-    public function new()
-    {
-        $data = session()->all();
-        $currentUserId = Auth::id(); // Get current user ID
-
-        User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'type' => $data['type'],
-            'phone' => $data['phone'],
-            'dob' => $data['dob'],
-            'address' => $data['address'],
-            'profile' => $data['image'] ? $data['image'] : null,
-            'created_user_id' => $currentUserId,
-            'updated_user_id' => $currentUserId,
-        ]);
-
-        return redirect()->route('users.index')->with('success', 'User registered successfully!');
-    }
-
-    /**
-     * 
-     * @return View
-     */
-    public function showChangePasswordForm()
-    {
-        return view('auth.change-password');
-    }
-
-    /**
-     * @param Request $request
-     * @return redirect
-     */
-
-    public function changePassword(Request $request)
-    {
-        $validated = $request->validate([
-            'current_password' => ['required'],
-            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
-        if (!Hash::check($request->current_password, Auth::user()->password)) {
-            return back()->withErrors(['current_password' => 'The current password is incorrect.']);
-        }
-
-        Auth::user()->update([
-            'password' => Hash::make($request->new_password),
-        ]);
-
-        return redirect()->route('users.index')->with('success', 'Password changed successfully.');
-    }
+     public function showChangePasswordForm()
+     {
+         return view('auth.change-password');
+     }
+ 
+     public function changePassword(Request $request)
+     {
+         $validatedData = $request->validate([
+             'current_password' => ['required'],
+             'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+         ]);
+ 
+         if (!$this->userService->changePassword($validatedData)) {
+             return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+         }
+ 
+         return redirect()->route('users.index')->with('success', 'Password changed successfully.');
+     }
 }

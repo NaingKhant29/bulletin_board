@@ -16,14 +16,14 @@ return new class extends Migration
             $table->string('title', 255)->unique();
             $table->string('description');
             $table->integer('status')->default(1); // 0 for Inactive, 1 for Active
-            $table->unsignedBigInteger('create_user_id')->nullable();
+            $table->unsignedBigInteger('created_user_id')->nullable();
             $table->unsignedBigInteger('updated_user_id')->nullable();
             $table->unsignedBigInteger('deleted_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes()->nullable();
 
 
-            $table->foreign('create_user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('created_user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('deleted_user_id')->references('id')->on('users')->onDelete('set null');
         });

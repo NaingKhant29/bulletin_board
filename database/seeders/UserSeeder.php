@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
                 'email' => 'admin@example.com',
                 'password' => Hash::make('password123'),
                 'profile' => 'admin_profile',
-                'type' => 0,
+                'type' => '0',
                 'phone' => null,
                 'address' => null,
                 'dob' => null,

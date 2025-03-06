@@ -42,7 +42,7 @@ class ProcessCsvUpload implements ShouldQueue
                 'description' => $rowAssoc['description'],
                 'status' => (int) $rowAssoc['status'],
                 'category_id' => $category->id,
-                'create_user_id' => Auth::id(),
+                'created_user_id' => Auth::id(),
                 'updated_user_id' => Auth::id(),
                 'created_at' => now(),
                 'updated_at' => now(),
