@@ -22,7 +22,6 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\View\View
      */
-
     public function index(Request $request): View
     {
         $filters = [
@@ -33,7 +32,6 @@ class UserController extends Controller
             'type' => $request->input('type', 'all')
         ];
 
-        // Fetch filtered users
         $users = $this->userService->getFilteredUsers($filters);
 
         return view('users.index', compact('users', 'filters'));
@@ -97,7 +95,6 @@ class UserController extends Controller
      *
      * @return View
      */
-
     public function edit()
     {
         $user = $this->userService->editProfile();

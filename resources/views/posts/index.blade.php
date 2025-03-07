@@ -38,12 +38,17 @@
                                 @endforeach
                             </select>
                         </div>
-                        <input type="text" name="search" class="form-control border border-secondary rounded-0"
-                            placeholder="Search by keyword" value="{{ request('search') }}" style="width: 30vw;">
+                        <input type="texts" name="search" class="search-by-key-wd form-control border border-secondary rounded-0"
+                            placeholder="Search by keyword" value="{{ request('search')}}">
                         <button type="submit" class="btn btn-secondary border border-secondary rounded-0">
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal"
+                        style="width: 12%">
+                        <i class="bi bi-list-ul"></i> <br>
+                        <div class="hide-on-mobile">Category</div>
+                    </button>
 
                     <!-- Action Buttons -->
                     <div class="d-flex gap-2" style="width: 28%">
@@ -239,7 +244,52 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Modal for Category Actions -->
+                    <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="categoryModalLabel">Category Actions</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Create Category Form -->
+                                    <form action="{{ route('categories.store') }}" method="POST"
+                                        id="createCategoryForm">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="categoryName" class="form-label">Category Name</label>
+                                            <input type="text" class="form-control" id="categoryName" name="name"
+                                                required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">Create Category</button>
+                                    </form>
 
+                                    <hr>
+
+                                    <!-- Delete Category Form -->
+                                    <form action="{{ route('categories.delete') }}" method="POST"
+                                        id="deleteCategoryForm">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="mb-3">
+                                            <label for="deleteCategoryId" class="form-label">Select Category to
+                                                Delete</label>
+                                            <select name="category_id" id="deleteCategoryId" class="form-select">
+                                                <option value="">Choose Category</option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-danger w-100">Delete Category</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Delete Confirmation Modal -->
                     <div class="modal fade" id="deleteModal{{ $post->id }}" tabindex="-1"
                         aria-labelledby="deleteModalLabel{{ $post->id }}" aria-hidden="true">

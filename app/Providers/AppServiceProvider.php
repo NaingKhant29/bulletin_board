@@ -77,13 +77,7 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot()
-    {
-        // Increase PHP configuration for handling large file uploads
-        ini_set('post_max_size', '100M');
-        ini_set('upload_max_filesize', '100M');
-        ini_set('memory_limit', '1024M');
-        ini_set('max_execution_time', '600');
-        
+    {      
         // Use Bootstrap for pagination
         Paginator::useBootstrap();
     }

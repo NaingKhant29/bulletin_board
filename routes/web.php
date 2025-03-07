@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ReactionController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CategoryController;
 
 // # Authenticated User Routes
 Route::middleware(['auth'])->group(function () {
@@ -22,6 +23,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posts/more', function () {
         return redirect('/posts/detail');
     });
+    // Route for creating a category
+    Route::post('category/store', [CategoryController::class, 'store'])->name('categories.store');
+
+    // Route for deleting a category
+    Route::delete('category/delete', [CategoryController::class, 'delete'])->name('categories.delete');
+
 
     // # User Routes
     Route::get('/users', [UserController::class, 'index'])->name('users.index');

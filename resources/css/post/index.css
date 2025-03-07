@@ -8,6 +8,9 @@
     height: 200px !important; /* Set a fixed height */
     overflow: hidden;
   }
+  .search-by-key-wd {
+    width: 21vw;
+  }
   .width-dd {
     width: 20%;
   }
