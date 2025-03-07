@@ -38,8 +38,9 @@
                                 @endforeach
                             </select>
                         </div>
-                        <input type="texts" name="search" class="search-by-key-wd form-control border border-secondary rounded-0"
-                            placeholder="Search by keyword" value="{{ request('search')}}">
+                        <input type="texts" name="search"
+                            class="search-by-key-wd form-control border border-secondary rounded-0"
+                            placeholder="Search by keyword" value="{{ request('search') }}">
                         <button type="submit" class="btn btn-secondary border border-secondary rounded-0">
                             <i class="bi bi-search"></i>
                         </button>
@@ -133,40 +134,27 @@
                                         </div>
 
                                         <div class="d-flex reaction-container">
-                                            <button class="btn btn-outline-primary reaction-btn me-2"
-                                                style="font-size: 1rem; padding: 0.3rem 0.6rem;"
-                                                data-post-id="{{ $post->id }}" data-type="like">
-                                                👍
-                                                <span class="reaction-count" id="like-count-{{ $post->id }}">
-                                                    {{ $post->reactions->where('type', 'like')->count() }}
-                                                </span>
-                                            </button>
-                                            <button class="btn btn-outline-danger reaction-btn me-2"
-                                                style="font-size: 1rem; padding: 0.3rem 0.6rem;"
-                                                data-post-id="{{ $post->id }}" data-type="love">
-                                                ❤️
-                                                <span class="reaction-count" id="love-count-{{ $post->id }}">
-                                                    {{ $post->reactions->where('type', 'love')->count() }}
-                                                </span>
-                                            </button>
-                                            <button class="btn btn-outline-warning reaction-btn me-2"
-                                                style="font-size: 1rem; padding: 0.3rem 0.6rem;"
-                                                data-post-id="{{ $post->id }}" data-type="haha">
-                                                😂
-                                                <span class="reaction-count" id="haha-count-{{ $post->id }}">
-                                                    {{ $post->reactions->where('type', 'haha')->count() }}
-                                                </span>
-                                            </button>
-                                            <button class="btn btn-outline-info reaction-btn me-2"
-                                                style="font-size: 1rem; padding: 0.3rem 0.6rem;" data-bs-toggle="modal"
-                                                data-bs-target="#commentModal{{ $post->id }}"
-                                                data-post-id="{{ $post->id }}">
-                                                💬
-                                                <span class="reaction-count" id="comment-count-{{ $post->id }}">
-                                                    {{ $post->comments->count() }}
-                                                </span>
-                                            </button>
+                                            @php
+                                                $userReaction = $post->reactions->where('user_id', Auth::id())->first();
+                                            @endphp
+
+                                            @foreach (['like' => '👍', 'love' => '❤️', 'haha' => '😂'] as $type => $emoji)
+                                                @php
+                                                    $isReacted = $userReaction && $userReaction->type === $type;
+                                                @endphp
+                                                <button
+                                                    class="btn reaction-btn me-2 {{ $isReacted ? 'btn-primary' : 'btn-outline-primary' }}"
+                                                    style="font-size: 1rem; padding: 0.3rem 0.6rem; border-width: {{ $isReacted ? '3px' : '1px' }};"
+                                                    data-post-id="{{ $post->id }}" data-type="{{ $type }}">
+                                                    {{ $emoji }}
+                                                    <span class="reaction-count"
+                                                        id="{{ $type }}-count-{{ $post->id }}">
+                                                        {{ $post->reactions->where('type', $type)->count() }}
+                                                    </span>
+                                                </button>
+                                            @endforeach
                                         </div>
+
 
                                     </div>
                                 </div>
@@ -369,6 +357,7 @@
                 $(".reaction-btn").click(function() {
                     let postId = $(this).data("post-id");
                     let type = $(this).data("type");
+                    let button = $(this);
 
                     $.ajax({
                         url: "{{ route('reactions.store') }}",
@@ -383,10 +372,24 @@
                                 $(`#like-count-${postId}`).text(response.likeCount);
                                 $(`#love-count-${postId}`).text(response.loveCount);
                                 $(`#haha-count-${postId}`).text(response.hahaCount);
+
+                                const selectedBtn = $(`button[data-post-id="${postId}"][data-type=${type}]`);
+                                button.addClass("btn-primary");
+
+                                const container = button.parent();
+
+                                container.children().each(function (index, item) {
+                                    if (button[0] !== item) {
+                                        $(item).removeClass("btn-primary");
+                                    }
+                                });
                             }
                         }
                     });
                 });
+
+
+
 
                 function updateURL() {
                     let url = new URL(window.location.href);

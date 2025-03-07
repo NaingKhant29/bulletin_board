@@ -17,21 +17,38 @@ class ReactionDao implements ReactionDaoInterface
      */
     public function storeOrUpdateReaction($postId, $type): array
     {
-        // Update or create the reaction
-        $reaction = Reaction::updateOrCreate(
-            ['user_id' => Auth::id(), 'post_id' => $postId],
-            ['type' => $type]
-        );
-
-        // Get the reaction counts
-        $likeCount = Reaction::where('post_id', $postId)->where('type', 'like')->count();
-        $loveCount = Reaction::where('post_id', $postId)->where('type', 'love')->count();
-        $hahaCount = Reaction::where('post_id', $postId)->where('type', 'haha')->count();
-
+        $userId = Auth::id();
+        $existingReaction = Reaction::where('user_id', $userId)->where('post_id', $postId)->first();
+    
+        // If the user already reacted
+        if ($existingReaction) {
+            if ($existingReaction->type === $type) {
+                // If the user clicks on the same reaction again, remove it
+                $existingReaction->delete();
+                return [
+                    'removedReaction' => true,
+                    'likeCount' => Reaction::where('post_id', $postId)->where('type', 'like')->count(),
+                    'loveCount' => Reaction::where('post_id', $postId)->where('type', 'love')->count(),
+                    'hahaCount' => Reaction::where('post_id', $postId)->where('type', 'haha')->count(),
+                    'userReaction' => null // Reaction was removed
+                ];
+            } else {
+                // If the user clicked a different reaction, update it
+                $existingReaction->update(['type' => $type]);
+            }
+        } else {
+            // If no reaction, create a new one
+            Reaction::create(['user_id' => $userId, 'post_id' => $postId, 'type' => $type]);
+        }
+    
         return [
-            'likeCount' => $likeCount,
-            'loveCount' => $loveCount,
-            'hahaCount' => $hahaCount,
+            'removedReaction' => false, // No reaction was removed
+            'likeCount' => Reaction::where('post_id', $postId)->where('type', 'like')->count(),
+            'loveCount' => Reaction::where('post_id', $postId)->where('type', 'love')->count(),
+            'hahaCount' => Reaction::where('post_id', $postId)->where('type', 'haha')->count(),
+            'userReaction' => $type // Return the current reaction type
         ];
     }
+    
+    
 }
