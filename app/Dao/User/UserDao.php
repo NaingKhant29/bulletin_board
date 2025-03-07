@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserDao implements UserDaoInterface
 {
+    /**
+     * Retrieve users based on provided filters with pagination.
+     *
+     * @param array 
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
     public function getUsers($filters)
     {
         $query = User::query();
@@ -35,15 +41,30 @@ class UserDao implements UserDaoInterface
 
         return $query->paginate(10);
     }
-    public function createUser(array $data)
+
+    /**
+     * @param array $data
+     * @return User
+     */
+    public function createUser(array $data): User
     {
         return User::create($data);
     }
+
+    /**
+     * @param int $id
+     * @return User|null
+     */
     public function findById($id): ?User
     {
         return User::findOrFail($id);
     }
 
+    /**
+     * @param User $user
+     * @param array $data
+     * @return bool
+     */
     public function updateUser(User $user, array $data): bool
     {
         if (isset($data['profile'])) {
@@ -55,6 +76,12 @@ class UserDao implements UserDaoInterface
 
         return $user->update($data);
     }
+
+    /**
+     * @param User $user
+     * @param string $newPassword
+     * @return bool
+     */
     public function updatePassword(User $user, string $newPassword): bool
     {
         return $user->update([

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Interface\Dao\Post;
+
 use Illuminate\Database\Eloquent\Collection;
 
 interface PostDaoInterface
@@ -20,9 +21,33 @@ interface PostDaoInterface
      * @return void
      */
     public function createPost(array $data): void;
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function findPostById($id);
+
+    /**
+     * @param int $id
+     * @param array $data
+     * @return mixed
+     */
     public function updatePost($id, array $data);
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function deletePost($id);
+
+    /**
+     * @param array $postsData
+     * @return void
+     */
     public function uploadPostsFromCSV(array $postsData);
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
     public function getAllPosts(): Collection;
 }

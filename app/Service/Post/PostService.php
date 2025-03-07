@@ -61,7 +61,13 @@ class PostService implements PostServiceInterface
 
         $this->postDao->createPost($validatedData);
     }
- 
+
+    /**
+     * Show the post edit form.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
     public function edit($id)
     {
         $post = $this->postDao->findPostById($id);
@@ -74,7 +80,14 @@ class PostService implements PostServiceInterface
         return view('posts.edit', compact('post', 'categories'));
     }
 
-    public function confirmEdit(Request $request, $id)
+    /**
+     * Confirm the post edit.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
+    public function confirmEdit(Request $request, $id): \Illuminate\View\View
     {
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -96,7 +109,14 @@ class PostService implements PostServiceInterface
         ]);
     }
 
-    public function updatePost(Request $request, $id)
+    /**
+     * Update the post data.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updatePost(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -110,7 +130,14 @@ class PostService implements PostServiceInterface
 
         return redirect()->route('posts.index')->with('success', 'Post updated successfully');
     }
-    public function deletePost($id)
+
+    /**
+     * Delete the post.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deletePost($id): \Illuminate\Http\RedirectResponse
     {
         $post = $this->postDao->findPostById($id);
 
@@ -122,9 +149,15 @@ class PostService implements PostServiceInterface
 
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
-    public function processCSVUpload($file)
+
+    /**
+     * Process the CSV file upload.
+     *
+     * @param mixed $file
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function processCSVUpload($file): \Illuminate\Http\RedirectResponse
     {
-   
         $validator = Validator::make(['file' => $file], [
             'file' => 'required|mimes:csv,txt|max:5120',
         ]);
@@ -189,7 +222,13 @@ class PostService implements PostServiceInterface
         return redirect()->back()->with('error', 'No valid data found to upload.');
     }
 
-    private function detectDelimiter($filePath)
+    /**
+     * Detect the delimiter of the CSV file.
+     *
+     * @param string $filePath
+     * @return string
+     */
+    private function detectDelimiter($filePath): string
     {
         $delimiters = [',', "\t", ';'];
         $handle = fopen($filePath, 'r');
@@ -203,6 +242,12 @@ class PostService implements PostServiceInterface
         }
         return ',';
     }
+
+    /**
+     * Generate CSV for all posts.
+     *
+     * @return string
+     */
     public function generatePostsCsv(): string
     {
         $posts = $this->postDao->getAllPosts();
@@ -240,6 +285,13 @@ class PostService implements PostServiceInterface
 
         return ob_get_clean();
     }
+
+    /**
+     * Generate CSV for a single post.
+     *
+     * @param int $id
+     * @return string
+     */
     public function generateSinglePostCsv($id): string
     {
         $post = $this->postDao->findPostById($id);

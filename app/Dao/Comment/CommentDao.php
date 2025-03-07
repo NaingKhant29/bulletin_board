@@ -8,12 +8,20 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentDao implements CommentDaoInterface
 {
-    public function storeComment(array $data)
+    /**
+     * @param array $data
+     * @return Comment
+     */
+    public function storeComment(array $data): Comment
     {
         return Comment::create($data);
     }
 
-    public function deleteComment($id)
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function deleteComment($id): bool
     {
         $comment = Comment::find($id);
         if (!$comment || Auth::id() !== $comment->user_id) {

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Dao\Reaction;
 
@@ -8,7 +8,14 @@ use Illuminate\Support\Facades\Auth;
 
 class ReactionDao implements ReactionDaoInterface
 {
-    public function storeOrUpdateReaction($postId, $type)
+    /**
+     * Store or update a reaction for a post and return reaction counts.
+     *
+     * @param int $postId The post ID.
+     * @param string $type The reaction type ('like', 'love', 'haha').
+     * @return array Reaction counts ('likeCount', 'loveCount', 'hahaCount').
+     */
+    public function storeOrUpdateReaction($postId, $type): array
     {
         // Update or create the reaction
         $reaction = Reaction::updateOrCreate(

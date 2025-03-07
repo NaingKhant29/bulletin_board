@@ -14,6 +14,11 @@ class CommentController extends Controller
         $this->commentService = $commentService;
     }
 
+    /**
+     * @param Request $request
+     * @param int $postId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request, $postId)
     {
         $validatedData = $request->validate([
@@ -25,6 +30,10 @@ class CommentController extends Controller
         return redirect()->back()->with('success', 'Comment added successfully!');
     }
 
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         if (!$this->commentService->deleteComment($id)) {

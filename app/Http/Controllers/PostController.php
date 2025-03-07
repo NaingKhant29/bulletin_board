@@ -10,6 +10,7 @@ use App\Interface\Service\Post\PostServiceInterface;
 use Illuminate\Http\Response;
 
 
+
 class PostController extends Controller
 {
     protected $postService;
@@ -19,19 +20,25 @@ class PostController extends Controller
         $this->postService = $postService;
     }
 
-   public function index(Request $request): View
+    /**
+     * @param Request request
+     * 
+     * return view
+     */
+    public function index(Request $request): View
     {
         $filters = $request->only(['category_id', 'search', 'created_at']);
         $posts = $this->postService->getPosts($filters);
-        $categories = Category::all(); 
+        $categories = Category::all();
 
         return view('posts.index', compact('posts', 'categories'));
     }
+
     /**
      * 
      * @return View
      */
-    public function create()
+    public function create(): View
     {
         $categories = Category::all();
         return view('posts.create', compact('categories'));
@@ -41,9 +48,9 @@ class PostController extends Controller
      * Show the confirmation page after validation.
      *
      * @param Request $request
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function confirm(Request $request)
+    public function confirm(Request $request): View
     {
         $validatedData = $this->postService->validatePostData($request);
 
@@ -67,6 +74,7 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
+    
     /**
      * @param Post $post
      * @return View
@@ -76,10 +84,25 @@ class PostController extends Controller
         return $this->postService->edit($id);
     }
 
+    /**
+     * Confirm the edit of a post.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function confirmEdit(Request $request, $id)
     {
         return $this->postService->confirmEdit($request, $id);
     }
+
+    /**
+     * Update an existing post.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
 
     public function update(Request $request, $id)
     {
@@ -96,6 +119,7 @@ class PostController extends Controller
     {
         return $this->postService->deletePost($id);
     }
+
     /**
      * @param Request $request
      * @return redirect
@@ -104,8 +128,7 @@ class PostController extends Controller
     {
         return $this->postService->processCSVUpload($request->file('file'));
     }
-    
-    
+
     /**
      * Download all posts
      * 
@@ -121,12 +144,12 @@ class PostController extends Controller
             ->header('Content-Type', 'text/csv')
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
-    
+
     /**
      * Download a single post as a CSV file.
      *
      * @param int 
-     * @return \Illuminate\Http\Response 
+     * @return Response 
      */
     public function downloadSingle($id): Response
     {

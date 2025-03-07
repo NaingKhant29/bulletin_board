@@ -122,7 +122,12 @@ class UserService implements UserServiceInterface
         return session()->all();
     }
 
-    public function registerUser()
+    /**
+     * Register a new user.
+     *
+     * @return void
+     */
+    public function registerUser(): void
     {
         $data = session()->all();
         $currentUserId = Auth::id();
@@ -142,11 +147,24 @@ class UserService implements UserServiceInterface
 
         $this->userDao->createUser($userData);
     }
+
+    /**
+     * Get the authenticated user's profile.
+     *
+     * @return User
+     */
     public function editProfile(): User
     {
         return Auth::user();
     }
 
+    /**
+     * Update the profile of a user.
+     *
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
     public function updateProfile(int $id, array $data): bool
     {
         $user = $this->userDao->findById($id);
@@ -169,6 +187,13 @@ class UserService implements UserServiceInterface
 
         return $this->userDao->updateUser($user, $data);
     }
+
+    /**
+     * Change the authenticated user's password.
+     *
+     * @param array $data
+     * @return bool
+     */
     public function changePassword(array $data): bool
     {
         $user = Auth::user();

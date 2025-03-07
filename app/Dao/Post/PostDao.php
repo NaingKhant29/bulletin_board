@@ -19,7 +19,7 @@ class PostDao implements PostDaoInterface
     public function getFilteredPosts(array $filters)
     {
         $query = Post::query()->whereNull('deleted_at');
-        
+
         if (isset($filters['category_id']) && $filters['category_id'] !== '') {
             $query->where('category_id', $filters['category_id']);
         }
@@ -54,10 +54,11 @@ class PostDao implements PostDaoInterface
             'title' => $data['title'],
             'description' => $data['description'],
             'category_id' => $data['category_id'],
-            'created_user_id' =>  Auth::id(), 
+            'created_user_id' =>  Auth::id(),
             'updated_user_id' => Auth::id(),
         ]);
     }
+
     /**
      * Get a post by ID.
      */
@@ -66,13 +67,23 @@ class PostDao implements PostDaoInterface
         return Post::findOrFail($id);
     }
 
-    public function updatePost($id, array $data)
+    /**
+     * @param int $id
+     * @param array $data
+     * @return Post
+     */
+    public function updatePost($id, array $data): Post
     {
         $post = Post::findOrFail($id);
         $post->update($data);
         return $post;
     }
-    public function deletePost($id)
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function deletePost($id): void
     {
         $post = Post::findOrFail($id);
         DB::transaction(function () use ($post) {
@@ -80,7 +91,14 @@ class PostDao implements PostDaoInterface
             $post->delete();
         });
     }
-    public function uploadPostsFromCSV(array $postsData)
+
+    /**
+     * Upload posts from a CSV file and insert them into the database in batches.
+     *
+     * @param array $postsData Array of post data to be inserted.
+     * @return void
+     */
+    public function uploadPostsFromCSV(array $postsData): void
     {
         $batchSize = 500;
         $insertData = [];
@@ -107,6 +125,12 @@ class PostDao implements PostDaoInterface
             Post::insert($insertData);
         }
     }
+
+    /**
+     * Retrieve all posts with their associated category.
+     *
+     * @return Collection
+     */
     public function getAllPosts(): Collection
     {
         return Post::with('category')->get();
