@@ -117,7 +117,7 @@
                                 <p class="text-dark">{{ $post->description }}</p>
                             </div>
 
-                            <div class="card-footer bg-transparent border-success p-3"
+                            <div class="card-footer bg-transparent border-success"
                                 style="background-color:#f0f1f2!important; ">
                                 <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
                                     <div class="d-flex justify-content-between mt-2"
