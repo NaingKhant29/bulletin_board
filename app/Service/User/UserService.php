@@ -49,7 +49,7 @@ class UserService implements UserServiceInterface
 
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
             'type' => ['required', 'integer', 'in:0,1'],
             'phone' => ['nullable', 'string', 'max:15'],
             'address' => ['nullable', 'string', 'max:255'],
@@ -71,7 +71,6 @@ class UserService implements UserServiceInterface
 
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 8 characters.',
-            'password.confirmed' => 'Password and password confirmation does not match.',
 
             'type.required' => 'Please select the user type.',
             'type.in' => 'The user type must be either Admin (0) or User (1).',
@@ -111,7 +110,6 @@ class UserService implements UserServiceInterface
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
-            'password_confirm' => $data['password_confirmation'],
             'type' => $validated['type'],
             'phone' => $validated['phone'] ?? null,
             'dob' => $validated['dob'] ?? null,

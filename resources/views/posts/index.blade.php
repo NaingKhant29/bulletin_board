@@ -18,54 +18,181 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <form method="GET" action="{{ route('posts.index') }}" class="search-form mb-4">
-                <div class="d-flex flex-row align-items-center gap-3 w-100">
-                    <!-- Date Filter -->
-                    <div class="flex-shrink-0" style="width: 18%;">
-                        <input type="date" name="created_at" class="form-control date-input"
-                            value="{{ request('created_at') }}">
+            <form method="GET" action="{{ route('posts.index') }}"
+                style="
+    background:#ffffff;
+    padding:18px 20px;
+    border-radius:16px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.08);
+    margin-bottom:24px;
+">
+                <div
+                    style="
+        display:flex;
+        flex-wrap:wrap;
+        gap:12px;
+        align-items:center;
+        width:100%;
+    ">
+
+                    <!-- Date -->
+                    <div style="flex:0 0 180px;">
+                        <input type="date" name="created_at" value="{{ request('created_at') }}"
+                            style="
+                width:100%;
+                height:44px;
+                padding:0 12px;
+                border-radius:10px;
+                border:1px solid #d0d5dd;
+                outline:none;
+                font-size:14px;
+                background:#fff;
+            ">
                     </div>
-                    <div class="d-flex align-items-center" style="width: 50%">
-                        <div class="flex-shrink-0 width-dd">
-                            <select name="category_id" id="myselect"
-                                class="form-select category-id border border-secondary rounded-0">
-                                <option value="">All</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}"
-                                        {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <input type="texts" name="search"
-                            class="search-by-key-wd form-control border border-secondary rounded-0"
-                            placeholder="Search by keyword" value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-secondary border border-secondary rounded-0">
+
+                    <!-- Category + Search Group -->
+                    <div
+                        style="
+            display:flex;
+            align-items:center;
+            flex:1;
+            min-width:260px;
+            height:44px;
+            border:1px solid #d0d5dd;
+            border-radius:12px;
+            overflow:hidden;
+            background:#fff;
+            box-shadow:0 2px 8px rgba(0,0,0,0.05);
+        ">
+
+                        <!-- Category -->
+                        <select name="category_id" id="myselect"
+                            style="
+                height:100%;
+                border:none;
+                outline:none;
+                padding:0 14px;
+                font-size:14px;
+                background:#f8fafc;
+                color:#323653;
+                min-width:140px;
+                cursor:pointer;
+            ">
+                            <option value="">All</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <!-- Divider -->
+                        <div style="width:1px; height:60%; background:#e5e7eb;"></div>
+
+                        <!-- Search Input -->
+                        <input type="text" name="search" placeholder="Search by keyword" value="{{ request('search') }}"
+                            style="
+                flex:1;
+                height:100%;
+                border:none;
+                outline:none;
+                padding:0 14px;
+                font-size:14px;
+                color:#323653;
+            ">
+
+                        <!-- Search Button -->
+                        <button type="submit"
+                            style="
+                width:48px;
+                height:100%;
+                border:none;
+                background:#5f6f82;
+                color:#fff;
+                cursor:pointer;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+            ">
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal"
-                        style="width: 12%">
-                        <i class="bi bi-list-ul"></i> <br>
-                        <div class="hide-on-mobile">Category</div>
+
+                    <!-- Category Modal Button -->
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#categoryModal"
+                        style="
+            height:44px;
+            padding:0 16px;
+            border-radius:10px;
+            border:1px solid #d0d5dd;
+            background:#f8fafc;
+            cursor:pointer;
+            font-size:13px;
+            display:flex;
+            align-items:center;
+            gap:6px;
+            color:#323653;
+        ">
+                        <i class="bi bi-list-ul"></i>
+                        <span>Category</span>
                     </button>
 
                     <!-- Action Buttons -->
-                    <div class="d-flex gap-2" style="width: 28%">
-                        <a href="{{ route('posts.create') }}" class="btn btn-secondary" style="width: 30%">
-                            <i class="bi bi-plus-circle"></i> <br>
-                            <div class="hide-on-mobile">Create</div>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                        <a href="{{ route('posts.create') }}"
+                            style="
+                height:44px;
+                padding:0 18px;
+                border-radius:10px;
+                background:#5f6f82;
+                color:#fff;
+                text-decoration:none;
+                display:flex;
+                align-items:center;
+                gap:6px;
+                font-size:13px;
+            ">
+                            <i class="bi bi-plus-circle"></i> Create
                         </a>
-                        <a href="{{ route('posts.upload') }}" class="btn btn-secondary" style="width: 30%">
-                            <i class="bi bi-upload"></i> <br>
-                            <div class="hide-on-mobile">Upload</div>
+
+                        <a href="{{ route('posts.upload') }}"
+                            style="
+                height:44px;
+                padding:0 18px;
+                border-radius:10px;
+                background:#eef2f6;
+                color:#323653;
+                text-decoration:none;
+                display:flex;
+                align-items:center;
+                gap:6px;
+                font-size:13px;
+                border:1px solid #d0d5dd;
+            ">
+                            <i class="bi bi-upload"></i> Upload
                         </a>
-                        <a href="{{ route('posts.download') }}" class="btn btn-secondary" style="width: 30%">
-                            <i class="bi bi-download"></i> <br>
-                            <div class="hide-on-mobile">Download</div>
+
+                        <a href="{{ route('posts.download') }}"
+                            style="
+                height:44px;
+                padding:0 18px;
+                border-radius:10px;
+                background:#eef2f6;
+                color:#323653;
+                text-decoration:none;
+                display:flex;
+                align-items:center;
+                gap:6px;
+                font-size:13px;
+                border:1px solid #d0d5dd;
+            ">
+                            <i class="bi bi-download"></i> Download
                         </a>
+
                     </div>
+
                 </div>
             </form>
 
@@ -123,7 +250,7 @@
                                     <div class="d-flex justify-content-between mt-2"
                                         style="width: 100%; align-items: center;">
                                         <div class="m-0 text-light"
-                                            style="font-size: 0.8rem; display: flex; align-items: center; width: 100%;">
+                                            style="font-size: 0.8rem; display: flex; align-items: center; width: 30%;">
                                             <img src="{{ optional($post->user)->profile ? asset('storage/' . $post->user->profile) : 'https://via.placeholder.com/40' }}"
                                                 alt="Profile" class="rounded-circle me-2" width="25" height="25"
                                                 style="object-fit: cover;">
@@ -153,9 +280,21 @@
                                                     </span>
                                                 </button>
                                             @endforeach
+                                            <div class="comment-wrapper d-inline-block position-relative"
+                                                data-post-id="{{ $post->id }}">
+                                                <button class="btn comment-btn" data-bs-toggle="modal"
+                                                    data-bs-target="#commentModal{{ $post->id }}"
+                                                    data-post-id="{{ $post->id }}" style="border: 1px solid #bbb;">
+                                                    💬
+                                                </button>
+                                                <span class="comment-hover-count position-absolute"
+                                                    id="comment-count-{{ $post->id }}">
+                                                    {{ $post->comments->count() }}
+                                                </span>
+                                            </div>
+
+
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -174,7 +313,6 @@
                                 <div class="modal-body">
 
                                     <div class="comments-section mb-3">
-                                        <h6 class="mb-3">Previous Comments</h6>
                                         <ul class="list-group" id="commentList{{ $post->id }}"
                                             style="max-height: 300px; overflow-y: auto;">
                                             @if ($post->comments->count() > 0)
@@ -232,52 +370,176 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Modal for Category Actions -->
+                    <!-- Premium Category Modal -->
                     <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel"
                         aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="categoryModalLabel">Category Actions</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content"
+                                style="
+            border-radius:16px;
+            overflow:hidden;
+            box-shadow:0 12px 32px rgba(0,0,0,0.15);
+            border:none;
+        ">
+
+                                <!-- Header -->
+                                <div class="modal-header"
+                                    style="
+                background:#5f6f82;
+                color:#fff;
+                padding:16px 20px;
+                border-bottom:none;
+            ">
+                                    <h5 class="modal-title" id="categoryModalLabel" style="margin:0; font-weight:600;">
+                                        Category Management
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    <!-- Create Category Form -->
-                                    <form action="{{ route('categories.store') }}" method="POST"
-                                        id="createCategoryForm">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <label for="categoryName" class="form-label">Category Name</label>
-                                            <input type="text" class="form-control" id="categoryName" name="name"
-                                                required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary w-100">Create Category</button>
-                                    </form>
 
-                                    <hr>
+                                <!-- Body -->
+                                <div class="modal-body" style="padding:20px; background:#f8fafc;">
 
-                                    <!-- Delete Category Form -->
-                                    <form action="{{ route('categories.delete') }}" method="POST"
-                                        id="deleteCategoryForm">
-                                        @csrf
-                                        @method('DELETE')
-                                        <div class="mb-3">
-                                            <label for="deleteCategoryId" class="form-label">Select Category to
-                                                Delete</label>
-                                            <select name="category_id" id="deleteCategoryId" class="form-select">
-                                                <option value="">Choose Category</option>
-                                                @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <button type="submit" class="btn btn-danger w-100">Delete Category</button>
-                                    </form>
+                                    <!-- Create Category -->
+                                    <div
+                                        style="
+                    background:#ffffff;
+                    border-radius:12px;
+                    padding:16px;
+                    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+                    margin-bottom:20px;
+                ">
+                                        <h6 style="margin-bottom:12px; color:#323653; font-weight:600;">Create Category
+                                        </h6>
+
+                                        <form action="{{ route('categories.store') }}" method="POST"
+                                            id="createCategoryForm">
+                                            @csrf
+                                            <div style="margin-bottom:12px;">
+                                                <label for="categoryName"
+                                                    style="
+                                display:block;
+                                font-size:13px;
+                                margin-bottom:6px;
+                                color:#5f6f82;
+                            ">Category
+                                                    Name</label>
+                                                <input type="text" id="categoryName" name="name" required
+                                                    style="
+                                width:100%;
+                                height:42px;
+                                padding:0 12px;
+                                border-radius:10px;
+                                border:1px solid #d0d5dd;
+                                outline:none;
+                                font-size:14px;
+                            ">
+                                            </div>
+
+                                            <button type="submit"
+                                                style="
+                            width:100%;
+                            height:42px;
+                            border-radius:10px;
+                            border:none;
+                            background:#5f6f82;
+                            color:#fff;
+                            font-size:14px;
+                            cursor:pointer;
+                        ">
+                                                + Create Category
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                    <!-- Delete Category -->
+                                    <div
+                                        style="
+                    background:#ffffff;
+                    border-radius:12px;
+                    padding:16px;
+                    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+                ">
+                                        <h6 style="margin-bottom:12px; color:#b42318; font-weight:600;">Delete Category
+                                        </h6>
+
+                                        <form action="{{ route('categories.delete') }}" method="POST"
+                                            id="deleteCategoryForm">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <div style="margin-bottom:12px;">
+                                                <label for="deleteCategoryId"
+                                                    style="
+                                display:block;
+                                font-size:13px;
+                                margin-bottom:6px;
+                                color:#5f6f82;
+                            ">Select
+                                                    Category</label>
+
+                                                <select name="category_id" id="deleteCategoryId"
+                                                    style="
+                                width:100%;
+                                height:42px;
+                                padding:0 12px;
+                                border-radius:10px;
+                                border:1px solid #d0d5dd;
+                                outline:none;
+                                font-size:14px;
+                                background:#fff;
+                            ">
+                                                    <option value="">Choose Category</option>
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}">{{ $category->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <button type="submit"
+                                                style="
+                            width:100%;
+                            height:42px;
+                            border-radius:10px;
+                            border:none;
+                            background:#d92d20;
+                            color:#fff;
+                            font-size:14px;
+                            cursor:pointer;
+                        ">
+                                                🗑 Delete Category
+                                            </button>
+                                        </form>
+                                    </div>
+
                                 </div>
+
+                                <!-- Footer -->
+                                <div class="modal-footer"
+                                    style="
+                border-top:none;
+                padding:12px 20px;
+                background:#f8fafc;
+            ">
+                                    <button type="button" data-bs-dismiss="modal"
+                                        style="
+                    height:38px;
+                    padding:0 16px;
+                    border-radius:10px;
+                    border:1px solid #d0d5dd;
+                    background:#fff;
+                    color:#323653;
+                    cursor:pointer;
+                ">
+                                        Close
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
+
                     <!-- Delete Confirmation Modal -->
                     <div class="modal fade" id="deleteModal{{ $post->id }}" tabindex="-1"
                         aria-labelledby="deleteModalLabel{{ $post->id }}" aria-hidden="true">
@@ -311,34 +573,179 @@
                         </div>
                     </div>
 
-                    <!-- Post Detail Modal -->
+                    <!-- Post Detail Modal (Premium Neutral) -->
                     <div class="modal fade" id="postDetailModal{{ $post->id }}" tabindex="-1"
                         aria-labelledby="postDetailModalLabel{{ $post->id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header" style="background-color: #40a3a7; color: #fff;">
-                                    <h5 class="modal-title" id="postDetailModalLabel{{ $post->id }}">
-                                        {{ $post->title }}
-                                    </h5>
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content"
+                                style="
+            border:none;
+            border-radius:16px;
+            overflow:hidden;
+            background:#ffffff;
+            box-shadow:0 24px 60px rgba(0,0,0,0.25);
+        ">
+
+                                <!-- Header -->
+                                <div class="modal-header"
+                                    style="
+                background:#f8fafc;
+                border-bottom:1px solid #e5e7eb;
+                padding:18px 24px;
+            ">
+                                    <div style="display:flex; flex-direction:column;">
+                                        <h5 class="modal-title mb-1" id="postDetailModalLabel{{ $post->id }}"
+                                            style="
+                        font-weight:600;
+                        color:#0f172a;
+                        display:flex;
+                        align-items:center;
+                        gap:8px;
+                    ">
+                                            <i class="bi bi-file-text"></i>
+                                            {{ $post->title }}
+                                        </h5>
+                                        <small style="color:#64748b;">Post Details</small>
+                                    </div>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    <p><strong>Description:</strong> {{ $post->description }}</p>
-                                    <p><strong>Status:</strong> {{ $post->status == 1 ? 'Active' : 'Inactive' }}</p>
-                                    <p><strong>Created Date:</strong> {{ $post->created_at->format('Y-m-d H:i:s') }}</p>
-                                    <p><strong>Created By:</strong> {{ $post->user->name ?? 'Unknown' }}</p>
-                                    <p><strong>Updated Date:</strong> {{ $post->updated_at->format('Y-m-d') }}</p>
-                                    <p><strong>Updated By:</strong> {{ $post->updated_user->name ?? 'Unknown' }}</p>
-                                    <p><strong>Category:</strong> {{ $post->category->name ?? 'No Category' }}</p>
+
+                                <!-- Body -->
+                                <div class="modal-body" style="background:#f9fafb; padding:24px;">
+
+                                    <div
+                                        style="
+                    background:#ffffff;
+                    border-radius:12px;
+                    padding:20px 22px;
+                    box-shadow:0 10px 24px rgba(0,0,0,0.06);
+                ">
+
+                                        <!-- Row -->
+                                        <div
+                                            style="display:flex; gap:16px; padding:10px 0; border-bottom:1px solid #f1f5f9;">
+                                            <div
+                                                style="width:180px; color:#64748b; display:flex; align-items:center; gap:8px;">
+                                                <i class="bi bi-card-text"></i> Description
+                                            </div>
+                                            <div style="flex:1; color:#0f172a;">
+                                                {{ $post->description }}
+                                            </div>
+                                        </div>
+
+                                        <!-- Row -->
+                                        <div
+                                            style="display:flex; gap:16px; padding:10px 0; border-bottom:1px solid #f1f5f9;">
+                                            <div
+                                                style="width:180px; color:#64748b; display:flex; align-items:center; gap:8px;">
+                                                <i class="bi bi-toggle-on"></i> Status
+                                            </div>
+                                            <div style="flex:1;">
+                                                @if ($post->status == 1)
+                                                    <span
+                                                        style="
+                                    display:inline-block;
+                                    padding:4px 10px;
+                                    border-radius:999px;
+                                    background:#ecfdf5;
+                                    color:#065f46;
+                                    font-size:12px;
+                                    font-weight:500;
+                                ">Active</span>
+                                                @else
+                                                    <span
+                                                        style="
+                                    display:inline-block;
+                                    padding:4px 10px;
+                                    border-radius:999px;
+                                    background:#f1f5f9;
+                                    color:#334155;
+                                    font-size:12px;
+                                    font-weight:500;
+                                ">Inactive</span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <!-- Row -->
+                                        <div
+                                            style="display:flex; gap:16px; padding:10px 0; border-bottom:1px solid #f1f5f9;">
+                                            <div
+                                                style="width:180px; color:#64748b; display:flex; align-items:center; gap:8px;">
+                                                <i class="bi bi-calendar-plus"></i> Created Date
+                                            </div>
+                                            <div style="flex:1; color:#0f172a;">
+                                                {{ $post->created_at->format('Y-m-d H:i:s') }}
+                                            </div>
+                                        </div>
+
+                                        <!-- Row -->
+                                        <div
+                                            style="display:flex; gap:16px; padding:10px 0; border-bottom:1px solid #f1f5f9;">
+                                            <div
+                                                style="width:180px; color:#64748b; display:flex; align-items:center; gap:8px;">
+                                                <i class="bi bi-person"></i> Created By
+                                            </div>
+                                            <div style="flex:1; color:#0f172a;">
+                                                {{ $post->user->name ?? 'Unknown' }}
+                                            </div>
+                                        </div>
+
+                                        <!-- Row -->
+                                        <div
+                                            style="display:flex; gap:16px; padding:10px 0; border-bottom:1px solid #f1f5f9;">
+                                            <div
+                                                style="width:180px; color:#64748b; display:flex; align-items:center; gap:8px;">
+                                                <i class="bi bi-calendar-check"></i> Updated Date
+                                            </div>
+                                            <div style="flex:1; color:#0f172a;">
+                                                {{ $post->updated_at->format('Y-m-d') }}
+                                            </div>
+                                        </div>
+
+                                        <!-- Row -->
+                                        <div
+                                            style="display:flex; gap:16px; padding:10px 0; border-bottom:1px solid #f1f5f9;">
+                                            <div
+                                                style="width:180px; color:#64748b; display:flex; align-items:center; gap:8px;">
+                                                <i class="bi bi-person-check"></i> Updated By
+                                            </div>
+                                            <div style="flex:1; color:#0f172a;">
+                                                {{ $post->updated_user->name ?? 'Unknown' }}
+                                            </div>
+                                        </div>
+
+                                        <!-- Row -->
+                                        <div style="display:flex; gap:16px; padding:10px 0;">
+                                            <div
+                                                style="width:180px; color:#64748b; display:flex; align-items:center; gap:8px;">
+                                                <i class="bi bi-tags"></i> Category
+                                            </div>
+                                            <div style="flex:1; color:#0f172a;">
+                                                {{ $post->category->name ?? 'No Category' }}
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
+
+                                <!-- Footer -->
+                                <div class="modal-footer"
+                                    style="
+                background:#f8fafc;
+                border-top:1px solid #e5e7eb;
+                padding:16px 24px;
+            ">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        <i class="bi bi-x-circle me-1"></i> Close
+                                    </button>
                                 </div>
+
                             </div>
                         </div>
                     </div>
+
                 @empty
                     <div class="col-md-12 text-center">
                         <p>No data available.</p>
@@ -354,6 +761,16 @@
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
+                $(".comment-btn").hover(function() {
+                    let postId = $(this).data("post-id");
+                    let commentCount = $(`#comment-count-${postId}`).text().trim();
+
+                    // Append count inside button
+                    $(this).html(`💬 ${commentCount}`);
+                }, function() {
+                    // Remove count when hover ends
+                    $(this).html("💬");
+                });
                 $(".reaction-btn").click(function() {
                     let postId = $(this).data("post-id");
                     let type = $(this).data("type");
@@ -373,12 +790,13 @@
                                 $(`#love-count-${postId}`).text(response.loveCount);
                                 $(`#haha-count-${postId}`).text(response.hahaCount);
 
-                                const selectedBtn = $(`button[data-post-id="${postId}"][data-type=${type}]`);
+                                const selectedBtn = $(
+                                    `button[data-post-id="${postId}"][data-type=${type}]`);
                                 button.addClass("btn-primary");
 
                                 const container = button.parent();
 
-                                container.children().each(function (index, item) {
+                                container.children().each(function(index, item) {
                                     if (button[0] !== item) {
                                         $(item).removeClass("btn-primary");
                                     }
@@ -387,9 +805,6 @@
                         }
                     });
                 });
-
-
-
 
                 function updateURL() {
                     let url = new URL(window.location.href);

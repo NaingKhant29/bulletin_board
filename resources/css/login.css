@@ -16,6 +16,9 @@ body {
 .form-control {
   border-radius: 10px;
 }
+.vh{
+  min-height: 67vh !important;
+}
 .btn-custom {
   background: #a559f6d8 !important;
   border-radius: 10px !important;
@@ -34,4 +37,20 @@ body {
 }
 .for-get:hover {
   color: #e30c0cbe !important;
+}
+/* Title Styling */
+.bbms-title {
+  font-size: 3rem;              
+  font-weight: 700;
+  color: #825572;             
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); 
+  padding-top: 75px;
+  letter-spacing: 1px;
+}
+
+/* Optional: Responsive adjustments */
+@media (max-width: 768px) {
+  .bbms-title {
+      font-size: 2.2rem;
+  }
 }

@@ -75,6 +75,12 @@
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
   
+  .comment-btn {
+    display: flex;
+    align-items: center;
+    font-size: 1rem; 
+    padding: 0.3rem 0.6rem; 
+  }
   .modal.fade .modal-dialog {
     animation: fadeIn 0.5s ease-out;
   }
@@ -142,24 +148,23 @@
   .reaction-btn {
     display: flex;
     align-items: center;
-    font-size: 1rem; /* Reduced font size for smaller buttons */
-    padding: 0.3rem 0.6rem; /* Smaller padding to prevent buttons from being too large */
+    font-size: 1rem; 
+    padding: 0.3rem 0.6rem; 
   }
   
   .reaction-count {
-    margin-left: 4px; /* Reduced space between emoji and count */
+    margin-left: 4px;
   }
   
   .username {
-    flex: 1; /* Allow username to take remaining space */
-    white-space: nowrap; /* Prevent the text from wrapping */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for long usernames */
+    flex: 1; 
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
   }
   
-  /* Custom styles for the search form */
   .search-form {
-    background-color: #f8f9fa; /* White background for contrast */
+    background-color: #f8f9fa;
     padding: 15px 20px;
     border-radius: 8px;
     margin-top: -20px;
@@ -168,7 +173,7 @@
   
   .search-form .form-control {
     border-radius: 5px;
-    box-shadow: none; /* No shadow for form control */
+    box-shadow: none; 
   }
   
   .search-form .search-group {
@@ -177,11 +182,12 @@
     justify-content: space-between;
   }
   
+  
   .search-form .search-input {
-    border-right: none; /* Remove border between input and button */
+    border-right: none; 
     border-radius: 5px 0 0 5px;
-    padding-right: 40px; /* Make space for the icon */
-    font-size: 16px; /* Slightly larger text */
+    padding-right: 40px; 
+    font-size: 16px; 
     transition: all 0.3s ease;
   }
   

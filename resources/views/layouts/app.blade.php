@@ -150,12 +150,12 @@
 
         <footer class="footer container">
             <section class="footer-session-one">
-                <a class="btn btn-link text-sz" href="https://seattleconsultingmm.com">
-                    {{ __('Seattle Consulting Myanmar') }}
+                <a class="btn btn-link text-sz" href="https://metateammyanmar.com/about/">
+                    {{ __('Metateam Myanmar') }}
                 </a>
             </section>
             <section class="footer-session-two">
-                <label class="text-sz">Copyright &copy; Seattle Consulting Myanmar Co., Ltd. All rights reserved.</label>
+                <label class="text-sz">Copyright &copy; Metateam Myanmar Co., Ltd. All rights reserved.</label>
             </section>
         </footer>
     </div>

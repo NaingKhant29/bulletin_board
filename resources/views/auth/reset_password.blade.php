@@ -10,7 +10,7 @@
                     <h4 class="card-header">{{ __('Reset Password') }}</h4>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('password.updat') }}">
+                        <form method="POST" action="{{ route('password.update') }}">
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="token" value="{{ $token }}">

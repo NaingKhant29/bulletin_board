@@ -175,7 +175,7 @@ class PostService implements PostServiceInterface
             return redirect()->back()->with('error', 'Cannot open the file.');
         }
 
-        $header = fgetcsv($handle, 1000, $delimiter);
+        $header = fgetcsv($handle, 10000, $delimiter);
         if (!$header) {
             return redirect()->back()->with('error', 'Invalid CSV file.');
         }
@@ -193,12 +193,6 @@ class PostService implements PostServiceInterface
             if (!$rowAssoc || empty($rowAssoc['title']) || empty($rowAssoc['category_name'])) {
                 continue;
             }
-
-            if (in_array($rowAssoc['title'], $existingTitles)) {
-                $duplicateTitles[] = $rowAssoc['title']; // Store duplicate titles
-                continue;
-            }
-
             $category = Category::firstOrCreate(['name' => $rowAssoc['category_name']]);
 
             $postsData[] = [
@@ -212,9 +206,6 @@ class PostService implements PostServiceInterface
         }
 
         fclose($handle);
-        if (!empty($duplicateTitles)) {
-            return redirect()->back()->with('error', 'The following titles already exist: ' . implode(', ', $duplicateTitles));
-        }
         if (!empty($postsData)) {
             $this->postDao->uploadPostsFromCSV($postsData);
             return redirect()->route('posts.index')->with('success', 'CSV uploaded successfully!');

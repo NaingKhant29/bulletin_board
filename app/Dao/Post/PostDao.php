@@ -36,10 +36,10 @@ class PostDao implements PostDaoInterface
         }
 
         if (Auth::check() && Auth::user()->type == 0) {
-            return $query->orderBy('created_at', 'desc')->paginate(12);
+            return $query->orderBy('created_at', 'desc')->paginate(9);
         }
 
-        return $query->where('status', 1)->orderBy('created_at', 'desc')->paginate(12);
+        return $query->where('status', 1)->orderBy('created_at', 'desc')->paginate(9);
     }
 
     /**

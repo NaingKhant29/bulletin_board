@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id()->primary();
-            $table->string('title', 255)->unique();
+            $table->string('title', 255);
             $table->string('description');
             $table->integer('status')->default(1); // 0 for Inactive, 1 for Active
             $table->unsignedBigInteger('created_user_id')->nullable();

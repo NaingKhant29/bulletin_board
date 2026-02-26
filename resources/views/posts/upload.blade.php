@@ -34,8 +34,17 @@
                     <div class="col-md-6 offset-md-4">
                         <button type="submit" id="uploadBtn" class="btn btn-primary">Upload</button>
                         <button type="button" class="btn btn-secondary" onclick="clearFileInput()">Clear</button>
+                      
+                            <a href="{{ asset('sample_csv.csv') }}" class="btn btn-info csv-format" download>
+                                Download CSV Format
+                            </a>
+                            <small class="text-muted ms-2">* Max file size: 5MB</small>
+                      
+                        
                     </div>
+                    
                 </div>
+                
             </form>
             
             <!-- Full-Screen Loading Overlay -->
