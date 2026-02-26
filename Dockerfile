@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     unzip \
- && docker-php-ext-install pdo_mysql pdo_pgsql \
+ && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip \
  && a2enmod rewrite \
  && rm -rf /var/lib/apt/lists/*
 
@@ -37,6 +37,5 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-EXPOSE 8080
-ENV PORT=8080
-CMD ["bash","-lc","/usr/local/bin/docker-entrypoint.sh"]
+EXPOSE 10000
+CMD ["sh","/usr/local/bin/docker-entrypoint.sh"]

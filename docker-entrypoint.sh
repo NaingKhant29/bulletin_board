@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/sh
 set -e
 
 PORT="${PORT:-8080}"
 
-sed -ri "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf || true
-sed -ri "s/:80>/:${PORT}>/" /etc/apache2/sites-available/000-default.conf || true
+sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf || true
+sed -i "s/:80>/:${PORT}>/" /etc/apache2/sites-available/000-default.conf || true
 
 php artisan storage:link || true
 php artisan config:cache || true
